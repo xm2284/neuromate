@@ -1,0 +1,41 @@
+name: Site Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Start local server
+        run: |
+          node _local-server.js 8321 &
+          sleep 3
+
+      - name: Verify pages & API
+        run: |
+          node -e "
+          const pages = ['index.html','companion.html','voice-chat.html','space.html','membership.html','api-config.html'];
+          Promise.all(pages.map(p =>
+            fetch('http://127.0.0.1:8321/' + p).then(r => {
+              if (!r.ok) throw new Error(p + ' -> ' + r.status);
+              console.log('OK  ' + p);
+            })
+          )).then(async () => {
+            const h = await fetch('http://127.0.0.1:8321/api/health');
+            const j = await h.json();
+            if (!j.ok) throw new Error('/api/health failed');
+            console.log('OK  /api/health (model=' + j.model + ')');
+            console.log('ALL CHECKS PASSED');
+          }).catch(e => { console.error('FAIL ' + e.message); process.exit(1); });
+          "
