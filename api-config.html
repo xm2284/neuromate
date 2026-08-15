@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="元知己 API 与音色配置">
+  <title>API 配置｜元知己</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="api-config.css">
+</head>
+<body class="api-config-page">
+  <header class="api-header">
+    <a class="brand" href="index.html" aria-label="返回元知己首页">
+      <span class="brand-mark">元</span>
+      <span class="brand-copy"><strong>元知己</strong><small>NEUROMATE</small></span>
+    </a>
+    <nav class="api-nav" aria-label="产品导航">
+      <a href="space.html">我的空间</a>
+      <a href="companion.html">数字人</a>
+      <a href="voice-chat.html">语音谈心</a>
+      <a href="membership.html">会员</a>
+      <a class="active" href="api-config.html">API 配置</a>
+      <a href="agents.html">了解原理</a>
+    </nav>
+    <button class="profile-button" type="button" aria-label="个人设置">Z</button>
+  </header>
+
+  <main class="api-shell">
+    <section class="api-hero">
+      <p class="eyebrow">V1.5 INTEGRATION</p>
+      <h1>把模型、数字人后端和音色调节放到网页里配置。</h1>
+      <p>这里保存的是本机浏览器配置，不写死真实密钥。演示时可以先用本地回应；接入服务时填接口并点击测试。</p>
+    </section>
+
+    <section class="api-grid">
+      <form class="api-card api-form" id="apiForm">
+        <header>
+          <p class="eyebrow">MODEL PROFILE</p>
+          <h2>接口档案</h2>
+        </header>
+
+        <label>
+          <span>默认 key / 负责人</span>
+          <select id="profile">
+            <option value="recommended">推荐配置</option>
+            <option value="team-demo">团队演示配置</option>
+            <option value="local-only">仅本地演示</option>
+          </select>
+        </label>
+
+        <label>
+          <span>HTTP 对话接口</span>
+          <input id="httpEndpoint" type="url" placeholder="例如 http://127.0.0.1:8000/api/chat">
+          <small>陪伴页和语音页都会优先调用这个接口；失败时自动回到本地演示。</small>
+        </label>
+
+        <label>
+          <span>Open-LLM-VTuber WebSocket</span>
+          <input id="wsEndpoint" type="url" placeholder="例如 ws://127.0.0.1:12393/client-ws">
+          <small>填写后陪伴页会优先尝试连接 VTuber 后端。</small>
+        </label>
+
+        <label>
+          <span>API Key（只保存在本机）</span>
+          <input id="apiKey" type="password" autocomplete="off" placeholder="演示可留空，正式连接再填">
+        </label>
+
+        <label>
+          <span>模型名</span>
+          <input id="model" type="text" placeholder="gpt-4o-mini">
+        </label>
+
+        <div class="api-actions">
+          <button class="button button--dark" type="submit">保存并同步</button>
+          <button class="button button--line" id="resetConfig" type="button">恢复默认</button>
+        </div>
+      </form>
+
+      <section class="api-card voice-form" aria-labelledby="voiceConfigTitle">
+        <header>
+          <p class="eyebrow">VOICE PROFILE</p>
+          <h2 id="voiceConfigTitle">音色调节</h2>
+        </header>
+        <div class="voice-preset-row" id="voicePresetRow" role="radiogroup" aria-label="默认音色">
+          <button class="active" type="button" data-preset="female-soft">温柔女声</button>
+          <button type="button" data-preset="female-warm">舒缓女声</button>
+          <button type="button" data-preset="male-gentle">温和男声</button>
+        </div>
+        <label>
+          <span>语速 <b id="rateValue">0.85</b></span>
+          <input id="rate" type="range" min="0.65" max="1.2" step="0.05" value="0.85">
+        </label>
+        <label>
+          <span>音调 <b id="pitchValue">1.00</b></span>
+          <input id="pitch" type="range" min="0.75" max="1.25" step="0.05" value="1">
+        </label>
+        <button class="button button--dark" id="voicePreview" type="button">试听当前音色</button>
+        <p class="api-note">语音页使用浏览器原生语音合成，所以不同电脑可选音色会略有差异。</p>
+      </section>
+
+      <section class="api-card test-panel" aria-labelledby="testTitle">
+        <header>
+          <p class="eyebrow">CONNECTION TEST</p>
+          <h2 id="testTitle">连通测试</h2>
+        </header>
+        <textarea id="testMessage" rows="3">请用一句话回复：元知己连接测试成功。</textarea>
+        <div class="api-actions">
+          <button class="button button--dark" id="testHTTP" type="button">测试 HTTP</button>
+          <button class="button button--line" id="testWS" type="button">测试 WebSocket</button>
+        </div>
+        <div class="test-result" id="testResult" role="status" aria-live="polite">还没有测试。保存配置后，可以回到数字人页或语音页直接使用。</div>
+      </section>
+
+      <section class="api-card route-panel" aria-labelledby="routeTitle">
+        <header>
+          <p class="eyebrow">WHERE IT WORKS</p>
+          <h2 id="routeTitle">已经同步到这些页面</h2>
+        </header>
+        <a href="companion.html">数字人陪伴页 <span>HTTP / VTuber WS</span></a>
+        <a href="voice-chat.html">语音谈心页 <span>HTTP / 音色 / 语速 / 音调</span></a>
+        <a href="companion.html">数字人陪伴 <span>Live2D / VRM 形象已融合</span></a>
+      </section>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="shared-controls.js"></script>
+  <script src="api-config.js"></script>
+  <script src="mobile-nav.js"></script>
+  <script src="api-config-page.js"></script>
+</body>
+</html>

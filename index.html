@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="元知己校园 AI 情绪陪伴">
+  <title>元知己｜校园 AI 情绪陪伴</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="home.css">
+</head>
+<body class="home-page">
+  <header class="home-header">
+    <a class="brand" href="#top" aria-label="元知己首页">
+      <span class="brand-mark">元</span>
+      <span class="brand-copy"><strong>元知己</strong><small>NEUROMATE</small></span>
+    </a>
+    <nav class="home-nav" aria-label="首页导航">
+      <a class="active" href="#top">首页</a>
+      <a href="companion.html">数字人</a>
+      <a href="growth.html">成长中心</a>
+      <a href="questionnaire.html">状态问卷</a>
+      <a href="space.html">我的空间</a>
+      <a href="membership.html">会员</a>
+      <a href="agents.html">了解原理</a>
+    </nav>
+    <a class="journey-link" href="login.html">开始旅程 <span>↗</span></a>
+  </header>
+
+  <main id="top">
+    <section class="home-hero" aria-labelledby="heroTitle">
+      <video class="home-hero__video" autoplay loop muted playsinline aria-hidden="true">
+        <source src="assets/home-hero.mp4" type="video/mp4">
+      </video>
+      <div class="home-hero__shade" aria-hidden="true"></div>
+      <div class="home-hero__stars" aria-hidden="true"></div>
+      <div class="home-hero__content">
+        <p class="home-kicker">校园 AI 情绪陪伴</p>
+        <h1 id="heroTitle">让 AI 陪伴你度过每一个 <em>挑战时刻</em></h1>
+        <p>针对考前焦虑、压力管理与情绪调节，元知己用数字人陪伴、状态记录和低压力练习，帮你找回内心的平静与自信。</p>
+        <div class="hero-actions">
+          <a class="hero-primary" href="login.html">立即体验</a>
+          <a class="hero-secondary" href="#companion">认识元知己 <span>↓</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-band companion-band reveal" id="companion">
+      <div class="band-heading">
+        <div><p class="eyebrow">AI COMPANION</p><h2>24 小时在线，但不会催你立刻变好。</h2></div>
+        <p>先听见感受，再决定是倾听、梳理、放松，还是把下一步拆小。</p>
+      </div>
+      <div class="companion-layout">
+        <figure class="home-avatar">
+          <div class="home-yuanchu-card" aria-label="元初数字人形象">
+            <span>元</span>
+            <strong>元初</strong>
+            <small>静态兜底形象</small>
+          </div>
+          <figcaption><span>元元在线</span><p id="homeCompanionLine">我在这里。你可以从最想说的那一句开始。</p></figcaption>
+        </figure>
+        <div class="home-conversation">
+          <div class="conversation-log" id="homeConversation" aria-live="polite">
+            <p class="message message--ai">明天的考试让你更担心哪一部分？我们可以只处理其中一小块。</p>
+            <p class="message message--user">我一直担心自己复习得不够。</p>
+            <p class="message message--ai">听起来不是你没有努力，而是大脑还在反复确认“是否安全”。先把今晚能完成的一步放下来。</p>
+          </div>
+          <div class="home-prompts" aria-label="快捷对话">
+            <button type="button" data-reply="listen">我想先说一会儿</button>
+            <button type="button" data-reply="sort">帮我理清担心</button>
+            <button type="button" data-reply="action">给我一个小步骤</button>
+          </div>
+          <a class="conversation-entry" href="companion.html">进入数字人陪伴 <span>→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-band relief-band reveal" id="relief">
+      <div class="band-heading band-heading--light">
+        <div><p class="eyebrow">EXAM RELIEF</p><h2>考前焦虑缓解，不只是一句“别紧张”。</h2></div>
+        <p>从身体、思绪和行动三个层面选择此刻最需要的支持。</p>
+      </div>
+      <div class="relief-grid">
+        <button type="button" data-tool="breath"><span>01</span><h3>一分钟呼吸</h3><p>跟随 4 · 2 · 6 节奏，让身体先慢下来。</p><i>开始练习 →</i></button>
+        <button type="button" data-tool="ground"><span>02</span><h3>五感落地</h3><p>把注意力从反复担忧带回此刻。</p><i>带我开始 →</i></button>
+        <button type="button" data-tool="journal"><span>03</span><h3>焦虑拆解</h3><p>分开事实、猜测，以及现在能做的事。</p><i>整理想法 →</i></button>
+        <button type="button" data-tool="music"><span>04</span><h3>深海音乐</h3><p>前往保留原曲与水帘交互的登录空间。</p><i>进入雨幕 →</i></button>
+      </div>
+    </section>
+
+    <section class="home-band insight-band reveal" id="insight">
+      <div class="band-heading">
+        <div><p class="eyebrow">MOOD INSIGHT</p><h2>看见变化，不把情绪变成分数审判。</h2></div>
+        <p>趋势只帮助你理解最近发生了什么，不给你贴标签。</p>
+      </div>
+      <div class="insight-layout">
+        <article class="trend-panel">
+          <header><div><span>最近七天</span><h3>能量与紧绷感</h3></div><strong>正在回升</strong></header>
+          <canvas id="homeMoodChart" aria-label="最近七天状态趋势"></canvas>
+        </article>
+        <div class="insight-metrics">
+          <article class="metric-energy"><header><span>今日能量</span><i>+6</i></header><strong><b data-metric="58">58</b><small>/100</small></strong><p>比昨天多一点余量</p><div><i style="width:58%"></i></div></article>
+          <article class="metric-streak"><header><span>连续记录</span><i>本周 6/7</i></header><strong><b data-metric="6">6</b><small>天</small></strong><p>已经形成自己的节奏</p><div><i style="width:86%"></i></div></article>
+          <article class="metric-time"><header><span>今日陪伴</span><i>目标 15m</i></header><strong><b data-metric="12">12</b><small>分钟</small></strong><p>不需要一次解决全部</p><div><i style="width:80%"></i></div></article>
+        </div>
+      </div>
+      <a class="insight-entry" href="growth.html">打开完整成长中心 <span>→</span></a>
+    </section>
+
+    <section class="home-band growth-preview reveal">
+      <div class="band-heading">
+        <div><p class="eyebrow">GROWTH RECORD</p><h2>把情绪、睡眠、专注和陪伴放在一张图里。</h2></div>
+        <p>评委可以直接看到趋势、节律、记录热力与徽章进度，而不是只看静态功能说明。</p>
+      </div>
+      <div class="growth-preview-grid">
+        <article class="preview-calendar">
+          <header><div><span>7 月记录热力</span><small>每天一次轻量记录</small></div><strong>23 / 31</strong></header>
+          <div class="heatmap-week" aria-hidden="true"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+          <div class="heatmap-chart" id="homeHeatmap" aria-label="七月状态记录热力图"></div>
+          <p class="chart-detail" id="heatmapDetail">7 月 27 日 · 能量 58 · 有一点紧绷</p>
+          <footer><span>低能量</span><i></i><i></i><i></i><i></i><span>有余量</span></footer>
+        </article>
+        <article class="preview-rhythm">
+          <header><div><span>一天的节律</span><small>专注余量 · 2 小时采样</small></div><strong>18:00</strong></header>
+          <div class="rhythm-chart">
+            <div class="rhythm-scale" aria-hidden="true"><span>高</span><span>中</span><span>低</span></div>
+            <div class="preview-bars" aria-label="日内节律柱状图">
+              <button type="button" style="--value:30%" data-time="07:00" data-energy="30"><i></i><span>7</span></button>
+              <button type="button" style="--value:46%" data-time="09:00" data-energy="46"><i></i><span>9</span></button>
+              <button type="button" style="--value:64%" data-time="11:00" data-energy="64"><i></i><span>11</span></button>
+              <button type="button" style="--value:53%" data-time="13:00" data-energy="53"><i></i><span>13</span></button>
+              <button type="button" style="--value:77%" data-time="15:00" data-energy="77"><i></i><span>15</span></button>
+              <button class="active" type="button" style="--value:86%" data-time="18:00" data-energy="86"><i></i><span>18</span></button>
+              <button type="button" style="--value:65%" data-time="20:00" data-energy="65"><i></i><span>20</span></button>
+              <button type="button" style="--value:38%" data-time="22:00" data-energy="38"><i></i><span>22</span></button>
+              <b class="rhythm-average"><span>日均 57</span></b>
+            </div>
+          </div>
+          <p class="chart-detail" id="rhythmDetail">18:00 · 紧绷感最高，适合降低任务密度。</p>
+        </article>
+        <article class="preview-badges">
+          <header><div><span>成长徽章</span><small>点击查看解锁条件</small></div><strong>6 / 8</strong></header>
+          <div class="mini-badge-grid">
+            <button type="button" data-badge="连续记录 7 天"><i class="badge-warm">7</i><span>七日连续</span></button>
+            <button type="button" data-badge="完成首次状态记录"><i class="badge-green">○</i><span>初心萌芽</span></button>
+            <button type="button" data-badge="完成 10 次陪伴对话"><i class="badge-blue">听</i><span>温柔倾听</span></button>
+            <button type="button" data-badge="完成 50 次呼吸练习"><i class="badge-violet">息</i><span>静心如水</span></button>
+            <button type="button" data-badge="完成 5 次深夜倾诉"><i class="badge-blue">月</i><span>深夜陪伴</span></button>
+            <button type="button" data-badge="完成 20 次减压练习"><i class="badge-gold">✓</i><span>学习达人</span></button>
+            <button class="locked" type="button" data-badge="连续记录 100 天后解锁"><i>100</i><span>百日同行</span></button>
+            <button class="locked" type="button" data-badge="继续探索解锁"><i>?</i><span>神秘徽章</span></button>
+          </div>
+          <a href="growth.html">打开完整徽章墙 <span>→</span></a>
+        </article>
+      </div>
+    </section>
+
+    <section class="home-band plans-section reveal" id="plans">
+      <div class="plans-heading"><div><p class="eyebrow">STUDENT PLANS</p><h2>最核心的温暖，永远不设门槛。</h2></div><div class="billing-control" role="group" aria-label="计费周期"><button class="active" type="button" data-billing="month">按月同行</button><button type="button" data-billing="year">按年守候</button></div></div>
+      <div class="plan-grid">
+        <article class="plan-basic"><span>基础版</span><h3><strong>¥0</strong><small>/ 永久</small></h3><p>核心陪伴功能，永久免费开放。</p><ul><li>文字聊天陪伴</li><li>基础心情记录</li><li>60 秒静心工具</li></ul><a href="login.html">立即体验 <span>→</span></a></article>
+        <article class="featured"><i class="popular-label">学生首选</i><span>进阶版 · PLUS</span><h3><strong data-month="19.9" data-year="159">¥19.9</strong><small>/ 月</small></h3><p>解锁更多功能，建立更深的羁绊。</p><ul><li>包含所有基础版权益</li><li>完整心情手账与长期记忆</li><li>考试压力管理专项</li><li>每月 600 星贝与专属装扮</li></ul><button type="button" data-plan="plus">升级进阶 <span>→</span></button></article>
+        <article class="plan-pro"><span>高级版 · PRO</span><h3><strong data-month="39.9" data-year="299">¥39.9</strong><small>/ 月</small></h3><p>全方位沉浸式陪伴体验。</p><ul><li>包含 Plus 所有权益</li><li>语音陪伴额度与数字人场景</li><li>全部考试技能包畅用</li><li>每月 1500 星贝与专业支持导航</li></ul><button type="button" data-plan="pro">开启共鸣 <span>→</span></button></article>
+      </div>
+      <div class="plans-extras">
+        <div class="plans-extra"><span class="plans-extra__label">年卡 · 6.7~7.5 折</span><p>所有月卡均可按年订阅，享月费 6.7~7.5 折。例：进阶年卡 ¥159，VIP 年卡 ¥299。</p></div>
+        <div class="plans-extra"><span class="plans-extra__label">学生优惠年卡</span><p>凭学生邮箱认证，年卡价再 ×0.7；寒暑假期间年卡再享 5 折（限年卡）。</p></div>
+      </div>
+      <p class="student-discount">学生邮箱认证年卡 7 折 · 寒暑假年卡再 5 折 · 随时可取消 · 核心安全能力不设付费墙 <a href="membership.html">查看完整会员与星贝权益 →</a></p>
+    </section>
+
+    <section class="home-band voices-section reveal">
+      <div class="band-heading"><div><p class="eyebrow">STUDENT NOTES</p><h2>试用反馈整理。</h2></div><p>这里不做夸张评价，只保留同学在试用时反复提到的几个真实需求方向。</p></div>
+      <div class="voices-grid">
+        <blockquote><span class="voice-rating" aria-label="反馈方向">记录 01</span><p>考前最需要的不是长篇鸡汤，而是有人先接住情绪，再把今晚能做的事拆小。</p><footer><i>压</i><span><strong>压力场景</strong><small>复习、考试、ddl 前</small></span></footer></blockquote>
+        <blockquote><span class="voice-rating" aria-label="反馈方向">记录 02</span><p>同学更愿意留下来的地方，是低刺激、可换装、可切换形象的陪伴感，不是单独看一个模型展示页。</p><footer><i>伴</i><span><strong>陪伴场景</strong><small>数字人、装扮、心情联动</small></span></footer></blockquote>
+        <blockquote><span class="voice-rating" aria-label="反馈方向">记录 03</span><p>语音和形象要跟当前角色一致。切到哪个形象，就应该连称呼、音色、状态一起变。</p><footer><i>声</i><span><strong>语音场景</strong><small>音色、口型、状态同步</small></span></footer></blockquote>
+      </div>
+    </section>
+
+    <section class="home-band faq-section reveal">
+      <div class="faq-heading"><p class="eyebrow">YOU MAY WANT TO KNOW</p><h2>你可能想知道。</h2><p>边界说清楚，陪伴才更可信。</p></div>
+      <div class="faq-list">
+        <article class="is-open"><button type="button" aria-expanded="true"><span>元知己会替代心理咨询师吗？</span><i>−</i></button><p>不会。元知己提供情绪陪伴、状态筛查、练习与服务导航，不进行医疗诊断，也不替代专业支持。</p></article>
+        <article><button type="button" aria-expanded="false"><span>我的对话和问卷数据安全吗？</span><i>+</i></button><p>原型默认采用最少数据原则；正式版本需要提供明确授权、导出与删除机制，并完成安全审查。</p></article>
+        <article><button type="button" aria-expanded="false"><span>基础陪伴为什么永久免费？</span><i>+</i></button><p>文字陪伴、基础记录、状态筛查、危机转介和安全能力不应被付费墙阻挡。</p></article>
+        <article><button type="button" aria-expanded="false"><span>问卷结果意味着我有心理问题吗？</span><i>+</i></button><p>不意味着。筛查结果只反映一段时间内的困扰频率，不能作为诊断；持续困扰应寻求专业评估。</p></article>
+      </div>
+    </section>
+
+    <section class="home-cta reveal">
+      <p class="eyebrow">READY WHEN YOU ARE</p>
+      <h2>慢慢来，先深呼吸一下。</h2>
+      <p>你不是问题，你只是在经历一个时刻。</p>
+      <div class="closing-actions"><a class="button button--light" href="login.html">开始陪伴 <span>→</span></a><a class="button button--line" href="questionnaire.html">先做状态问卷</a></div>
+    </section>
+  </main>
+
+  <dialog class="home-dialog" id="homeDialog">
+    <form method="dialog"><button class="dialog-close" aria-label="关闭" type="submit">×</button></form>
+    <p class="eyebrow" id="dialogKicker">一分钟练习</p>
+    <h2 id="dialogTitle">让身体先慢一点。</h2>
+    <div class="home-breath" id="homeBreath"><span>准备</span></div>
+    <p id="dialogCopy">准备好时再开始，随时可以停下。</p>
+    <button class="button button--dark" id="dialogAction" type="button">开始</button>
+  </dialog>
+  <dialog class="home-dialog plan-dialog" id="planDialog">
+    <form method="dialog"><button class="dialog-close" aria-label="关闭方案窗口" type="submit">×</button></form>
+    <p class="eyebrow" id="planDialogKicker">SUBSCRIPTION</p>
+    <h2 id="planDialogTitle">进阶版 · PLUS</h2>
+    <p id="planDialogCopy">在基础版之上，解锁情绪分析报告与深度复盘，建立更深的自我理解。</p>
+    <div class="plan-summary"><span id="planDialogPrice">¥19.9 / 月</span><small>学生邮箱认证年卡享 7 折，寒暑假再 5 折</small></div>
+    <button class="button button--dark" id="planConfirm" type="button">开始 7 天体验</button>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="mobile-nav.js"></script>
+  <script src="shared-controls.js"></script>
+  <script src="home.js"></script>
+</body>
+</html>

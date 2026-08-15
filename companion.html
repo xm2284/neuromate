@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="元知己数字人陪伴">
+  <title>数字人陪伴｜元知己</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="companion.css">
+</head>
+<body class="companion-page">
+  <header class="companion-header">
+    <a class="brand" href="index.html" aria-label="返回元知己首页"><span class="brand-mark">元</span><span class="brand-copy"><strong>元知己</strong><small>NEUROMATE</small></span></a>
+    <nav aria-label="产品导航"><a href="space.html">我的空间</a><a class="active" href="companion.html">数字人</a><a href="growth.html">成长中心</a><a href="questionnaire.html">状态问卷</a><a href="membership.html">会员</a><a href="agents.html">了解原理</a></nav>
+    <button class="profile-button" type="button" aria-label="个人设置">Z</button>
+  </header>
+
+  <main class="companion-shell">
+    <aside class="mate-column">
+      <section class="mate-profile">
+        <p class="eyebrow">ABOUT YOUR MATE</p>
+        <h1 id="mateNameDisplay">元元</h1>
+        <p id="mateLookDisplay">校园情绪陪伴数字人。先倾听，再调用工具或 Agent。</p>
+        <div class="mate-stats"><span><strong data-count="42">0</strong><small>陪伴天数</small></span><span><strong data-count="128">0</strong><small>互动次数</small></span><span><strong data-count="7">0</strong><small>连续记录</small></span><span><strong>32m</strong><small>今日时长</small></span></div>
+        <div class="mate-tags"><span>温暖</span><span>专注</span><span>耐心</span><span>稳定</span></div>
+      </section>
+      <section class="mood-palette">
+        <header><span>心情调色盘</span><small id="paletteLabel">平静</small></header>
+        <div><button class="active" type="button" data-palette="calm" aria-label="平静"></button><button type="button" data-palette="joy" aria-label="愉悦"></button><button type="button" data-palette="warm" aria-label="温暖"></button><button type="button" data-palette="focus" aria-label="专注"></button></div>
+      </section>
+
+      <section class="costume-panel" id="costumePanel" aria-label="装扮与称呼">
+        <header><span>装扮与称呼</span><small id="lookLabel">星星套装 · 无配饰</small></header>
+        <div class="costume-group">
+          <p>套装（与我的空间同步）</p>
+          <div class="costume-options" data-category="clothes">
+            <button class="active" type="button" data-item="star" aria-pressed="true"><b>★</b><small>星星</small></button>
+            <button type="button" data-item="moon" aria-pressed="false"><b>☾</b><small>月光</small></button>
+            <button type="button" data-item="sun" aria-pressed="false"><b>☀</b><small>阳光</small></button>
+            <button type="button" data-item="cloud" aria-pressed="false"><b>☁</b><small>云朵</small></button>
+          </div>
+        </div>
+        <div class="costume-group">
+          <p>配饰（可穿脱）</p>
+          <div class="costume-options" data-category="accessories">
+            <button class="active" type="button" data-item="none" aria-pressed="true"><b>—</b><small>无</small></button>
+            <button type="button" data-item="hat" aria-pressed="false"><b>▲</b><small>礼帽</small></button>
+            <button type="button" data-item="glasses" aria-pressed="false"><b>∞</b><small>镜框</small></button>
+            <button type="button" data-item="flower" aria-pressed="false"><b>✿</b><small>花环</small></button>
+          </div>
+        </div>
+        <div class="costume-rename">
+          <label for="mateNameInput">怎么称呼我</label>
+          <div><input id="mateNameInput" maxlength="8" placeholder="元元" autocomplete="off"><button id="mateNameSave" type="button">保存</button></div>
+        </div>
+      </section>
+      <button class="daily-line" id="dailyLine" type="button"><span>“</span><p>深呼吸，你比想象中更强大。</p></button>
+    </aside>
+
+    <section class="avatar-stage" id="avatarStage" aria-labelledby="typewriterText">
+      <div class="stage-particles" id="stageParticles" aria-hidden="true"></div>
+      <div class="stage-title">
+        <p>你的陪伴者在线</p>
+        <h2 id="typewriterText" aria-live="polite"></h2>
+        <div class="avatar-mode-switch avatar-mode-switch--full" id="companionAvatarTabs" aria-label="选择数字人形象"></div>
+      </div>
+      <div class="avatar-orbit avatar-orbit--one"></div>
+      <div class="avatar-orbit avatar-orbit--two"></div>
+      <span class="orbit-node node--listen">倾听</span><span class="orbit-node node--understand">理解</span><span class="orbit-node node--guide">引导</span>
+      <button class="human-avatar" id="humanAvatar" type="button" aria-label="和元元打招呼">
+        <span class="avatar-glow"></span>
+        <div class="avatar-costume-display">
+          <div class="companion-renderer" id="companionDynamicStage" aria-label="数字人动态渲染舞台">
+            <div class="companion-render-layer" id="companionLive2DStage" aria-label="Live2D 数字人"></div>
+            <div class="companion-render-layer" id="companionVRMStage" aria-label="VRM 3D 数字人"></div>
+            <video class="companion-render-video" id="companionVideoStage" muted loop playsinline hidden></video>
+            <img class="companion-render-static" id="companionStaticStage" alt="静态数字人形象" hidden>
+            <span class="companion-render-loading" id="companionRenderLoading">正在加载 Live2D…</span>
+          </div>
+          <span class="costume-icon" id="costumeDisplayIcon">★</span>
+          <span class="accessory-icon" id="accessoryDisplayIcon" data-position="none"></span>
+          <span class="avatar-render-badge" id="avatarRenderBadge">PNG</span>
+        </div>
+      </button>
+      <div class="avatar-caption"><i></i><span id="avatarStatusText">状态稳定 · 可以开始</span></div>
+      <div class="stage-actions" aria-label="数字人操作入口">
+        <button class="start-conversation" id="chatOpen" type="button"><span>开始聊天</span><i>→</i></button>
+        <a class="stage-action-link" href="voice-chat.html">语音模式<i>→</i></a>
+        <a class="stage-action-link" href="api-config.html">API配置<i>→</i></a>
+        <a class="stage-action-link" href="integrations/digital-human-demo/index.html" target="_blank" rel="noopener">大屏预览<i>↗</i></a>
+      </div>
+    </section>
+
+    <aside class="state-column">
+      <section class="state-detail"><header><span>STATUS DETAIL</span><strong>低刺激</strong></header><div class="state-ring"><span><strong>稳定</strong><small>陪伴状态</small></span></div></section>
+      <section class="capability-status"><header>能力状态</header><p><span>情绪识别</span><i><b style="width:95%"></b></i><small>95%</small></p><p><span>共情回应</span><i><b style="width:92%"></b></i><small>92%</small></p><p><span>专注引导</span><i><b style="width:88%"></b></i><small>88%</small></p><p><span>风险转介</span><i><b style="width:100%"></b></i><small>就绪</small></p></section>
+      <section class="today-timeline"><header>今日时间线</header><ol><li class="done"><time>08:00</time><span>晨间问候</span></li><li class="done"><time>12:30</time><span>午间放松</span></li><li class="active"><time>18:00</time><span>状态记录</span></li><li><time>21:30</time><span>睡前复盘</span></li></ol></section>
+    </aside>
+  </main>
+
+  <section class="chat-drawer" id="chatDrawer" aria-label="数字人对话" aria-hidden="true">
+    <header><div><span id="chatMateName">元元</span><span> · 在线</span><h2>想说什么都可以。</h2></div><a class="chat-voice-link" href="voice-chat.html">语音模式</a><button id="chatClose" type="button" aria-label="关闭对话">×</button></header>
+    <div class="chat-history" id="chatHistory" aria-live="polite"><article class="assistant-message"><span id="firstMsgName">元元</span><p>我在这里。今天最占据你注意力的是什么？</p></article></div>
+    <div class="chat-suggestions"><button type="button">我在担心考试</button><button type="button">今天有点累</button><button type="button">我想先安静一会儿</button></div>
+    <form id="companionForm"><label class="sr-only" for="companionInput">输入想说的话</label><textarea id="companionInput" rows="2" placeholder="慢慢说，不用组织得很完整……"></textarea><button type="submit">发送</button></form>
+    <p class="adapter-state" id="adapterState">演示回应 · LLM 接口待接入 · <a href="api-config.html">配置 API</a></p>
+  </section>
+  <div class="drawer-shade" id="drawerShade"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="shared-controls.js"></script>
+  <script src="site-avatar-registry.js"></script>
+  <script src="api-config.js"></script>
+  <script src="mobile-nav.js"></script>
+  <script src="integrations/digital-human-demo/js/lib/live2d.min.js"></script>
+  <script src="integrations/digital-human-demo/js/lib/live2dcubismcore.min.js"></script>
+  <script src="integrations/digital-human-demo/js/lib/pixi.min.js"></script>
+  <script src="integrations/digital-human-demo/js/lib/pixi-live2d-display.min.js"></script>
+  <script src="companion.js"></script>
+  <script type="module" src="companion-renderer.js"></script>
+</body>
+</html>

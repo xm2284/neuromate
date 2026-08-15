@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-label="元初数字人兜底形象">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="34%" r="70%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".92"/>
+      <stop offset=".45" stop-color="#d9e8ee" stop-opacity=".75"/>
+      <stop offset="1" stop-color="#8fb6cc" stop-opacity=".35"/>
+    </radialGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fbfb"/>
+      <stop offset="1" stop-color="#dfeaf0"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="420" rx="42" fill="url(#bg)"/>
+  <circle cx="320" cy="184" r="132" fill="url(#glow)"/>
+  <circle cx="320" cy="168" r="88" fill="#8fb6cc" opacity=".92"/>
+  <text x="320" y="198" text-anchor="middle" font-size="86" font-family="Microsoft YaHei, PingFang SC, sans-serif" fill="#ffffff">元</text>
+  <text x="320" y="318" text-anchor="middle" font-size="42" font-family="Microsoft YaHei, PingFang SC, sans-serif" fill="#172532">元初</text>
+  <text x="320" y="358" text-anchor="middle" font-size="22" font-family="Microsoft YaHei, PingFang SC, sans-serif" fill="#71808b">静态兜底形象</text>
+</svg>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="元知己成长中心"><title>成长中心｜元知己</title><link rel="icon" href="data:,">
+  <link rel="stylesheet" href="shared.css"><link rel="stylesheet" href="growth.css">
+</head>
+<body class="growth-page">
+  <header class="growth-header">
+    <a class="brand" href="index.html"><span class="brand-mark">元</span><span class="brand-copy"><strong>元知己</strong><small>NEUROMATE</small></span></a>
+    <nav aria-label="产品导航"><a href="space.html">我的空间</a><a href="companion.html">数字人</a><a class="active" href="growth.html">成长中心</a><a href="questionnaire.html">状态问卷</a><a href="membership.html">会员</a><a href="agents.html">了解原理</a></nav>
+    <span class="growth-date">连续记录 <strong>7</strong> 天</span>
+  </header>
+  <main>
+    <section class="growth-hero">
+      <div><p class="eyebrow">YOUR GROWTH AT A GLANCE</p><h1>成长不是一条直线，<br>每一次回来都算数。</h1><p>这里记录情绪、睡眠、专注与陪伴轨迹。数据帮助你理解自己，不用来评价自己。</p></div>
+      <div class="hero-metrics"><span><small>本周记录</small><strong data-count="6">0</strong><i>/ 7 天</i></span><span><small>平均能量</small><strong data-count="63">0</strong><i>/ 100</i></span><span><small>陪伴时长</small><strong data-count="84">0</strong><i>分钟</i></span><span><small>完成小步</small><strong data-count="12">0</strong><i>件</i></span></div>
+    </section>
+
+    <section class="growth-visuals">
+      <div class="section-title"><div><p class="eyebrow">WEEKLY INSIGHT</p><h2>这一周，身体和情绪发生了什么？</h2></div><div class="range-control" role="group"><button class="active" type="button" data-range="7">7 天</button><button type="button" data-range="14">14 天</button><button type="button" data-range="30">30 天</button></div></div>
+      <div class="visual-grid">
+        <article class="main-trend"><header><div><span>情绪能量</span><h3>在波动中缓慢回升</h3></div><strong id="rangeDelta">+12%</strong></header><canvas id="growthTrendCanvas" aria-label="情绪能量趋势图"></canvas><div class="chart-legend"><span><i></i>能量</span><span><i></i>紧绷感</span></div></article>
+        <article class="balance-chart"><header><span>状态平衡</span><h3>此刻更需要休息</h3></header><canvas id="balanceCanvas" aria-label="状态平衡雷达图"></canvas></article>
+        <article class="rhythm-chart"><header><span>一天的节律</span><h3>傍晚更容易紧绷</h3></header><div class="rhythm-bars" id="rhythmBars"></div></article>
+      </div>
+    </section>
+
+    <section class="calendar-section">
+      <div class="section-title"><div><p class="eyebrow">MOOD CALENDAR</p><h2>把一个月的心情放在一起看。</h2></div><p>颜色深浅代表当天的能量余量，留白不是缺失，只是那天没有记录。</p></div>
+      <div class="calendar-layout"><article class="mood-calendar"><header><button id="monthPrev" type="button" aria-label="上个月">←</button><h3 id="monthTitle">2026 年 7 月</h3><button id="monthNext" type="button" aria-label="下个月">→</button></header><div class="calendar-week"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div><div class="calendar-grid" id="calendarGrid"></div></article><aside class="calendar-note"><span>本月观察</span><strong id="calendarInsightTitle">考试周前后波动明显</strong><p id="calendarInsightText">7 月 14 日到 18 日紧绷感上升；呼吸练习后的两个晚上，入睡前能量更稳定。</p><div><i></i><span>低能量</span><i></i><span>中等</span><i></i><span>有余量</span></div></aside></div>
+    </section>
+
+    <section class="fortune-section">
+      <div class="fortune-copy"><p class="eyebrow">TODAY'S NOTE</p><h2>今天也抽一张只属于你的签。</h2><p>不是预测结果，只是给此刻一个更温柔的解释。</p><button class="button button--dark" id="drawFortune" type="button">再抽一签 <span>↻</span></button></div>
+      <article class="fortune-card" id="fortuneCard"><span>今日一签 · 第 07 号</span><strong id="fortuneTitle">循光</strong><p id="fortuneText">不必一次照亮整条路，先让下一步变得清楚。</p><footer><small>签意</small><i id="fortuneMeaning">从熟悉的内容开始，稳定感会慢慢回来。</i></footer></article>
+    </section>
+
+    <section class="badge-section">
+      <div class="section-title"><div><p class="eyebrow">ACHIEVEMENT WALL</p><h2>每一枚徽章，都是你认真照顾自己的证据。</h2></div><p><strong>6 / 8</strong> 已解锁</p></div>
+      <div class="badge-grid">
+        <button class="earned" type="button" data-badge="连续七天记录状态"><i>7</i><strong>坚持七天</strong><span>连续记录 7 天</span></button>
+        <button class="earned" type="button" data-badge="完成第一次心情记录"><i>○</i><strong>初心萌芽</strong><span>首次记录心情</span></button>
+        <button class="earned" type="button" data-badge="完成十次数字人对话"><i>听</i><strong>温柔倾听</strong><span>完成 10 次对话</span></button>
+        <button class="earned" type="button" data-badge="累计完成五十次呼吸练习"><i>息</i><strong>静心如水</strong><span>练习呼吸 50 次</span></button>
+        <button class="earned" type="button" data-badge="五次深夜陪伴记录"><i>月</i><strong>深夜陪伴</strong><span>深夜倾诉 5 次</span></button>
+        <button class="earned" type="button" data-badge="完成二十次考试减压练习"><i>✓</i><strong>学习达人</strong><span>减压练习 20 次</span></button>
+        <button class="locked" type="button" data-badge="再连续记录 93 天即可解锁"><i>100</i><strong>百日同行</strong><span>连续记录 100 天</span></button>
+        <button class="locked" type="button" data-badge="继续探索元知己即可解锁"><i>?</i><strong>神秘徽章</strong><span>继续探索解锁</span></button>
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div><script src="shared-controls.js"></script><script src="mobile-nav.js"></script><script src="growth.js"></script>
+</body>
+</html>

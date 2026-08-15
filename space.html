@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="元知己角色养成与个性化空间">
+  <title>我的空间｜元知己</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="space.css">
+</head>
+<body class="space-page">
+  <header class="space-header">
+    <a class="brand" href="index.html" aria-label="返回元知己首页">
+      <span class="brand-mark">元</span>
+      <span class="brand-copy"><strong>元知己</strong><small>NEUROMATE</small></span>
+    </a>
+    <nav class="space-nav" aria-label="产品导航">
+      <a class="active" href="space.html">我的空间</a>
+      <a href="companion.html">数字人</a>
+      <a href="growth.html">成长中心</a>
+      <a href="questionnaire.html">状态问卷</a>
+      <a href="membership.html">会员</a>
+      <a href="agents.html">了解原理</a>
+    </nav>
+    <div class="space-wallet" aria-label="账户余额">
+      <span title="星贝"><i>✦</i><strong id="starbellValue">0</strong></span>
+      <button class="profile-button" type="button" aria-label="个人设置">Z</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="customize-intro reveal visible">
+      <div>
+        <p class="eyebrow">AVATAR STUDIO</p>
+        <h1>打造专属的元知己。</h1>
+      </div>
+      <p>换装、捏脸、送礼物，让你的数字伙伴独一无二。这里负责角色养成；倾诉与 LLM 对话留在数字人页面。</p>
+    </section>
+
+    <section class="customize-shell" aria-label="元知己个性化工作台">
+      <article class="mate-preview reveal visible" id="mateStage">
+        <header class="mate-preview__header">
+          <span class="level-badge"><i>★</i> Lv.<strong id="levelValue">12</strong></span>
+          <div><small>YOUR COMPANION</small><h2 id="spaceAvatarName">元知己</h2></div>
+          <span class="affection-number">亲密度 <strong id="affectionValue">86</strong>/100</span>
+        </header>
+
+        <div class="avatar-showcase" id="avatarShowcase">
+          <div class="stage-grid" aria-hidden="true"></div>
+          <div class="stage-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="stage-particles" id="spaceParticles" aria-hidden="true"></div>
+          <div class="avatar-portrait theme-star accessory-none" id="avatarPortrait">
+            <img class="appearance-clear" id="avatarImage" src="assets/yuanchu-card.svg" alt="元知己数字人元元">
+            <span class="costume-mark" id="costumeMark" aria-hidden="true">★</span>
+            <span class="accessory-mark" id="accessoryMark" aria-hidden="true"></span>
+          </div>
+          <p class="mate-reaction" id="mateReaction" aria-live="polite">今天想让我换成什么样子？</p>
+          <p class="space-avatar-meta" id="spaceAvatarMeta">当前形象会和数字人陪伴页同步。</p>
+          <div class="space-avatar-tabs" id="spaceAvatarTabs" aria-label="选择数字人形象"></div>
+          <span class="affection-gain" id="affectionGain" aria-hidden="true"></span>
+          <div class="gift-burst" id="giftBurst" aria-hidden="true"></div>
+        </div>
+
+        <div class="preview-actions">
+          <button class="button gift-button" id="giftOpen" type="button"><span aria-hidden="true">◇</span> 送礼物</button>
+          <a class="button companion-link" href="companion.html">去和元元聊天 <span>→</span></a>
+        </div>
+        <div class="affection-progress">
+          <span>亲密度</span>
+          <i><b id="affectionFill"></b></i>
+          <small id="affectionHint">再增加 14 点解锁专属问候</small>
+        </div>
+      </article>
+
+      <section class="customize-shop reveal visible" aria-labelledby="shopTitle">
+        <header class="shop-heading">
+          <div><p class="eyebrow">CUSTOMIZE</p><h2 id="shopTitle">今天的元元，由你定义。</h2></div>
+          <p id="lookLabel">星星套装 · 无配饰 · 清透神态</p>
+        </header>
+
+        <div class="shop-tabs" role="tablist" aria-label="装扮分类">
+          <button class="active" type="button" role="tab" aria-selected="true" data-tab="clothes"><span aria-hidden="true">衣</span>服装</button>
+          <button type="button" role="tab" aria-selected="false" data-tab="accessories"><span aria-hidden="true">冠</span>配饰</button>
+          <button type="button" role="tab" aria-selected="false" data-tab="appearance"><span aria-hidden="true">颜</span>外观</button>
+        </div>
+
+        <div class="shop-panel active" id="panel-clothes" role="tabpanel">
+          <div class="shop-grid">
+            <button class="shop-item" type="button" data-category="clothes" data-item="star" data-name="星星套装" data-owned="true">
+              <span class="item-visual visual-star" aria-hidden="true">★</span><span class="item-copy"><strong>星星套装</strong><small class="item-state">已拥有</small></span><i>✓</i>
+            </button>
+            <button class="shop-item" type="button" data-category="clothes" data-item="moon" data-name="月光套装" data-cost="500">
+              <span class="item-visual visual-moon" aria-hidden="true">☾</span><span class="item-copy"><strong>月光套装</strong><small class="item-state">✦ 500</small></span><i>✓</i>
+            </button>
+            <button class="shop-item" type="button" data-category="clothes" data-item="sun" data-name="阳光套装" data-cost="800">
+              <span class="item-visual visual-sun" aria-hidden="true">☀</span><span class="item-copy"><strong>阳光套装</strong><small class="item-state">✦ 800</small></span><i>✓</i>
+            </button>
+            <button class="shop-item" type="button" data-category="clothes" data-item="cloud" data-name="云朵套装" data-cost="1500">
+              <span class="item-visual visual-cloud" aria-hidden="true">☁</span><span class="item-copy"><strong>云朵套装</strong><small class="item-state">✦ 1,500</small></span><i>✓</i>
+            </button>
+          </div>
+          <div class="store-collection" id="storeCollection" hidden>
+            <span>来自星贝商城的收藏</span>
+            <div class="store-chips" id="storeChips"></div>
+          </div>
+        </div>
+
+        <div class="shop-panel" id="panel-accessories" role="tabpanel" hidden>
+          <div class="shop-grid">
+            <button class="shop-item" type="button" data-category="accessories" data-item="none" data-name="无配饰" data-owned="true">
+              <span class="item-visual visual-none" aria-hidden="true">○</span><span class="item-copy"><strong>无配饰</strong><small class="item-state">已拥有</small></span><i>✓</i>
+            </button>
+            <button class="shop-item" type="button" data-category="accessories" data-item="hat" data-name="月影礼帽" data-cost="300">
+              <span class="item-visual visual-hat" aria-hidden="true">▲</span><span class="item-copy"><strong>月影礼帽</strong><small class="item-state">✦ 300</small></span><i>✓</i>
+            </button>
+            <button class="shop-item" type="button" data-category="accessories" data-item="glasses" data-name="专注镜框" data-cost="450">
+              <span class="item-visual visual-glasses" aria-hidden="true">∞</span><span class="item-copy"><strong>专注镜框</strong><small class="item-state">✦ 450</small></span><i>✓</i>
+            </button>
+            <button class="shop-item" type="button" data-category="accessories" data-item="flower" data-name="安睡花环" data-cost="1000">
+              <span class="item-visual visual-flower" aria-hidden="true">✿</span><span class="item-copy"><strong>安睡花环</strong><small class="item-state">✦ 1,000</small></span><i>✓</i>
+            </button>
+          </div>
+        </div>
+
+        <div class="shop-panel" id="panel-appearance" role="tabpanel" hidden>
+          <div class="appearance-groups">
+            <fieldset>
+              <legend>轮廓</legend>
+              <div class="appearance-options">
+                <button class="active" type="button" data-category="appearance" data-item="clear" data-name="清透神态" data-owned="true">清透</button>
+                <button type="button" data-category="appearance" data-item="soft" data-name="柔和神态" data-owned="true">柔和</button>
+                <button type="button" data-category="appearance" data-item="bright" data-name="明亮神态" data-owned="true">明亮</button>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>情绪表情</legend>
+              <div class="expression-options" role="group" aria-label="选择数字人表情">
+                <button class="active" type="button" data-expression="smile">微笑</button>
+                <button type="button" data-expression="focus">专注</button>
+                <button type="button" data-expression="cheer">雀跃</button>
+                <button type="button" data-expression="quiet">安静</button>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="gacha-section reveal" id="gachaSection">
+      <div class="gacha-copy">
+        <p class="eyebrow">STAR DRAW · DAILY</p>
+        <h2>星轨抽卡</h2>
+        <p>每天签到送免费抽取，卡池只含装扮与小福袋，概率、保底与重复转化全部公示，不涉及任何心理功能。</p>
+        <button class="odds-link" id="oddsOpen" type="button">概率与规则公示 →</button>
+      </div>
+      <div class="signin-panel">
+        <div class="signin-week" id="signinWeek" aria-label="本周签到进度">
+          <i>一</i><i>二</i><i>三</i><i>四</i><i>五</i><i>六</i><i>日</i>
+        </div>
+        <p class="signin-streak">已连续签到 <strong id="streakValue">0</strong> 天</p>
+        <p class="signin-rule">签到 +1 次免费抽取；连续第 7 天额外 +2 次。</p>
+        <button class="button button--light" id="signinButton" type="button">今日签到 · 领 1 次抽取</button>
+      </div>
+      <div class="draw-side">
+        <p class="draw-tickets">免费 <strong id="ticketValue">0</strong> 次 · 星贝抽取今日剩余 <strong id="drawLeftValue">5</strong>/5</p>
+        <div class="pity-progress"><i><b id="pityFill"></b></i><small id="pityHint">再抽 80 次内必出 SSR</small></div>
+        <button class="gacha-open" id="gachaOpen" type="button"><span>开始抽取</span><small>免费优先 · ✦ 300 补抽</small><i>→</i></button>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="space-dialog gift-dialog" id="giftDialog">
+    <form method="dialog"><button class="dialog-close" type="submit" aria-label="关闭送礼窗口">×</button></form>
+    <p class="eyebrow">A LITTLE GIFT</p>
+    <h2>送礼物给元知己</h2>
+    <p>礼物只用于角色养成，不影响基础陪伴能力。</p>
+    <div class="gift-grid">
+      <button type="button" data-gift="flower" data-symbol="✿" data-cost="100" data-affection="5"><span>✿</span><strong>鲜花</strong><small>✦ 100 · +5 亲密度</small></button>
+      <button type="button" data-gift="cookie" data-symbol="○" data-cost="150" data-affection="8"><span>○</span><strong>饼干</strong><small>✦ 150 · +8 亲密度</small></button>
+      <button type="button" data-gift="cake" data-symbol="△" data-cost="300" data-affection="15"><span>△</span><strong>蛋糕</strong><small>✦ 300 · +15 亲密度</small></button>
+      <button type="button" data-gift="star" data-symbol="★" data-cost="500" data-affection="25"><span>★</span><strong>星星</strong><small>✦ 500 · +25 亲密度</small></button>
+    </div>
+  </dialog>
+
+  <dialog class="space-dialog" id="oddsDialog">
+    <form method="dialog"><button class="dialog-close" type="submit" aria-label="关闭概率公示窗口">×</button></form>
+    <p class="eyebrow">ODDS DISCLOSURE</p>
+    <h2>概率与规则公示</h2>
+    <div class="odds-table">
+      <p><span>SSR · 月光套装</span><strong>2%</strong></p>
+      <p><span>SR · 云朵套装 / 安睡花环 / 专注镜框</span><strong>各 6% · 合计 18%</strong></p>
+      <p><span>R · 阳光套装 / 月影礼帽 / 星贝福袋 / 心意卡</span><strong>各 20% · 合计 80%</strong></p>
+    </div>
+    <ul class="odds-rules">
+      <li>硬性保底：连续 79 抽未出 SSR 时，第 80 抽必出 SSR，保底进度实时显示。</li>
+      <li>无隐藏概率：公示概率即为真实概率，不随时间或账户变化。</li>
+      <li>重复转化：重复装扮自动转为星贝（SSR→1,500 / SR→400 / R→100）。</li>
+      <li>卡池只含装扮与福袋，不含任何心理功能；安全与陪伴能力永不进入卡池。</li>
+      <li>星贝抽取每日限 5 次（✦300/次）；免费抽取来自每日签到，无需付费。</li>
+      <li>未成年人不参与星贝抽取；正式版本将接入单日与单月充值上限。</li>
+    </ul>
+  </dialog>
+
+  <dialog class="space-dialog gacha-dialog" id="gachaDialog">
+    <form method="dialog"><button class="dialog-close" type="submit" aria-label="关闭抽卡窗口">×</button></form>
+    <p class="eyebrow">STAR DRAW</p>
+    <h2>星轨正在回应你。</h2>
+    <div class="draw-stage" id="drawStage"><div class="draw-card"><span id="drawSymbol">?</span><strong id="drawName">等待抽取</strong><small id="drawRarity">概率已公示</small></div></div>
+    <p id="drawMessage">卡池只含装扮与福袋，保底进度会在抽取后更新。</p>
+    <button class="button button--dark" id="gachaDraw" type="button">开始抽取</button>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="shared-controls.js"></script>
+  <script src="wallet.js"></script>
+  <script src="site-avatar-registry.js"></script>
+  <script src="mobile-nav.js"></script>
+  <script src="space.js"></script>
+</body>
+</html>

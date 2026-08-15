@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2d1f3d">
+  <meta name="description" content="元知己沉浸式语音谈心 - 模拟真人心理咨询师温柔对话">
+  <title>语音谈心｜元知己</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="voice-chat.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./vendor/three.module.js",
+      "three/addons/loaders/GLTFLoader.js": "./vendor/GLTFLoader.js",
+      "@pixiv/three-vrm": "./vendor/three-vrm.module.js"
+    }
+  }
+  </script>
+</head>
+<body class="voice-page bg-matte page-fade">
+
+  <!-- 顶部：极简，仅返回与状态 -->
+  <div class="voice-top-hint" role="note" aria-label="隐私提示">所有对话仅保存在本地，不会上传</div>
+  <header class="voice-header">
+    <a class="voice-back" href="companion.html" aria-label="返回数字人页面">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      <span>返回</span>
+    </a>
+    <div class="voice-status">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span class="status-text">元元在这里，随时倾听</span>
+    </div>
+    <div class="voice-avatar-switch" id="voiceAvatarSwitch" aria-label="选择语音形象"></div>
+    <a class="voice-api-entry" href="api-config.html">API配置</a>
+    <button class="voice-settings" id="voiceSettings" type="button" aria-label="语音设置">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    </button>
+  </header>
+
+  <!-- 主区域：面对面聊天场景 -->
+  <main class="voice-main">
+
+    <!-- 呼吸光晕背景 -->
+    <div class="ambient-glow" aria-hidden="true">
+      <div class="glow-orb glow-orb--1"></div>
+      <div class="glow-orb glow-orb--2"></div>
+      <div class="glow-orb glow-orb--3"></div>
+    </div>
+
+    <!-- 主体：3D 数字人 + 对话气泡（V1.4 整合） -->
+    <div class="voice-body">
+      <!-- 3D 数字人舞台 -->
+      <div class="vrm-stage" id="vrmStage" aria-hidden="true">
+        <canvas id="vrmCanvas"></canvas>
+        <div class="vrm-nametag"><span class="vrm-dot"></span><span class="vrm-name">元元</span> · 数字人陪伴</div>
+        <button class="vrm-switch" id="vrmSwitch" type="button" aria-label="换装">⇄ 换装</button>
+      </div>
+
+      <!-- 对话气泡区 -->
+      <div class="voice-conversation" id="voiceConversation" aria-live="polite" aria-label="对话记录">
+        <!-- 初始问候由 voice-chat.js 在页面加载时统一插入，避免与 greetOnce 重复 -->
+      </div>
+    </div>
+
+    <!-- AI 正在说话的视觉反馈 -->
+    <div class="speaking-indicator" id="speakingIndicator" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- 快捷情绪入口（温柔引导） -->
+    <div class="voice-quick" id="voiceQuick" aria-label="快捷话题">
+      <button type="button" data-quick="tired"><span class="quick-icon">☁️</span>今天有点累</button>
+      <button type="button" data-quick="anxious"><span class="quick-icon">🌊</span>有些焦虑</button>
+      <button type="button" data-quick="lonely"><span class="quick-icon">🌙</span>感到孤独</button>
+      <button type="button" data-quick="sleep"><span class="quick-icon">⭐</span>睡不着</button>
+    </div>
+
+    <!-- 底部控制台 -->
+    <div class="voice-console">
+
+      <!-- 文字输入 -->
+      <form class="voice-text-form" id="voiceTextForm">
+        <label class="sr-only" for="voiceTextInput">输入想说的话</label>
+        <input id="voiceTextInput" type="text" placeholder="也可以打字告诉我……" autocomplete="off">
+        <button type="submit" aria-label="发送">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </form>
+      <p class="voice-input-hint">点击麦克风可以直接说话，也可以打字发送</p>
+
+      <!-- 主操作：语音 / 暂停 -->
+      <div class="voice-controls">
+        <button class="voice-mic" id="voiceMic" type="button" aria-label="点击说话" aria-pressed="false">
+          <span class="mic-ring" aria-hidden="true"></span>
+          <span class="mic-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          </span>
+          <span class="mic-label">点击说话</span>
+        </button>
+
+        <button class="voice-pause" id="voicePause" type="button" aria-label="暂停对话" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+          <span>暂停</span>
+        </button>
+      </div>
+
+      <!-- 环境音 & 音量 -->
+      <div class="voice-aux">
+        <div class="ambient-select" id="ambientSelect" role="group" aria-label="环境音">
+          <button class="active" type="button" data-ambient="none" aria-label="无环境音">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="4" y1="4" x2="20" y2="20" opacity=".4"/><circle cx="12" cy="12" r="9" opacity=".3"/></svg>
+            <span class="ambient-label">无环境音</span>
+          </button>
+          <button type="button" data-ambient="rain" aria-label="雨声">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M16 13v8M8 13v8M12 15v8M20 16.58A5 5 0 0018 7h-1.26A8 8 0 104 15.25"/></svg>
+            <span class="ambient-label">雨声</span>
+          </button>
+          <button type="button" data-ambient="forest" aria-label="林间风声">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 12h4l-4 6h6v4h4v-4h6l-4-6h4L12 2z" opacity=".7"/></svg>
+            <span class="ambient-label">林间风声</span>
+          </button>
+          <button type="button" data-ambient="whitenoise" aria-label="白噪音">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 12h2M6 8v8M10 4v16M14 8v8M18 10v4M22 12h0"/></svg>
+            <span class="ambient-label">白噪音</span>
+          </button>
+        </div>
+
+        <div class="volume-control">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14"/></svg>
+          <input id="volumeSlider" type="range" min="0" max="100" value="60" aria-label="音量">
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 设置面板 -->
+  <dialog class="voice-dialog" id="settingsDialog">
+    <form method="dialog"><button class="dialog-close" type="submit" aria-label="关闭设置">×</button></form>
+    <p class="eyebrow">VOICE SETTINGS</p>
+    <h2>声音与对话</h2>
+
+    <div class="setting-group">
+      <span class="setting-label">人声风格</span>
+      <div class="setting-options" role="radiogroup" aria-label="人声风格">
+        <button class="active" type="button" role="radio" aria-checked="true" data-voice="female-soft"><span class="setting-icon">♀️</span>温柔女声</button>
+        <button type="button" role="radio" aria-checked="false" data-voice="female-warm"><span class="setting-icon">♀️</span>舒缓女声</button>
+        <button type="button" role="radio" aria-checked="false" data-voice="male-gentle"><span class="setting-icon">♂️</span>温和男声</button>
+      </div>
+    </div>
+
+    <div class="setting-group">
+      <span class="setting-label">语速</span>
+      <div class="setting-options" role="radiogroup" aria-label="语速">
+        <button type="button" role="radio" aria-checked="false" data-rate="0.7"><span class="setting-icon">🐢</span>慢一点</button>
+        <button class="active" type="button" role="radio" aria-checked="true" data-rate="0.85"><span class="setting-icon">🐇</span>舒缓</button>
+        <button type="button" role="radio" aria-checked="false" data-rate="1.0">正常</button>
+      </div>
+    </div>
+
+    <div class="setting-group">
+      <span class="setting-label">对话风格</span>
+      <div class="setting-options" role="radiogroup" aria-label="对话风格">
+        <button class="active" type="button" role="radio" aria-checked="true" data-style="empathy"><span class="setting-icon">🫂</span>共情倾听</button>
+        <button type="button" role="radio" aria-checked="false" data-style="mindfulness"><span class="setting-icon">🧘</span>正念引导</button>
+        <button type="button" role="radio" aria-checked="false" data-style="relax"><span class="setting-icon">🌿</span>放松冥想</button>
+      </div>
+    </div>
+
+    <div class="setting-group api-setting">
+      <span class="setting-label">模型接口</span>
+      <p class="setting-note">如果已经在 API 配置页填写 HTTP 接口，语音页会优先请求真实服务；失败时自动回到本地演示。</p>
+      <a class="api-config-link" href="api-config.html">打开 API 配置与连通测试 →</a>
+    </div>
+
+    <p class="setting-note">AI 语音使用浏览器原生语音合成，不会录制或上传你的声音。对话内容仅留在本地。</p>
+  </dialog>
+
+  <!-- 音频元素（环境音用 Web Audio API 生成，无需外部文件） -->
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="shared-controls.js"></script>
+  <script src="site-avatar-registry.js"></script>
+  <script src="api-config.js"></script>
+  <script src="voice-chat.js"></script>
+  <script src="wallet.js" defer></script>
+  <script src="vrm-models.js" defer></script>
+  <script src="voice-avatar.bundle.js" defer></script>
+</body>
+</html>

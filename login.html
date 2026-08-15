@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="登录元知己">
+  <title>登录｜元知己</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="login.css">
+</head>
+<body class="login-page">
+  <div class="login-background" aria-hidden="true"></div>
+  <div class="login-shade" aria-hidden="true"></div>
+  <canvas class="water-curtain" id="waterCurtain" aria-hidden="true"></canvas>
+
+  <header class="login-header">
+    <a class="brand" href="index.html" aria-label="返回元知己首页">
+      <span class="brand-mark">元</span>
+      <span class="brand-copy"><strong>元知己</strong><small>NEUROMATE</small></span>
+    </a>
+  </header>
+
+  <main class="login-main">
+    <section class="login-card" aria-labelledby="loginTitle">
+      <div class="login-brandline"><span class="drop-mark" aria-hidden="true"></span><strong>元知己</strong></div>
+      <div class="login-heading">
+        <p>先懂你，再陪你</p>
+        <h1 id="loginTitle">慢慢来，先深呼吸一下。</h1>
+        <span>把这里当成一个安静的角落。</span>
+      </div>
+
+      <div class="mood-check" aria-label="选择此刻状态">
+        <p>此刻更接近哪一种状态？</p>
+        <div class="mood-options">
+          <button class="active" type="button" data-mood="quiet">想安静一下</button>
+          <button type="button" data-mood="stress">有点紧绷</button>
+          <button type="button" data-mood="talk">想被听见</button>
+        </div>
+        <span id="moodHint">登录后会优先进入低打扰陪伴模式。</span>
+      </div>
+
+      <form class="login-form" id="loginForm" novalidate>
+        <label>
+          <span>学号或手机号</span>
+          <input id="account" name="account" type="text" autocomplete="username" placeholder="请输入学号或手机号">
+        </label>
+        <label>
+          <span>密码</span>
+          <span class="password-field">
+            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="请输入密码">
+            <button id="passwordToggle" type="button" aria-pressed="false">显示</button>
+          </span>
+        </label>
+        <div class="login-options">
+          <label class="remember"><input type="checkbox" name="remember"><span>记住我</span></label>
+          <button class="text-control" type="button" data-toast="找回密码流程将在正式版本接入">忘记密码</button>
+        </div>
+        <p class="form-message" id="formMessage" role="alert"></p>
+        <button class="button button--ocean button--block" type="submit">进入元知己</button>
+      </form>
+
+      <div class="login-divider"><span>或者</span></div>
+      <button class="button guest-button button--block" id="guestButton" type="button">先以游客身份感受一下</button>
+      <p class="privacy-copy">登录不会改变你获得安全支持的权利。</p>
+    </section>
+  </main>
+
+  <p class="curtain-copy">听见你内心的回响。</p>
+  <button class="audio-float" id="audioToggle" type="button" aria-pressed="false" title="播放原版背景音乐" aria-label="播放原版背景音乐">
+    <span aria-hidden="true">♪</span><i aria-hidden="true"><b></b><b></b><b></b></i>
+  </button>
+  <audio id="calmAudio" src="assets/calm-song.mp3" preload="auto" autoplay muted loop></audio>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="mobile-nav.js"></script>
+  <script src="shared-controls.js"></script>
+  <script src="login.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="元知己多 Agent 协作过程">
+  <title>Agent 协作｜元知己</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="agents.css">
+</head>
+<body class="agents-page">
+  <header class="agents-header">
+    <a class="brand" href="index.html" aria-label="返回元知己首页">
+      <span class="brand-mark">元</span>
+      <span class="brand-copy"><strong>元知己</strong><small>NEUROMATE</small></span>
+    </a>
+    <nav id="agentsNav" aria-label="产品导航">
+      <a href="index.html">首页</a><a href="companion.html">数字人</a><a href="growth.html">成长中心</a><a href="questionnaire.html">状态问卷</a><a href="space.html">我的空间</a><a href="membership.html">会员</a><a class="active" href="agents.html">了解原理</a>
+    </nav>
+    <button class="agents-menu" id="agentsMenu" type="button" aria-expanded="false" aria-controls="agentsNav">菜单</button>
+  </header>
+
+  <main class="agents-shell">
+    <section class="agents-intro">
+      <div>
+        <p class="agents-eyebrow">MULTI-AGENT ORCHESTRATION</p>
+        <h1>让一个数字人背后，<br>真正拥有一支协作团队。</h1>
+        <p>把一次输入转化为可执行的陪伴方案。安全与场景并行判断，状态、认知、记忆画像与行动依次推进，最后交给元元自然表达。</p>
+      </div>
+      <div class="scenario-switcher" role="group" aria-label="选择演示场景">
+        <button class="active" type="button" data-scenario="exam">考试周</button>
+        <button type="button" data-scenario="defense">答辩前</button>
+        <button type="button" data-scenario="fatigue">连续学习后</button>
+      </div>
+    </section>
+
+    <section class="orchestration-grid">
+      <aside class="input-console">
+        <header><span>01</span><div><small>DATA INPUT</small><h2>状态输入</h2></div></header>
+        <label for="agentInput">用户此刻想说的话</label>
+        <textarea id="agentInput" rows="5">下周期末好多门，我感觉复习不完，打开计划表就开始慌。</textarea>
+        <dl class="signal-list">
+          <div><dt>压力评分</dt><dd id="pressureValue">7.6 / 10</dd></div>
+          <div><dt>当前阶段</dt><dd id="stageValue">期末周第 4 天</dd></div>
+          <div><dt>最近行为</dt><dd id="behaviorValue">待办 12 项</dd></div>
+        </dl>
+        <div class="json-preview"><span>UserState</span><pre id="jsonPreview"></pre></div>
+        <button class="run-button" id="runAgents" type="button"><span>运行 Agent 集群</span><i aria-hidden="true">→</i></button>
+      </aside>
+
+      <section class="topology-console" aria-labelledby="topologyTitle">
+        <header class="console-heading"><div><small>02 · LIVE TOPOLOGY</small><h2 id="topologyTitle">协作拓扑</h2></div><span class="run-state" id="runState"><i></i>等待输入</span></header>
+        <div class="topology" id="topology">
+          <div class="topology-node root" id="inputNode" tabindex="0" role="button" aria-label="查看输入事件说明"><small>输入事件</small><strong>学生压力状态</strong><em>READY</em></div>
+          <div class="edge edge-vertical" data-edge="input-scheduler"><i></i></div>
+          <div class="topology-node scheduler" id="schedulerNode" tabindex="0" role="button" aria-label="查看调度中枢说明"><small>调度中枢</small><strong>优先级与依赖控制</strong><em>WAIT</em></div>
+
+          <div class="branch-lines" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="agent-layers">
+            <section class="support-layer" aria-label="辅助判断层">
+              <header><strong>辅助判断层</strong><span>并行运行</span></header>
+              <button class="agent-node safety" type="button" data-agent="safety"><b>安全门控</b><strong>安全 Agent</strong><small>风险表达与现实支持优先级</small><i class="stage-pill stage-demo">已演示</i><em>等待</em></button>
+              <button class="agent-node scenario" type="button" data-agent="scenario"><b>场景约束</b><strong>场景 Agent</strong><small>考试周、答辩与疲劳场景匹配</small><i class="stage-pill stage-demo">已演示</i><em>等待</em></button>
+            </section>
+
+            <section class="core-layer" aria-label="核心干预链路">
+              <header><strong>核心干预链路</strong><span>状态 · 认知 · 记忆 · 行动</span></header>
+              <div class="core-chain">
+                <button class="agent-node core state" type="button" data-agent="state"><b>核心 01</b><strong>状态 Agent</strong><small>压力、焦虑与能量水平</small><i class="stage-pill stage-demo">已演示</i><em>等待</em></button>
+                <div class="chain-edge" data-edge="state-cognition"><i></i></div>
+                <button class="agent-node core cognition" type="button" data-agent="cognition"><b>核心 02</b><strong>认知 Agent</strong><small>过载、灾难化与自我否定</small><i class="stage-pill stage-boost">待加强</i><em>等待</em></button>
+                <div class="chain-edge" data-edge="cognition-memory"><i></i></div>
+                <button class="agent-node core memory" type="button" data-agent="memory"><b>核心 03</b><strong>记忆画像 Agent</strong><small>读取常用工具 · 匹配陪伴语气 · 记录近期目标</small><i class="stage-pill stage-proto">原型中</i><em>等待</em></button>
+                <div class="chain-edge" data-edge="memory-action"><i></i></div>
+                <button class="agent-node core action" type="button" data-agent="action"><b>核心 04</b><strong>行动 Agent</strong><small>安抚话术与最小下一步</small><i class="stage-pill stage-demo">已演示</i><em>等待</em></button>
+              </div>
+            </section>
+          </div>
+
+          <div class="merge-lines" aria-hidden="true"><span>辅助约束</span><i></i><span>核心结论</span></div>
+          <div class="topology-node synthesis" id="synthesisNode" tabindex="0" role="button" aria-label="查看汇总 Agent 说明"><small>汇总 Agent</small><strong>安全校验 · 知识检索 · 回应生成</strong><em>WAIT</em></div>
+        </div>
+        <div class="agent-detail" id="agentDetail"><span>当前节点输出</span><p>点击运行后，这里会同步展示每个 Agent 的分析。</p></div>
+      </section>
+
+      <aside class="output-console">
+        <header><span>03</span><div><small>DIGITAL HUMAN OUTPUT</small><h2>元元输出</h2></div></header>
+        <div class="avatar-output" id="avatarOutput">
+          <img src="assets/yuanchu-card.svg" alt="元知己数字人元元">
+          <div class="avatar-status"><i></i><span id="avatarState">等待 Agent 结果</span></div>
+          <div class="voice-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="result-list">
+          <p><span>安全级别</span><strong id="riskResult">未运行</strong></p>
+          <p><span>匹配场景</span><strong id="scenarioResult">未运行</strong></p>
+          <p><span>认知模式</span><strong id="patternResult">未运行</strong></p>
+        </div>
+        <blockquote id="avatarText">Agent 集群完成后，元元会把技术结论转换成自然、克制的陪伴回应。</blockquote>
+        <ol id="actionList"><li>等待行动建议</li></ol>
+        <a class="handoff-button disabled" id="handoffButton" href="companion.html" aria-disabled="true">交给元元继续陪伴 <span>→</span></a>
+      </aside>
+    </section>
+
+    <section class="trace-grid">
+      <article class="trace-panel">
+        <header><div><small>TRACE</small><h2>运行日志</h2></div><button id="resetAgents" type="button">重置</button></header>
+        <div class="trace-list" id="traceList" aria-live="polite"><p><time>--:--:--</time><i></i><span>等待启动 Agent 集群。</span></p></div>
+      </article>
+      <article class="knowledge-panel">
+        <header><small>KNOWLEDGE HIT</small><h2>知识库命中</h2></header>
+        <div id="knowledgeList"><p>运行后展示回应原则、避免话术和微行动。</p></div>
+      </article>
+      <aside class="safety-note"><strong>边界说明</strong><p>元知己提供情绪支持与行动建议，不进行医学诊断。出现自伤或极端绝望表达时，安全 Agent 会优先建议联系可信赖的人、学校心理中心或专业机构。</p></aside>
+    </section>
+
+    <footer class="agents-footer">
+      <p><strong>原型演示 · LLM 待接入。</strong>本页展示多 Agent 编排过程与安全分流逻辑；当前为本地演示数据，接口契约已就绪（<code>POST /api/agent-cluster/analyze</code>），接入后端后即切换真实分析。</p>
+    </footer>
+  </main>
+  <script src="shared-controls.js"></script>
+  <script src="agents.js"></script>
+</body>
+</html>

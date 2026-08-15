@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="元知己状态问卷"><title>状态问卷｜元知己</title><link rel="icon" href="data:,">
+  <link rel="stylesheet" href="shared.css"><link rel="stylesheet" href="questionnaire.css">
+</head>
+<body class="questionnaire-page">
+  <header class="questionnaire-header">
+    <a class="brand" href="index.html"><span class="brand-mark">元</span><span class="brand-copy"><strong>元知己</strong><small>NEUROMATE</small></span></a>
+    <nav aria-label="产品导航"><a href="space.html">我的空间</a><a href="companion.html">数字人</a><a href="growth.html">成长中心</a><a class="active" href="questionnaire.html">状态问卷</a><a href="membership.html">会员</a><a href="agents.html">了解原理</a></nav>
+    <button class="exit-assessment" id="exitAssessment" type="button">暂时离开</button>
+  </header>
+
+  <main class="questionnaire-shell">
+    <section class="assessment-intro" id="introView">
+      <div class="intro-copy"><p class="eyebrow">A GENTLE CHECK-IN</p><h1>这不是考试，<br>选项没有对错。</h1><p>只需要回想最近两周最接近真实状态的频率。你可以跳过、返回，也可以随时离开。</p><div class="assessment-safety"><span>结果不构成诊断</span><span>答案仅用于本次演示</span><span>危机支持始终优先</span></div></div>
+      <div class="assessment-picker">
+        <button class="active" type="button" data-assessment="gad7"><span>标准量表</span><strong>GAD-7 情绪筛查</strong><p>7 道题 · 最近两周 · 约 2 分钟</p><i>已选中</i></button>
+        <button type="button" data-assessment="exam"><span>校园专项</span><strong>考试压力自察</strong><p>6 道题 · 最近一周 · 非诊断工具</p><i>选择专项</i></button>
+        <div class="pace-card" aria-label="选择答题节奏">
+          <span>答题节奏</span>
+          <strong>按你现在的状态来</strong>
+          <div class="pace-options">
+            <button class="active" type="button" data-pace="steady">慢慢作答</button>
+            <button type="button" data-pace="quick">快速完成</button>
+            <button type="button" data-pace="gentle">先看建议</button>
+          </div>
+          <p id="paceHint">每题作答后会稍作停留，给你一点确认时间。</p>
+        </div>
+        <button class="start-assessment" id="startAssessment" type="button">准备好了，开始 <span>→</span></button>
+      </div>
+    </section>
+
+    <section class="question-view" id="questionView" hidden>
+      <aside class="progress-panel"><p class="eyebrow">YOUR PACE</p><strong id="progressCount">01 / 07</strong><div class="progress-track"><i id="progressFill"></i></div><p>不确定时，选择最接近的一项就好。</p><button id="previousQuestion" type="button">← 上一题</button></aside>
+      <article class="question-card">
+        <span id="questionScope">在过去两周内</span><h2 id="questionText"></h2><div class="answer-list" id="answerList"></div><p class="question-note" id="questionNote">选项只描述出现频率，不评价你做得好不好。</p>
+      </article>
+    </section>
+
+    <section class="result-view" id="resultView" hidden>
+      <div class="result-summary"><p class="eyebrow">YOUR CHECK-IN</p><div class="result-ring" id="resultRing"><span><strong id="resultScore">0</strong><small id="resultTotal">/ 21</small></span></div><h1 id="resultLevel">状态相对平稳</h1><p id="resultCopy"></p></div>
+      <div class="result-guidance"><span>给此刻的建议</span><h2 id="resultAdvice"></h2><div class="result-actions"><a class="button button--dark" href="companion.html">和元元聊聊</a><button class="button button--line" id="restartAssessment" type="button">重新作答</button></div><div class="crisis-support" id="crisisSupport" hidden><span>现在，请优先照顾现实支持</span><strong>全国心理援助热线 12356</strong><p>如果你感到难以承受，请拨打或发送短信至 12356，也可以联系学校心理中心或可信任的成年人。数字人陪伴可以作为补充，但不能替代专业支持。</p><a class="crisis-call" href="tel:12356">现在拨打 12356</a></div><p>如果你感到自己或他人正处于危险中，请立即联系可信任的成年人、学校心理中心或当地紧急服务。</p></div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div><script src="shared-controls.js"></script><script src="mobile-nav.js"></script><script src="questionnaire.js"></script>
+</body>
+</html>

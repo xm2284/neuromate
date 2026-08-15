@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="元知己会员、星贝商城与考试技能包">
+  <title>会员与星贝｜元知己</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="membership.css">
+</head>
+<body class="membership-page">
+  <header class="membership-header">
+    <a class="brand" href="index.html" aria-label="返回元知己首页">
+      <span class="brand-mark">元</span>
+      <span class="brand-copy"><strong>元知己</strong><small>NEUROMATE</small></span>
+    </a>
+    <nav class="membership-nav" aria-label="产品导航">
+      <a href="space.html">我的空间</a>
+      <a href="companion.html">数字人</a>
+      <a href="growth.html">成长中心</a>
+      <a href="questionnaire.html">状态问卷</a>
+      <a class="active" href="membership.html">会员</a>
+      <a href="agents.html">了解原理</a>
+    </nav>
+    <div class="membership-wallet" aria-label="星贝余额">
+      <span title="星贝"><i>✦</i><strong id="starbellValue">0</strong></span>
+      <button class="profile-button" type="button" aria-label="个人设置">Z</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="membership-intro">
+      <div>
+        <p class="eyebrow">MEMBERSHIP &amp; STARBELL</p>
+        <h1>最核心的温暖，永远不设门槛。</h1>
+      </div>
+      <p>会员与装扮只扩展陪伴的深度和个性表达。危机求助、状态筛查、退出与举报等安全能力，对所有同学永久免费开放，不做付费墙。</p>
+    </section>
+
+    <section class="plans-section" id="plans" aria-labelledby="plansTitle">
+      <div class="plans-heading">
+        <div>
+          <p class="eyebrow">STUDENT PLANS</p>
+          <h2 id="plansTitle">选择一种适合自己的同行方式。</h2>
+        </div>
+        <div class="billing-control" role="group" aria-label="计费周期">
+          <button class="active" type="button" data-billing="month">按月同行</button>
+          <button type="button" data-billing="year">按年守候</button>
+        </div>
+      </div>
+      <div class="plan-grid">
+        <article class="plan-basic" data-plan-card="free">
+          <span>基础版 · FREE</span>
+          <h3><strong>¥0</strong><small>/ 永久</small></h3>
+          <p>核心陪伴与安全能力，永久免费开放。</p>
+          <ul>
+            <li>文字陪伴与四种陪伴模式</li>
+            <li>基础心情记录与状态筛查</li>
+            <li>危机求助、退出与举报入口</li>
+            <li>60 秒静心工具</li>
+          </ul>
+          <button type="button" data-plan="free">当前可用 <span>✓</span></button>
+        </article>
+        <article class="featured" data-plan-card="plus">
+          <i class="popular-label">学生首选</i>
+          <span>进阶版 · PLUS</span>
+          <h3><strong data-month="19.9" data-year="159">¥19.9</strong><small class="price-unit">/ 月</small></h3>
+          <p>主力方案，建立更深的陪伴羁绊。</p>
+          <ul>
+            <li>包含所有基础版权益</li>
+            <li>完整心情手账与长期记忆</li>
+            <li>考试压力管理专项</li>
+            <li>每月 600 星贝与专属装扮主题</li>
+          </ul>
+          <button type="button" data-plan="plus">升级进阶 <span>→</span></button>
+        </article>
+        <article class="plan-pro" data-plan-card="pro">
+          <span>高级版 · PRO</span>
+          <h3><strong data-month="39.9" data-year="299">¥39.9</strong><small class="price-unit">/ 月</small></h3>
+          <p>高需求时期的深度陪伴体验。</p>
+          <ul>
+            <li>包含 Plus 所有权益</li>
+            <li>语音陪伴额度与数字人场景</li>
+            <li>全部考试技能包畅用</li>
+            <li>每月 1500 星贝与专业支持导航</li>
+          </ul>
+          <button type="button" data-plan="pro">开启共鸣 <span>→</span></button>
+        </article>
+      </div>
+      <div class="plan-compare-link">
+        <button class="compare-toggle" id="compareToggle" type="button">
+          <span>查看完整功能对比</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+      </div>
+      <div class="plan-compare-table" id="planCompareTable">
+        <table>
+          <thead>
+            <tr><th>功能权益</th><th>基础版</th><th>Plus</th><th>Pro</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>心情记录与状态筛查</td><td>✓</td><td>✓</td><td>✓</td></tr>
+            <tr><td>安全能力（求助 / 退出 / 举报）</td><td>✓</td><td>✓</td><td>✓</td></tr>
+            <tr><td>数字人对话</td><td>每日 10 次</td><td>深度 · 不限</td><td>不限 + 主动关怀</td></tr>
+            <tr><td>心情手账与长期记忆</td><td>基础</td><td>完整</td><td>完整 + 专属</td></tr>
+            <tr><td>考试压力管理专项</td><td>—</td><td>✓</td><td>✓</td></tr>
+            <tr><td>考试技能包</td><td>单包解锁</td><td>单包解锁</td><td>全部畅用</td></tr>
+            <tr><td>星贝权益</td><td>—</td><td>每月 600</td><td>每月 1,500</td></tr>
+            <tr><td>语音陪伴额度</td><td>—</td><td>—</td><td>✓</td></tr>
+            <tr><td>新功能体验</td><td>—</td><td>—</td><td>优先</td></tr>
+            <tr><td>客服通道</td><td>社区</td><td>优先</td><td>1 对 1 专属</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="student-discount">学生邮箱认证 7 折 · 寒暑假年费限时 5 折 · 首订 7 天免费体验 · 随时可取消退款 · 安全能力不设付费墙</p>
+    </section>
+
+    <section class="recharge-band" id="recharge" aria-labelledby="rechargeTitle">
+      <div class="band-heading band-heading--light">
+        <div>
+          <p class="eyebrow">STARBELL</p>
+          <h2 id="rechargeTitle">星贝：一种货币，明码标价。</h2>
+        </div>
+        <p>星贝是元知己唯一的虚拟币，只用于装扮、场景与内容，不可提现、不参与抽取。所有价格完整公示，没有隐藏概率。</p>
+      </div>
+      <div class="recharge-grid">
+        <button type="button" data-recharge="6" data-starbell="600">
+          <span>小额尝鲜</span><strong>✦ 600</strong><p>¥6</p><i>充值 →</i>
+        </button>
+        <button type="button" data-recharge="12" data-starbell="1200">
+          <span>轻量补充</span><strong>✦ 1,200</strong><p>¥12</p><i>充值 →</i>
+        </button>
+        <button class="is-main" type="button" data-recharge="30" data-starbell="3000">
+          <span>主流选择</span><strong>✦ 3,000</strong><p>¥30</p><i>充值 →</i>
+        </button>
+        <button type="button" data-recharge="68" data-starbell="6800">
+          <span>高客单档</span><strong>✦ 6,800</strong><p>¥68</p><i>充值 →</i>
+        </button>
+      </div>
+      <p class="recharge-note">原型环境中点击即可模拟充值到账；正式版本将接入真实支付、消费提醒与退款规则。未成年人单日与单月充值将设有上限。</p>
+    </section>
+
+    <section class="shop-section" id="shop" aria-labelledby="shopTitle">
+      <div class="shop-heading">
+        <div>
+          <p class="eyebrow">STARBELL STORE</p>
+          <h2 id="shopTitle">星贝商城：把陪伴过成自己的样子。</h2>
+        </div>
+        <p>所有商品透明直购、完整预览，买下的装扮会被元元记住——换装后它会主动提起，礼物会沉淀为可回看的陪伴记忆。</p>
+      </div>
+      <div class="shop-tabs" role="tablist" aria-label="商城分类">
+        <button class="active" type="button" role="tab" aria-selected="true" data-tab="outfit"><span aria-hidden="true">衣</span>装扮皮肤</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="scene"><span aria-hidden="true">景</span>陪伴场景</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="gift"><span aria-hidden="true">礼</span>情绪礼物</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="memory"><span aria-hidden="true">忆</span>记忆卡片</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="effect"><span aria-hidden="true">效</span>特效音效</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="voice"><span aria-hidden="true">声</span>语音包</button>
+      </div>
+
+      <div class="shop-panel active" id="panel-outfit" role="tabpanel">
+        <div class="shop-grid">
+          <button class="shop-item" type="button" data-item="campus-coat" data-name="校园风外套" data-cost="600">
+            <span class="item-visual visual-blue" aria-hidden="true">衣</span>
+            <span class="item-copy"><strong>校园风外套</strong><small>日常百搭的清爽外套</small><em class="item-state">✦ 600</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="heal-sweater" data-name="治愈系毛衣" data-cost="900">
+            <span class="item-visual visual-warm" aria-hidden="true">柔</span>
+            <span class="item-copy"><strong>治愈系毛衣</strong><small>软糯配色，看着就放松</small><em class="item-state">✦ 900</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="tech-jacket" data-name="科技感夹克" data-cost="1500">
+            <span class="item-visual visual-violet" aria-hidden="true">光</span>
+            <span class="item-copy"><strong>科技感夹克</strong><small>带细碎光效的利落夹克</small><em class="item-state">✦ 1,500</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="calm-skin" data-name="考试季限定皮肤「沉住气」" data-cost="3800" data-tag="限定">
+            <span class="item-visual visual-gold" aria-hidden="true">稳</span>
+            <span class="item-copy"><strong>沉住气 · 完整皮肤</strong><small>考试季限定，含呼吸光效</small><em class="item-state">✦ 3,800</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="avatar-xiaozhou" data-name="数字人形象「小舟」" data-cost="800">
+            <span class="item-visual visual-green" aria-hidden="true">舟</span>
+            <span class="item-copy"><strong>数字人形象 · 小舟</strong><small>3D 数字人换装形象，语音谈心页可用</small><em class="item-state">✦ 800</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="avatar-alice" data-name="数字人形象「爱丽丝」" data-cost="800">
+            <span class="item-visual visual-violet" aria-hidden="true">爱</span>
+            <span class="item-copy"><strong>数字人形象 · 爱丽丝</strong><small>3D 数字人换装形象，语音谈心页可用</small><em class="item-state">✦ 800</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="avatar-yuanan" data-name="数字人形象「元安」" data-cost="0">
+            <span class="item-visual visual-warm" aria-hidden="true">安</span>
+            <span class="item-copy"><strong>数字人形象 · 元安</strong><small>Hiyori Live2D，主形象温柔学姐</small><em class="item-state">免费领取</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="avatar-yuanqing" data-name="数字人形象「元晴」" data-cost="0">
+            <span class="item-visual visual-green" aria-hidden="true">晴</span>
+            <span class="item-copy"><strong>数字人形象 · 元晴</strong><small>shizuku Live2D，元气少女</small><em class="item-state">免费领取</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="avatar-yuanxi" data-name="数字人形象「元熙」" data-cost="0">
+            <span class="item-visual visual-blue" aria-hidden="true">熙</span>
+            <span class="item-copy"><strong>数字人形象 · 元熙</strong><small>VRM 3D 数字人，语音页可承接</small><em class="item-state">免费领取</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="avatar-yuanche" data-name="数字人形象「元澈」" data-cost="0">
+            <span class="item-visual visual-violet" aria-hidden="true">澈</span>
+            <span class="item-copy"><strong>数字人形象 · 元澈</strong><small>Natori Live2D，沉稳学长</small><em class="item-state">免费领取</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="avatar-mao" data-name="数字人形象「虹色Mao」" data-cost="0">
+            <span class="item-visual visual-gold" aria-hidden="true">M</span>
+            <span class="item-copy"><strong>数字人形象 · 虹色Mao</strong><small>魔术少女官方示例，不是猫咪/元喵</small><em class="item-state">免费领取</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="avatar-panda" data-name="数字人形象「元元熊猫」" data-cost="0">
+            <span class="item-visual visual-green" aria-hidden="true">熊</span>
+            <span class="item-copy"><strong>数字人形象 · 元元熊猫</strong><small>熊猫视频形象</small><em class="item-state">免费领取</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="avatar-yuanchu" data-name="数字人形象「元初」" data-cost="0">
+            <span class="item-visual visual-blue" aria-hidden="true">初</span>
+            <span class="item-copy"><strong>数字人形象 · 元初</strong><small>静态兜底形象，低性能设备也能显示</small><em class="item-state">免费领取</em></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="shop-panel" id="panel-scene" role="tabpanel" hidden>
+        <div class="shop-grid">
+          <button class="shop-item" type="button" data-item="star-room" data-name="星空自习室" data-cost="800">
+            <span class="item-visual visual-violet" aria-hidden="true">星</span>
+            <span class="item-copy"><strong>星空自习室</strong><small>陪伴场景，背景音乐会随之变化</small><em class="item-state">✦ 800</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="forest-calm" data-name="森林冥想场" data-cost="1200">
+            <span class="item-visual visual-green" aria-hidden="true">森</span>
+            <span class="item-copy"><strong>森林冥想场</strong><small>放松练习的专属场景</small><em class="item-state">✦ 1,200</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="deep-sea" data-name="深海雨幕" data-cost="600">
+            <span class="item-visual visual-blue" aria-hidden="true">雨</span>
+            <span class="item-copy"><strong>深海雨幕</strong><small>把登录页的雨带进对话页</small><em class="item-state">✦ 600</em></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="shop-panel" id="panel-gift" role="tabpanel" hidden>
+        <div class="shop-grid">
+          <button class="shop-item is-consumable" type="button" data-item="cheer-sticker" data-name="加油贴纸" data-cost="50">
+            <span class="item-visual visual-warm" aria-hidden="true">赞</span>
+            <span class="item-copy"><strong>加油贴纸</strong><small>即时反馈，元元会开心回应</small><em class="item-state">✦ 50</em></span>
+          </button>
+          <button class="shop-item is-consumable" type="button" data-item="night-star" data-name="晚安星星" data-cost="100">
+            <span class="item-visual visual-gold" aria-hidden="true">✦</span>
+            <span class="item-copy"><strong>晚安星星</strong><small>睡前送出，换来一句晚安</small><em class="item-state">✦ 100</em></span>
+          </button>
+          <button class="shop-item is-consumable" type="button" data-item="hug-light" data-name="抱抱光效" data-cost="300">
+            <span class="item-visual visual-green" aria-hidden="true">抱</span>
+            <span class="item-copy"><strong>抱抱光效</strong><small>一个被温柔接住的时刻</small><em class="item-state">✦ 300</em></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="shop-panel" id="panel-memory" role="tabpanel" hidden>
+        <div class="shop-grid">
+          <button class="shop-item" type="button" data-item="memory-card" data-name="陪伴记忆卡" data-cost="600">
+            <span class="item-visual visual-blue" aria-hidden="true">忆</span>
+            <span class="item-copy"><strong>陪伴记忆卡</strong><small>把一段陪伴记录收藏成卡</small><em class="item-state">✦ 600</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="story-pack" data-name="节日剧情包" data-cost="1800" data-tag="节日">
+            <span class="item-visual visual-warm" aria-hidden="true">节</span>
+            <span class="item-copy"><strong>节日剧情包</strong><small>节日限定的陪伴小故事</small><em class="item-state">✦ 1,800</em></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="shop-panel" id="panel-effect" role="tabpanel" hidden>
+        <div class="shop-grid">
+          <button class="shop-item" type="button" data-item="fx-breath" data-name="安心呼吸特效" data-cost="1500">
+            <span class="item-visual visual-green" aria-hidden="true">律</span>
+            <span class="item-copy"><strong>安心呼吸特效</strong><small>随呼吸律动的视觉反馈</small><em class="item-state">✦ 1,500</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="music-sleep" data-name="睡眠助眠音乐" data-cost="1800">
+            <span class="item-visual visual-blue" aria-hidden="true">眠</span>
+            <span class="item-copy"><strong>睡眠助眠音乐</strong><small>白噪音与轻音乐组合</small><em class="item-state">✦ 1,800</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="music-rain" data-name="雨声白噪音" data-cost="2000">
+            <span class="item-visual visual-violet" aria-hidden="true">雨</span>
+            <span class="item-copy"><strong>雨声白噪音</strong><small>窗外雨滴的宁静氛围</small><em class="item-state">✦ 2,000</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="fx-heartbeat" data-name="心跳同步" data-cost="2800" data-tag="限定">
+            <span class="item-visual visual-warm" aria-hidden="true">心</span>
+            <span class="item-copy"><strong>心跳同步</strong><small>与心率同步的舒缓节拍</small><em class="item-state">✦ 2,800</em></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="shop-panel" id="panel-voice" role="tabpanel" hidden>
+        <div class="shop-grid">
+          <button class="shop-item" type="button" data-item="voice-senpai" data-name="温柔学姐语音" data-cost="1500">
+            <span class="item-visual visual-violet" aria-hidden="true">姐</span>
+            <span class="item-copy"><strong>温柔学姐</strong><small>温柔细腻的学姐声线</small><em class="item-state">✦ 1,500</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="voice-boy" data-name="元气少年语音" data-cost="1500">
+            <span class="item-visual visual-blue" aria-hidden="true">元</span>
+            <span class="item-copy"><strong>元气少年</strong><small>清爽有活力的少年声线</small><em class="item-state">✦ 1,500</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="voice-mentor" data-name="知性导师语音" data-cost="2000">
+            <span class="item-visual visual-green" aria-hidden="true">导</span>
+            <span class="item-copy"><strong>知性导师</strong><small>沉稳安定的导师声线</small><em class="item-state">✦ 2,000</em></span>
+          </button>
+          <button class="shop-item" type="button" data-item="voice-moon" data-name="月光歌姬语音" data-cost="2600" data-tag="限定">
+            <span class="item-visual visual-gold" aria-hidden="true">月</span>
+            <span class="item-copy"><strong>月光歌姬</strong><small>月光系列的柔美声线</small><em class="item-state">✦ 2,600</em></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="direct-shop" aria-labelledby="directTitle">
+      <header class="direct-shop__heading">
+        <div><p class="eyebrow">DIRECT PURCHASE · 透明直购</p><h2 id="directTitle">透明直购虚拟商品</h2></div>
+        <p>一次性付费，永久 / 长周期拥有。品类与定价区间公开透明，不与抽卡概率绑定。</p>
+      </header>
+      <div class="direct-grid">
+        <article class="direct-cat">
+          <header class="direct-cat__head"><span class="direct-visual visual-bubble" aria-hidden="true">◡</span><div><h3>聊天气泡 / 头像框</h3><small>¥1 ~ 6 · 基础款 ¥1，动态款 ¥6</small></div></header>
+          <ul class="direct-items">
+            <li><span>基础气泡</span><i>¥1</i></li>
+            <li><span>圆润头像框</span><i>¥2</i></li>
+            <li><span>云朵气泡</span><i>¥3</i></li>
+            <li><span>星轨气泡</span><i>¥4</i></li>
+            <li><span>流光头像框</span><i>¥5</i></li>
+            <li><span>动态月光气泡</span><i>¥6</i></li>
+          </ul>
+        </article>
+        <article class="direct-cat">
+          <header class="direct-cat__head"><span class="direct-visual visual-scene" aria-hidden="true">▣</span><div><h3>场景背景</h3><small>¥1 ~ 18 · 聊天 / 冥想环境，静态 ¥1~5，动态 ¥10~18</small></div></header>
+          <ul class="direct-items">
+            <li><span>纯色静默背景</span><i>¥1</i></li>
+            <li><span>纸感书房</span><i>¥3</i></li>
+            <li><span>静态星空</span><i>¥5</i></li>
+            <li><span>动态深海</span><i>¥10</i></li>
+            <li><span>动态雨幕冥想</span><i>¥12</i></li>
+            <li><span>动态极光陪伴</span><i>¥18</i></li>
+          </ul>
+        </article>
+        <article class="direct-cat">
+          <header class="direct-cat__head"><span class="direct-visual visual-badge" aria-hidden="true">❖</span><div><h3>情绪徽章 / 纪念贴纸</h3><small>¥6 ~ 18 · 考试季 / 毕业季限定</small></div></header>
+          <ul class="direct-items">
+            <li><span>考试季限定徽章</span><i>¥8</i></li>
+            <li><span>毕业季纪念贴纸</span><i>¥10</i></li>
+            <li><span>深夜陪伴徽章</span><i>¥12</i></li>
+            <li><span>百日同行纪念贴</span><i>¥15</i></li>
+            <li><span>节气情绪贴纸组</span><i>¥18</i></li>
+          </ul>
+        </article>
+        <article class="direct-cat">
+          <header class="direct-cat__head"><span class="direct-visual visual-skill" aria-hidden="true">❂</span><div><h3>技能包</h3><small>¥3 ~ 18 · 场景化功能</small></div></header>
+          <ul class="direct-items">
+            <li><span>考前急救包 · 基础</span><i>¥3</i></li>
+            <li><span>睡眠恢复包</span><i>¥6</i></li>
+            <li><span>社交能量包</span><i>¥9</i></li>
+            <li><span>考前急救包 · 加强</span><i>¥12</i></li>
+            <li><span>深度复盘包</span><i>¥18</i></li>
+          </ul>
+        </article>
+        <article class="direct-cat">
+          <header class="direct-cat__head"><span class="direct-visual visual-memory" aria-hidden="true">❀</span><div><h3>记忆卡</h3><small>¥6 ~ 68 · 剧情 / 陪伴回忆，单张 ¥6~18，包 ¥18~68</small></div></header>
+          <ul class="direct-items">
+            <li><span>初遇记忆卡</span><i>¥6</i></li>
+            <li><span>深夜倾诉记忆卡</span><i>¥12</i></li>
+            <li><span>考试季剧情卡</span><i>¥18</i></li>
+            <li><span>多结局记忆包 · 校园篇</span><i>¥38</i></li>
+            <li><span>多结局记忆包 · 成长篇</span><i>¥58</i></li>
+            <li><span>全剧情陪伴回忆包</span><i>¥68</i></li>
+          </ul>
+        </article>
+      </div>
+      <p class="direct-note">直购商品均为一次性付费，永久或长周期拥有；不影响基础陪伴与安全能力。</p>
+    </section>
+
+    <section class="packs-band" id="packs" aria-labelledby="packsTitle">
+      <div class="band-heading band-heading--light">
+        <div>
+          <p class="eyebrow">EXAM TOOLKITS</p>
+          <h2 id="packsTitle">考试技能包 · 单包解锁，随用随买。</h2>
+        </div>
+        <p>考前、期末周、冲刺阶段是最需要支持的时刻。技能包单次内购、明码标价，买到即永久可用，不存在概率与抽取。</p>
+      </div>
+      <div class="packs-grid">
+        <button type="button" data-pack="firstaid" data-cost="600">
+          <span>01</span><h3>考前急救包</h3>
+          <p>考前 5 分钟稳定训练、考场流程预演，把慌乱降下来。</p>
+          <small>✦ 600 · 单次内购</small><i>查看内容 →</i>
+        </button>
+        <button type="button" data-pack="procrastination" data-cost="600">
+          <span>02</span><h3>拖延修复包</h3>
+          <p>拖延原因分析、15 分钟任务拆解，先动起来再说。</p>
+          <small>✦ 600 · 单次内购</small><i>查看内容 →</i>
+        </button>
+        <button type="button" data-pack="review" data-cost="1200">
+          <span>03</span><h3>深度复盘包</h3>
+          <p>错题与压力复盘、下一阶段计划，考完也有交代。</p>
+          <small>✦ 1,200 · 单次内购</small><i>查看内容 →</i>
+        </button>
+        <button type="button" data-pack="sleep" data-cost="600">
+          <span>04</span><h3>睡眠恢复包</h3>
+          <p>睡前放松、明日降载计划与作息提醒，先睡好这一晚。</p>
+          <small>✦ 600 · 单次内购</small><i>查看内容 →</i>
+        </button>
+      </div>
+      <p class="packs-note">PRO 会员可直接畅用全部技能包；Plus 与基础版同学按需单买即可，内容完全一致。</p>
+    </section>
+
+    <section class="report-section" id="report" aria-labelledby="reportTitle">
+      <div class="band-heading">
+        <div>
+          <p class="eyebrow">MOOD REPORTS</p>
+          <h2 id="reportTitle">情绪数据报告：用数据温柔地理解自己。</h2>
+        </div>
+        <p>报告只基于你主动授权的心情数据生成，可随时删除，不用于训练模型。</p>
+      </div>
+      <div class="report-grid">
+        <article class="report-card">
+          <span class="report-tag">Plus 包含</span>
+          <p class="report-name">压力周报</p>
+          <p class="report-desc">每周情绪波动与压力源分析，帮助你及时发现情绪变化。</p>
+          <div class="report-preview">
+            <div class="preview-bar"><div style="width:60%;background:var(--store-warm);"></div></div>
+            <div class="preview-bar"><div style="width:40%;background:var(--store-green);"></div></div>
+            <div class="preview-bar"><div style="width:75%;background:var(--store-warm);"></div></div>
+          </div>
+          <div class="report-free">订阅免费</div>
+        </article>
+        <article class="report-card">
+          <p class="report-name">深度月报</p>
+          <p class="report-desc">整月趋势洞察与改善建议，包含情绪周期分析。</p>
+          <div class="report-preview">
+            <div class="preview-line"></div>
+            <div class="preview-line" style="width:80%;"></div>
+            <div class="preview-line" style="width:60%;"></div>
+          </div>
+          <div class="report-buy-row">
+            <div class="report-price">✦ 1,200</div>
+            <button class="button button--dark" type="button" data-report="monthly" data-cost="1200">购买</button>
+          </div>
+        </article>
+        <article class="report-card">
+          <p class="report-name">学期报告</p>
+          <p class="report-desc">阶段性成长总结与长期追踪，适合学期回顾。</p>
+          <div class="report-preview">
+            <div class="preview-donut"></div>
+          </div>
+          <div class="report-buy-row">
+            <div class="report-price">✦ 6,000</div>
+            <button class="button button--dark" type="button" data-report="semester" data-cost="6000">购买</button>
+          </div>
+        </article>
+      </div>
+      <p class="report-note">压力周报随 Plus 订阅免费；深度月报与学期报告为单次内购，明码标价、无概率无抽取。</p>
+    </section>
+
+    <section class="benefit-section" id="benefit" aria-labelledby="benefitTitle">
+      <div class="band-heading">
+        <div>
+          <p class="eyebrow">STUDENT BENEFITS</p>
+          <h2 id="benefitTitle">学生优惠与校园大使。</h2>
+        </div>
+        <p>价格卡在学生可承受的区间，拉新靠口碑而不是焦虑。以下均为原型演示，权益以正式上线评审为准。</p>
+      </div>
+      <div class="benefit-grid">
+        <article>
+          <span>教育优惠</span>
+          <h3>学生邮箱 7 折</h3>
+          <p>凭学生邮箱订阅立享 7 折，每年重新认证一次，毕业自动回到标准价。</p>
+        </article>
+        <article>
+          <span>假期特惠</span>
+          <h3>寒暑假年费 5 折</h3>
+          <p>假期是压力高发期，年费限时半价，让更多同学用得起。</p>
+        </article>
+        <article>
+          <span>免费试用</span>
+          <h3>首订 7 天免费</h3>
+          <p>任何付费方案都可先试 7 天，期间随时取消并退款，不设置挽留话术。</p>
+        </article>
+        <article class="ambassador-card">
+          <span>校园大使</span>
+          <h3>邀请同学，互相成就</h3>
+          <p>邀 3 人开通会员送月度 SVIP；邀 10 人再送限定装扮与抽卡机会——抽卡仅作为大使奖励，不是商品。</p>
+          <div class="invite-code-row">
+            <input type="text" value="NEURO2026" readonly id="inviteCode" aria-label="邀请码">
+            <button class="button button--dark" id="inviteCopy" type="button">复制邀请码</button>
+          </div>
+          <div class="ambassador-progress">
+            <i><b id="ambassadorFill"></b></i>
+            <small id="ambassadorHint">已邀请 0 / 10 位同学</small>
+          </div>
+          <button class="button button--dark" id="inviteButton" type="button">模拟邀请一位同学</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="campus-band" id="campus" aria-labelledby="campusTitle">
+      <div class="band-heading band-heading--light">
+        <div>
+          <p class="eyebrow">CAMPUS SAAS</p>
+          <h2 id="campusTitle">也为学校的心理中心服务。</h2>
+        </div>
+        <p>校园 SaaS 是元知己的早期压舱石：真实场景、可验收交付，与个人会员互不依赖。</p>
+      </div>
+      <div class="campus-grid">
+        <article><span>试点版</span><h3>¥3–5 万<small>/ 年</small></h3><p>单学院 1,000–3,000 人，3 个月可验收，适合首次合作。</p></article>
+        <article><span>标准版</span><h3>¥8–15 万<small>/ 年</small></h3><p>账号体系、数据看板、内容库与活动服务管理。</p></article>
+        <article><span>私有化 / 专属版</span><h3>¥15–30 万<small>/ 首年</small></h3><p>私有化部署与专属定制，后续年服务费为合同额 15–20%。</p></article>
+      </div>
+      <p class="campus-note">面向高校心理中心与学工部门，续费率目标 ≥ 70%。此处仅作商业模式展示，不开放自助购买。</p>
+    </section>
+
+    <section class="promise-section" id="promise" aria-labelledby="promiseTitle">
+      <div class="promise-heading">
+        <p class="eyebrow">OUR PROMISE</p>
+        <h2 id="promiseTitle">赚钱的方式，先说清楚。</h2>
+        <p>依据《人工智能拟人化互动服务管理暂行办法》，以下红线决定了哪些功能能收费、哪些永远不能。</p>
+      </div>
+      <div class="promise-list">
+        <article class="is-open">
+          <button type="button" aria-expanded="true"><span>安全能力永不付费墙</span><i>−</i></button>
+          <p>危机求助、退出、举报与人工转介对所有用户开放，无论是否登录、是否付费。</p>
+        </article>
+        <article>
+          <button type="button" aria-expanded="false"><span>明码标价，不用随机诱导消费</span><i>+</i></button>
+          <p>全部商品透明直购、完整预览，配有消费提醒与退款规则；抽卡不作为主收入，仅保留为校园大使的合规奖励。</p>
+        </article>
+        <article>
+          <button type="button" aria-expanded="false"><span>不做情感操纵式促销</span><i>+</i></button>
+          <p>不会用「离开我就会难过」这类话术催你续费；付费提示始终保持中性。</p>
+        </article>
+        <article>
+          <button type="button" aria-expanded="false"><span>防止过度依赖</span><i>+</i></button>
+          <p>连续使用每 2 小时给出显著提醒与暂停建议，陪伴不替代现实社交。</p>
+        </article>
+        <article>
+          <button type="button" aria-expanded="false"><span>情绪数据最小必要</span><i>+</i></button>
+          <p>不默认用情绪数据训练模型；单独同意、可删除、可撤回。</p>
+        </article>
+        <article>
+          <button type="button" aria-expanded="false"><span>不做医疗化宣传</span><i>+</i></button>
+          <p>元知己定位情绪支持、科普、陪伴与服务导航，不宣称诊断或治疗。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="membership-cta">
+      <p class="eyebrow">READY WHEN YOU ARE</p>
+      <h2>我在这里。你不需要立刻变好。</h2>
+      <p>先从免费陪伴开始，等你觉得值得，再考虑支持我们。</p>
+      <div class="closing-actions">
+        <a class="button button--light" href="login.html">开始陪伴 <span>→</span></a>
+        <a class="button button--line" href="questionnaire.html">先做状态问卷</a>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="membership-dialog" id="planDialog">
+    <form method="dialog"><button class="dialog-close" aria-label="关闭方案窗口" type="submit">×</button></form>
+    <p class="eyebrow" id="planDialogKicker">STUDENT PLAN</p>
+    <h2 id="planDialogTitle">进阶版 · PLUS</h2>
+    <p id="planDialogCopy">首订 7 天免费体验，期间可随时取消退款。</p>
+    <div class="plan-summary"><span id="planDialogPrice">¥19.9 / 月</span><small>学生邮箱认证后自动享受 7 折</small></div>
+    <button class="button button--dark button--block" id="planConfirm" type="button">开始 7 天体验</button>
+  </dialog>
+
+  <dialog class="membership-dialog" id="rechargeDialog">
+    <form method="dialog"><button class="dialog-close" aria-label="关闭充值窗口" type="submit">×</button></form>
+    <p class="eyebrow">STARBELL</p>
+    <h2 id="rechargeDialogTitle">确认充值</h2>
+    <p>星贝仅用于装扮、场景与内容消费，不可提现、不参与抽取。</p>
+    <div class="plan-summary"><span id="rechargeDialogAmount">✦ 600</span><small id="rechargeDialogPrice">支付 ¥6 · 原型环境模拟到账</small></div>
+    <button class="button button--dark button--block" id="rechargeConfirm" type="button">确认充值</button>
+  </dialog>
+
+  <dialog class="membership-dialog" id="packDialog">
+    <form method="dialog"><button class="dialog-close" aria-label="关闭技能包窗口" type="submit">×</button></form>
+    <p class="eyebrow">EXAM TOOLKIT</p>
+    <h2 id="packDialogTitle">考前急救包</h2>
+    <ul class="pack-detail" id="packDialogDetail"></ul>
+    <div class="plan-summary"><span id="packDialogPrice">✦ 600</span><small>单次内购 · 买到即永久可用 · 无概率无抽取</small></div>
+    <button class="button button--dark button--block" id="packConfirm" type="button">解锁技能包</button>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="shared-controls.js"></script>
+  <script src="wallet.js"></script>
+  <script src="mobile-nav.js"></script>
+  <script src="membership.js"></script>
+</body>
+</html>
