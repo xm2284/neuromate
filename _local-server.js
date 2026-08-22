@@ -1,4 +1,4 @@
-// 元知己 V1.4 本地演示服务器（零依赖，node _local-server.js [端口]）
+// 元知己 V1.6 本地演示服务器（零依赖，node _local-server.js [端口]）
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -10,7 +10,7 @@ const apiRuntimeConfig = {
   baseUrl: 'https://api.deepseek.com/chat/completions',
   model: 'deepseek-chat',
   apiKey: '',
-  source: 'v15-local-demo',
+  source: 'v16-local-demo',
 };
 
 const MIME = {
@@ -92,6 +92,81 @@ function localReply(message, context = {}) {
   return `我在认真听。现在是${mood}状态，我们可以慢慢把这件事说清楚。`;
 }
 
+function buildAgentAnalysis(body = {}) {
+  const input = String(body.input || body.message || '');
+  const scenario = String(body.scenario || 'exam');
+  const crisis = /(不想活|自杀|伤害自己|结束生命|活着没意思|撑不下去)/.test(input);
+  if (crisis) {
+    return {
+      outputs: {
+        safety: '检测到可能涉及生命安全的表达，停止普通学习建议，优先连接现实支持。',
+        scenario: '安全优先流程。',
+        state: '用户可能处在高风险或极端痛苦状态，需要现实中的人立即介入。',
+        cognition: '此时不做认知纠偏，先确认安全和陪伴。',
+        memory: '本地演示不会上传隐私数据，仅保留当前页面状态。',
+        action: '请尽快联系可信赖的人陪在身边，并联系学校心理中心或当地急救。'
+      },
+      result: {
+        risk: '红色 / 需要现实支持',
+        scenario: '安全优先流程',
+        pattern: '高风险表达待人工确认',
+        strategy: '停止普通干预 + 现实支持转介',
+        avatar: '我很重视你刚才说的话。现在先不要一个人承受，请尽快联系一位可信赖的人陪在身边，并联系学校心理中心或当地急救。',
+        actions: ['联系一位可信赖的人', '不要独处', '联系学校心理中心', '紧急情况下联系当地急救']
+      },
+      kb: {
+        do: ['认真确认当下安全', '鼓励现实中的人立即介入'],
+        avoid: ['不继续普通学习建议', '不承诺完全保密'],
+        micro: ['联系可信赖的人', '前往有人陪伴的空间']
+      },
+      offline: true
+    };
+  }
+  const preset = scenario === 'defense'
+    ? {
+        scenario: '答辩前 / 汇报前',
+        pattern: '被评价焦虑',
+        strategy: '身体稳定 + 答辩三件套',
+        avatar: '答辩前紧张不代表你不行，而是你很在意结果。现在先不大改内容，我们只抓开场三十秒、项目亮点和三个可能追问。',
+        actions: ['做三轮慢呼吸', '读一遍开场三十秒', '写下三个可能问题', '准备一句缓冲话术']
+      }
+    : scenario === 'fatigue'
+      ? {
+          scenario: '连续学习后 / 疲劳透支',
+          pattern: '低效率硬撑',
+          strategy: '停止加码 + 能量恢复',
+          avatar: '现在看不进去不是意志力差，而是大脑需要恢复。先离开屏幕五分钟，喝水、活动肩颈，回来后只整理三道错题。',
+          actions: ['离开屏幕五分钟', '喝水并活动肩颈', '只整理三道错题', '设定结束学习时间']
+        }
+      : {
+          scenario: '考试周 / 期末周',
+          pattern: '任务过载 + 时间压力',
+          strategy: '最近考试优先 + 最小任务拆解',
+          avatar: '考试周任务堆在一起，慌是很正常的。我们先不处理全部科目，只处理最近一门：今晚先复习最可能考的重点，再做二十分钟错题。',
+          actions: ['列出最近一门考试', '选一个高频重点章节', '做二十分钟错题', '站起来活动五分钟']
+        };
+  return {
+    outputs: {
+      safety: '未发现自伤或极端绝望表达，可以进入普通压力支持流程。',
+      scenario: `命中${preset.scenario}场景，本地 Agent 接口已返回可演示结果。`,
+      state: '压力偏高，但仍适合用拆解任务和稳定节奏来恢复掌控感。',
+      cognition: '核心困扰更接近任务过载或评价焦虑，不是能力不足。',
+      memory: '本地演示不会上传隐私数据；接口接入后可替换为真实记忆画像。',
+      action: preset.actions.join('；')
+    },
+    result: {
+      risk: scenario === 'defense' ? '黄色' : '绿色 / 黄色边界',
+      ...preset
+    },
+    kb: {
+      do: ['承认压力真实存在', '把计划压缩到一至三个任务'],
+      avoid: ['不一次塞满整周计划', '不把熬夜包装成努力'],
+      micro: preset.actions.slice(0, 3)
+    },
+    offline: true
+  };
+}
+
 http.createServer((req, res) => {
   let p = decodeURIComponent(req.url.split('?')[0]);
   if (p === '/api/health' && req.method === 'GET') {
@@ -123,9 +198,18 @@ http.createServer((req, res) => {
         reply: localReply(body.message, body.context || {}),
         mode: 'local-fallback',
         model: apiRuntimeConfig.model,
-        fallbackReason: apiRuntimeConfig.apiKey ? 'v15_static_server_demo' : 'api_not_configured',
+        fallbackReason: apiRuntimeConfig.apiKey ? 'v16_static_server_demo' : 'api_not_configured',
       }))
       .catch(error => sendJson(res, { error: error.message || 'chat_error' }, 400));
+  }
+  if (p === '/api/agent-cluster/analyze' && req.method === 'POST') {
+    return readJson(req)
+      .then(body => sendJson(res, {
+        ok: true,
+        mode: 'local-agent-fallback',
+        data: buildAgentAnalysis(body),
+      }))
+      .catch(error => sendJson(res, { error: error.message || 'agent_error' }, 400));
   }
   if (p === '/') p = '/' + OPEN_PAGE;
   const file = path.normalize(path.join(ROOT, p));

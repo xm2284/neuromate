@@ -81,7 +81,7 @@
 .companion-renderer { position: absolute; inset: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.78); border-radius: 32px; background: radial-gradient(circle at 50% 28%, rgba(255,255,255,.95), rgba(226,235,238,.72)); box-shadow: 0 34px 72px rgba(91,105,112,.22); animation: avatar-breathe 5s ease-in-out infinite; }
 .companion-render-layer,
 .companion-render-video,
-.companion-render-static { position: absolute; inset: 0; width: 100%; height: 100%; }
+.companion-render-static { position: absolute; z-index: 1; inset: 0; width: 100%; height: 100%; }
 .companion-render-layer[hidden],
 .companion-render-video[hidden],
 .companion-render-static[hidden],
@@ -227,7 +227,29 @@
   .companion-header .profile-button { margin-right: 78px; }
 }
 
-/* ===== V1.4 新增：3D 数字人入口 ===== */
+/* ===== V1.6：3D 数字人入口 ===== */
 @media (max-width: 820px) {
   .avatar-mode-switch--full { max-width: calc(100vw - 42px); }
 }
+
+/* ===== V1.6 · 环境场景：白天 / 黑夜 / 雨天（石若曦 · 场景联动） ===== */
+.scene-panel { margin-top: 14px; }
+.scene-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.scene-options button { min-height: 52px; border: 1px solid rgba(52,64,74,.12); border-radius: 8px; display: grid; justify-items: center; align-content: center; gap: 2px; color: #56636b; background: rgba(255,255,255,.6); cursor: pointer; transition: border-color 180ms ease, background 180ms ease, transform 180ms ease; }
+.scene-options button b { font-size: 18px; line-height: 1; }
+.scene-options button small { font-size: 9px; }
+.scene-options button:hover { transform: translateY(-2px); }
+.scene-options button.active { color: #fff; background: #9fb7c2; border-color: #9fb7c2; }
+
+/* 舞台环境基调：白天 / 黑夜 / 雨天（作用于数字人渲染容器，不影响页面可读性） */
+body.scene-day .companion-renderer { background: radial-gradient(circle at 50% 28%, rgba(255,250,238,.97), rgba(244,231,205,.88)); }
+body.scene-night .companion-renderer { background: radial-gradient(circle at 50% 28%, rgba(54,66,96,.99), rgba(28,36,58,.97)); box-shadow: 0 34px 72px rgba(18,26,44,.52); }
+body.scene-rain .companion-renderer { background: radial-gradient(circle at 50% 28%, rgba(70,84,100,.99), rgba(44,54,70,.97)); box-shadow: 0 34px 72px rgba(24,32,46,.5); }
+body.scene-night .avatar-stage .orbit-node,
+body.scene-rain .avatar-stage .orbit-node { color: #dde4ec; background: rgba(24,32,46,.6); border-color: rgba(255,255,255,.14); }
+body.scene-night .avatar-stage .avatar-orbit,
+body.scene-rain .avatar-stage .avatar-orbit { border-color: rgba(255,255,255,.14); }
+
+/* 雨天只保留背景色和少量 3D 雨丝，避免密集雨帘遮挡数字人 */
+body.scene-rain .companion-renderer::before { content: ""; position: absolute; z-index: 0; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(255,255,255,.03), transparent); }
+@keyframes scene-rainfall { from { transform: translateY(-14%); } to { transform: translateY(14%); } }

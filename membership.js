@@ -244,7 +244,7 @@
     if (!consumable) {
       wallet.own(button.dataset.item);
       if (avatarItemMap[button.dataset.item]) {
-        try { localStorage.setItem('neuromate-avatar-mode-v15', avatarItemMap[button.dataset.item]); } catch (error) { /* ignore */ }
+        try { localStorage.setItem(window.NEUROMATE_AVATAR_KEY || 'neuromate-avatar-mode-v16', avatarItemMap[button.dataset.item]); } catch (error) { /* ignore */ }
       }
       showToast(button.dataset.item.startsWith('avatar-')
         ? (avatarItemMap[button.dataset.item] ? `已获得${button.dataset.name}，已同步到数字人陪伴页。` : `已获得${button.dataset.name}，去语音谈心页点「换装」即可使用。`)

@@ -15,7 +15,7 @@
     if (avatarRegistry) avatarRegistry.save(id);
   }
 
-  // ---------- V1.4：向 3D 数字人派发事件（voice-avatar.js 监听） ----------
+  // ---------- V1.6：向 3D 数字人派发事件（voice-avatar.js 监听） ----------
   function dispatchAvatar(type, extra = {}) {
     document.dispatchEvent(new CustomEvent('dh:avatar', { detail: { type, ...extra } }));
   }
@@ -44,9 +44,9 @@
 
   // ---------- 预设人声匹配 ----------
   const voicePreferences = {
-    'female-soft':   { langPref: ['zh-CN', 'zh-TW', 'zh'], genderHint: /female|女|ting|mei|xiao|hui/i },
-    'female-warm':   { langPref: ['zh-CN', 'zh-TW', 'zh'], genderHint: /female|女|ting|mei|xiao|hui/i },
-    'male-gentle':   { langPref: ['zh-CN', 'zh-TW', 'zh'], genderHint: /male|男|yun|kang|wei/i }
+    'female-soft':   { langPref: ['zh-CN', 'zh-TW', 'zh'], preferred: /xiaoxiao|xiaoyi|xiaomo|晓晓|晓伊|小|female|女/i, genderHint: /female|女|ting|mei|xiao|hui|晓/i },
+    'female-warm':   { langPref: ['zh-CN', 'zh-TW', 'zh'], preferred: /xiaoxiao|xiaoyi|xiaomo|晓晓|晓伊|小|female|女/i, genderHint: /female|女|ting|mei|xiao|hui|晓/i },
+    'male-gentle':   { langPref: ['zh-CN', 'zh-TW', 'zh'], preferred: /yunxi|yunyang|xiaobei|云希|云扬|小北|male|男/i, genderHint: /male|男|yun|kang|wei|云/i }
   };
 
   let availableVoices = [];
@@ -63,7 +63,8 @@
     if (!availableVoices.length) return;
     const pref = voicePreferences[voiceType] || voicePreferences['female-soft'];
     // 优先匹配中文 + 性别暗示
-    let voice = availableVoices.find(v => pref.langPref.some(l => v.lang.startsWith(l)) && pref.genderHint.test(v.name));
+    let voice = availableVoices.find(v => pref.langPref.some(l => v.lang.startsWith(l)) && pref.preferred.test(`${v.name} ${v.voiceURI}`));
+    if (!voice) voice = availableVoices.find(v => pref.langPref.some(l => v.lang.startsWith(l)) && pref.genderHint.test(v.name));
     if (!voice) voice = availableVoices.find(v => pref.langPref.some(l => v.lang.startsWith(l)));
     if (!voice) voice = availableVoices[0];
     state.voiceURI = voice.voiceURI;
@@ -245,10 +246,23 @@
     document.querySelectorAll('.vrm-name').forEach((node) => { node.textContent = info.name; });
     if (statusText) statusText.textContent = `${info.name}在这里，随时倾听`;
     state.voicePreset = info.voicePreset || state.voicePreset;
+    if (info.voiceRate) state.rate = Number(info.voiceRate);
+    if (info.voicePitch) state.pitch = Number(info.voicePitch);
     selectVoice(state.voicePreset);
-    if (window.NeuroMateApiConfig && info.voicePreset) window.NeuroMateApiConfig.save({ voicePreset: info.voicePreset });
+    if (window.NeuroMateApiConfig) {
+      const voicePatch = {};
+      if (info.voicePreset) voicePatch.voicePreset = info.voicePreset;
+      if (info.voiceRate) voicePatch.rate = String(info.voiceRate);
+      if (info.voicePitch) voicePatch.pitch = String(info.voicePitch);
+      if (Object.keys(voicePatch).length) window.NeuroMateApiConfig.save(voicePatch);
+    }
     document.querySelectorAll('[data-voice]').forEach((btn) => {
       const active = btn.dataset.voice === state.voicePreset;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-checked', String(active));
+    });
+    document.querySelectorAll('[data-rate]').forEach((btn) => {
+      const active = Number(btn.dataset.rate) === state.rate;
       btn.classList.toggle('active', active);
       btn.setAttribute('aria-checked', String(active));
     });
@@ -657,7 +671,7 @@
   applySiteAvatar();
 
   window.addEventListener('storage', (event) => {
-    if (event.key === (window.NEUROMATE_AVATAR_KEY || 'neuromate-avatar-mode-v15')) applySiteAvatar();
+    if (event.key === (window.NEUROMATE_AVATAR_KEY || 'neuromate-avatar-mode-v16')) applySiteAvatar();
   });
 
   document.querySelectorAll('[data-rate]').forEach((btn) => {

@@ -438,7 +438,8 @@ body { transition: none; }
 .comfort-close:hover { background: var(--cool); }
 
 @media (max-width: 768px) {
-  .comfort-bar { gap: 4px; padding: 5px; }
+  .comfort-bar,
+  .comfort-fab { display: none !important; }
   .comfort-btn { min-width: 40px; min-height: 40px; padding: 0 12px; font-size: 12px; }
   .comfort-btn span { display: none; }
   .comfort-btn svg { width: 20px; height: 20px; }

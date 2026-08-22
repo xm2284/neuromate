@@ -39,14 +39,19 @@
             <button type="button" data-item="moon" aria-pressed="false"><b>☾</b><small>月光</small></button>
             <button type="button" data-item="sun" aria-pressed="false"><b>☀</b><small>阳光</small></button>
             <button type="button" data-item="cloud" aria-pressed="false"><b>☁</b><small>云朵</small></button>
+            <button type="button" data-item="campus" aria-pressed="false"><b>✎</b><small>校园</small></button>
+            <button type="button" data-item="sweater" aria-pressed="false"><b>♨</b><small>毛衣</small></button>
           </div>
         </div>
         <div class="costume-group">
           <p>配饰（可穿脱）</p>
           <div class="costume-options" data-category="accessories">
             <button class="active" type="button" data-item="none" aria-pressed="true"><b>—</b><small>无</small></button>
+            <button type="button" data-item="bow" aria-pressed="false"><b>🎀</b><small>蝴蝶结</small></button>
+            <button type="button" data-item="cat-ears" aria-pressed="false"><b>🐱</b><small>猫耳</small></button>
+            <button type="button" data-item="star-wand" aria-pressed="false"><b>🪄</b><small>手杖</small></button>
+            <button type="button" data-item="round-glasses" aria-pressed="false"><b>👓</b><small>眼镜</small></button>
             <button type="button" data-item="hat" aria-pressed="false"><b>▲</b><small>礼帽</small></button>
-            <button type="button" data-item="glasses" aria-pressed="false"><b>∞</b><small>镜框</small></button>
             <button type="button" data-item="flower" aria-pressed="false"><b>✿</b><small>花环</small></button>
           </div>
         </div>
@@ -55,6 +60,16 @@
           <div><input id="mateNameInput" maxlength="8" placeholder="元元" autocomplete="off"><button id="mateNameSave" type="button">保存</button></div>
         </div>
       </section>
+
+      <section class="costume-panel scene-panel" aria-label="环境场景">
+        <header><span>环境场景</span><small>白天 / 黑夜 / 雨天</small></header>
+        <div class="scene-options">
+          <button class="active" type="button" data-scene="day" aria-pressed="true"><b>☀</b><small>白天</small></button>
+          <button type="button" data-scene="night" aria-pressed="false"><b>☾</b><small>黑夜</small></button>
+          <button type="button" data-scene="rain" aria-pressed="false"><b>☂</b><small>雨天</small></button>
+        </div>
+      </section>
+
       <button class="daily-line" id="dailyLine" type="button"><span>“</span><p>深呼吸，你比想象中更强大。</p></button>
     </aside>
 

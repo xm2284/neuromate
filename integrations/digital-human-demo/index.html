@@ -7,7 +7,7 @@
 <link rel="icon" href="data:,">
 <style>
 /* ============================================================
-   元知己 · 数字人形象切换 Demo（V1.5 最终整合）
+   元知己 · 数字人形象切换 Demo（V1.6 完整整合）
    Live2D 主形象 + VRM/视频/静态兜底 + 装扮/音色/API/状态联动
    技术栈：pixi-live2d-display（Live2D）+ three.js / three-vrm（VRM）
    ============================================================ */
@@ -293,15 +293,15 @@ body.is-quiet .outfit-badge { opacity: .24; }
   cursor: pointer;
 }
 .toolbar button.is-on { background: var(--ocean-soft); color: var(--ink); border-color: var(--ocean-soft); }
-.v15-panel {
+.v16-panel {
   border-top: 1px solid var(--line);
   padding: 12px 14px 10px;
   display: grid;
   gap: 12px;
   background: linear-gradient(180deg, #fffdf9, #fbf8f3);
 }
-.v15-section { display: grid; gap: 8px; }
-.v15-title {
+.v16-section { display: grid; gap: 8px; }
+.v16-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -309,7 +309,7 @@ body.is-quiet .outfit-badge { opacity: .24; }
   color: var(--muted);
   font-size: 12px;
 }
-.v15-title strong { color: var(--ink); font-size: 13px; }
+.v16-title strong { color: var(--ink); font-size: 13px; }
 .seg-row,
 .outfit-list {
   display: flex;
@@ -350,7 +350,7 @@ body.is-quiet .outfit-badge { opacity: .24; }
 .outfit-card strong { font-size: 12px; }
 .outfit-card small { color: var(--muted); font-size: 11px; line-height: 1.45; }
 .outfit-card[data-locked="true"] { opacity: .74; }
-.v15-memory {
+.v16-memory {
   padding: 9px 11px;
   border-radius: 10px;
   background: rgba(237, 243, 246, .82);
@@ -358,7 +358,7 @@ body.is-quiet .outfit-badge { opacity: .24; }
   font-size: 12px;
   line-height: 1.6;
 }
-.v15-memory strong { color: var(--ink); }
+.v16-memory strong { color: var(--ink); }
 
 /* ---- API 配置弹窗 ---- */
 .api-modal {
@@ -492,21 +492,21 @@ footer {
       <button id="btnMood">换心情</button>
       <button id="btnApiConfig">API 配置</button>
     </div>
-    <aside class="v15-panel" aria-label="V1.5 整合控制台">
-      <section class="v15-section">
-        <div class="v15-title"><strong>状态口型</strong><span id="moodName">平静</span></div>
+    <aside class="v16-panel" aria-label="V1.6 整合控制台">
+      <section class="v16-section">
+        <div class="v16-title"><strong>状态口型</strong><span id="moodName">平静</span></div>
         <div class="seg-row" id="moodButtons"></div>
       </section>
-      <section class="v15-section">
-        <div class="v15-title"><strong>装扮与星贝</strong><span id="starBalance">星贝 1200</span></div>
+      <section class="v16-section">
+        <div class="v16-title"><strong>装扮与星贝</strong><span id="starBalance">星贝 1200</span></div>
         <div class="outfit-list" id="outfitList"></div>
       </section>
-      <section class="v15-section">
-        <div class="v15-title"><strong>陪伴体验</strong><span id="quietStatus">普通模式</span></div>
+      <section class="v16-section">
+        <div class="v16-title"><strong>陪伴体验</strong><span id="quietStatus">普通模式</span></div>
         <div class="seg-row">
           <button type="button" id="btnQuiet">安静陪伴</button>
         </div>
-        <div class="v15-memory" id="memoryCard"><strong>本地记忆：</strong>还没有新的关注点。</div>
+        <div class="v16-memory" id="memoryCard"><strong>本地记忆：</strong>还没有新的关注点。</div>
       </section>
     </aside>
     <form class="input-row" id="chatForm">
@@ -546,7 +546,7 @@ footer {
   </section>
 </div>
 
-<footer>元知己 · 心理Agent技术组 · V1.5 数字人最终版 —— Live2D 主形象 · 装扮商城 · 状态口型 · 安静陪伴 · API 配置</footer>
+<footer>元知己 · 心理Agent技术组 · V1.6 数字人完整整合版 —— Live2D 主形象 · 离线兜底 · 装扮商城 · 状态口型 · 安静陪伴 · API 配置</footer>
 
 <!-- Live2D 运行时（全局脚本） -->
 <script src="js/lib/live2d.min.js"></script>

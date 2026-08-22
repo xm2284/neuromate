@@ -5,7 +5,7 @@
   const wallet = window.NeurWallet;
   const ws = wallet.state;
   const avatarRegistry = window.NeuroMateAvatarRegistry;
-  const avatarKey = window.NEUROMATE_AVATAR_KEY || 'neuromate-avatar-mode-v15';
+  const avatarKey = window.NEUROMATE_AVATAR_KEY || 'neuromate-avatar-mode-v16';
   const defaults = {
     level: 12,
     affection: 86,
@@ -13,12 +13,12 @@
     equipped: { clothes: 'star', accessories: 'none', appearance: 'clear' }
   };
   const lookNames = {
-    clothes: { star: '星星套装', moon: '月光套装', sun: '阳光套装', cloud: '云朵套装' },
-    accessories: { none: '无配饰', hat: '月影礼帽', glasses: '专注镜框', flower: '安睡花环' },
+    clothes: { star: '星星套装', moon: '月光套装', sun: '阳光套装', cloud: '云朵套装', campus: '校园形象', sweater: '治愈系毛衣' },
+    accessories: { none: '无配饰', bow: '蝴蝶结', 'cat-ears': '猫耳', 'star-wand': '星星手杖', 'round-glasses': '圆框眼镜', hat: '月影礼帽', glasses: '专注镜框', flower: '安睡花环' },
     appearance: { clear: '清透神态', soft: '柔和神态', bright: '明亮神态' }
   };
-  const costumeSymbols = { star: '★', moon: '☾', sun: '☀', cloud: '☁' };
-  const accessorySymbols = { none: '', hat: '▲', glasses: '∞', flower: '✿ ✿ ✿' };
+  const costumeSymbols = { star: '★', moon: '☾', sun: '☀', cloud: '☁', campus: '✎', sweater: '♨' };
+  const accessorySymbols = { none: '', bow: '🎀', 'cat-ears': '🐱', 'star-wand': '🪄', 'round-glasses': '👓', hat: '▲', glasses: '∞', flower: '✿ ✿ ✿' };
   const expressionCopy = {
     smile: '今天想让我换成什么样子？',
     focus: '专注模式准备好了，我们慢慢来。',
@@ -52,6 +52,7 @@
   const toast = document.querySelector('#toast');
   const avatarPortrait = document.querySelector('#avatarPortrait');
   const avatarImage = document.querySelector('#avatarImage');
+  const avatarVideo = document.querySelector('#avatarVideo');
   const spaceAvatarName = document.querySelector('#spaceAvatarName');
   const spaceAvatarMeta = document.querySelector('#spaceAvatarMeta');
   const spaceAvatarTabs = document.querySelector('#spaceAvatarTabs');
@@ -206,7 +207,14 @@
 
   function avatarPreviewSrc(info) {
     if (!info) return 'assets/yuanchu-card.svg';
+    if (info.outfitImages) {
+      const acc = state.equipped.accessories;
+      const clothes = state.equipped.clothes;
+      return info.outfitImages[acc] || info.outfitImages[clothes] || info.outfitImages.default || info.preview || info.model;
+    }
     if (info.id === 'yuanchu') return info.preview || 'assets/yuanchu-card.svg';
+    if (info.render === 'live2d' || info.render === 'vrm') return 'assets/digital-human.png';
+    if (info.preview && !info.preview.includes('yuanchu-card.svg')) return info.preview;
     const color = encodeURIComponent(info.color || '#8fb6cc');
     const name = encodeURIComponent(info.name || '元知己');
     const short = encodeURIComponent(info.short || (info.name || '元').slice(0, 1));
@@ -218,10 +226,22 @@
     const info = activeAvatar();
     if (!info) return;
     if (spaceAvatarName) spaceAvatarName.textContent = info.name;
-    if (spaceAvatarMeta) spaceAvatarMeta.textContent = `${info.type} · ${info.role} · ${info.source || '当前形象'}`;
+    if (spaceAvatarMeta) spaceAvatarMeta.textContent = `${info.type} · ${info.role}`;
+    if (avatarPortrait) avatarPortrait.classList.toggle('is-video-preview', info.render === 'video');
     if (avatarImage) {
+      avatarImage.hidden = info.render === 'video';
       avatarImage.src = avatarPreviewSrc(info);
       avatarImage.alt = `${info.name}形象预览`;
+    }
+    if (avatarVideo) {
+      avatarVideo.hidden = info.render !== 'video';
+      if (info.render === 'video') {
+        avatarVideo.src = info.model;
+        avatarVideo.play().catch(() => {});
+      } else {
+        avatarVideo.pause();
+        avatarVideo.removeAttribute('src');
+      }
     }
     if (document.querySelector('.companion-link')) document.querySelector('.companion-link').innerHTML = `去和${info.name}聊天 <span>→</span>`;
     if (spaceAvatarTabs) {
@@ -241,11 +261,12 @@
       button.type = 'button';
       button.dataset.avatarId = item.id;
       button.textContent = item.name;
+      button.title = `${item.name} · ${item.type}`;
       button.style.setProperty('--avatar-color', item.color || '#9fb7c2');
       button.addEventListener('click', () => {
         avatarRegistry.save(item.id);
         syncCurrentAvatar();
-        showToast(`已同步为${item.name}，数字人陪伴页和语音页会一起更新。`);
+        showToast(`${item.name}已同步。`);
       });
       spaceAvatarTabs.appendChild(button);
     });
@@ -303,8 +324,14 @@
   const starPool = [
     { tier: 'SSR', kind: 'clothes', item: 'moon', name: '月光套装', symbol: '☾', rate: 2, dup: 1500 },
     { tier: 'SR', kind: 'clothes', item: 'cloud', name: '云朵套装', symbol: '☁', rate: 6, dup: 400 },
+    { tier: 'SR', kind: 'clothes', item: 'campus', name: '校园形象', symbol: '✎', rate: 6, dup: 400 },
+    { tier: 'SR', kind: 'clothes', item: 'sweater', name: '治愈系毛衣', symbol: '♨', rate: 6, dup: 400 },
     { tier: 'SR', kind: 'accessories', item: 'flower', name: '安睡花环', symbol: '✿', rate: 6, dup: 400 },
     { tier: 'SR', kind: 'accessories', item: 'glasses', name: '专注镜框', symbol: '∞', rate: 6, dup: 400 },
+    { tier: 'SR', kind: 'accessories', item: 'bow', name: '蝴蝶结', symbol: '🎀', rate: 6, dup: 400 },
+    { tier: 'SR', kind: 'accessories', item: 'cat-ears', name: '猫耳', symbol: '🐱', rate: 6, dup: 400 },
+    { tier: 'SR', kind: 'accessories', item: 'star-wand', name: '星星手杖', symbol: '🪄', rate: 6, dup: 400 },
+    { tier: 'SR', kind: 'accessories', item: 'round-glasses', name: '圆框眼镜', symbol: '👓', rate: 6, dup: 400 },
     { tier: 'R', kind: 'clothes', item: 'sun', name: '阳光套装', symbol: '☀', rate: 20, dup: 100 },
     { tier: 'R', kind: 'accessories', item: 'hat', name: '月影礼帽', symbol: '▲', rate: 20, dup: 100 },
     { tier: 'R', kind: 'starbell', name: '星贝福袋', symbol: '✦', rate: 20, amount: 200 },

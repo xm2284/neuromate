@@ -1,7 +1,8 @@
 (function () {
   'use strict';
 
-  const KEY = 'neuromate-api-config-v15';
+  const KEY = 'neuromate-api-config-v16';
+  const LEGACY_KEYS = ['neuromate-api-config-v15'];
   const defaults = {
     profile: 'recommended',
     httpEndpoint: '',
@@ -15,7 +16,12 @@
 
   function load() {
     try {
-      return { ...defaults, ...(JSON.parse(localStorage.getItem(KEY)) || {}) };
+      let raw = localStorage.getItem(KEY);
+      if (!raw) {
+        raw = LEGACY_KEYS.map((key) => localStorage.getItem(key)).find(Boolean);
+        if (raw) localStorage.setItem(KEY, raw);
+      }
+      return { ...defaults, ...(JSON.parse(raw) || {}) };
     } catch (error) {
       return { ...defaults };
     }

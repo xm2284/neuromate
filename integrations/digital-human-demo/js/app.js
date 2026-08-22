@@ -1,6 +1,6 @@
 /* ============================================================
  * 元知己 · 数字人形象切换 Demo 主逻辑
- * 功能：形象切换 / Live2D+VRM+视频+静态 四渲染器 / 对话 / TTS / 口型 / V1.5 装扮与状态联动
+ * 功能：形象切换 / Live2D+VRM+视频+静态 四渲染器 / 对话 / TTS / 口型 / V1.6 装扮与状态联动
  * 技术栈：pixi-live2d-display（Live2D）+ three.js/three-vrm（VRM）
  * ============================================================ */
 import * as THREE from "./three/three.module.js";
@@ -28,8 +28,10 @@ let avatarSwitchSeq = 0;
 let availableVoices = [];
 const chatHistory = [];
 
-const SITE_AVATAR_KEY = "neuromate-avatar-mode-v15";
-const STORAGE_KEY = "neuromate-v15-demo-state";
+const SITE_AVATAR_KEY = "neuromate-avatar-mode-v16";
+const LEGACY_SITE_AVATAR_KEY = "neuromate-avatar-mode-v15";
+const STORAGE_KEY = "neuromate-v16-demo-state";
+const LEGACY_STORAGE_KEY = "neuromate-v15-demo-state";
 const DEFAULT_STATE = {
   mood: "calm",
   outfit: "base",
@@ -66,11 +68,16 @@ const LIVE2D_LAYOUTS = {
   mao: { h: 0.92, w: 0.86, y: 1.0 }
 };
 
-let v15State = loadV15State();
+let demoState = loadDemoState();
 
-function loadV15State() {
+function loadDemoState() {
   try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    let raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      raw = localStorage.getItem(LEGACY_STORAGE_KEY);
+      if (raw) localStorage.setItem(STORAGE_KEY, raw);
+    }
+    const saved = JSON.parse(raw || "{}");
     return {
       ...DEFAULT_STATE,
       ...saved,
@@ -82,15 +89,15 @@ function loadV15State() {
   }
 }
 
-function saveV15State() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(v15State));
+function saveDemoState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(demoState));
 }
 
-function moodById(id = v15State.mood) {
+function moodById(id = demoState.mood) {
   return MOODS.find((mood) => mood.id === id) || MOODS[0];
 }
 
-function outfitById(id = v15State.outfit) {
+function outfitById(id = demoState.outfit) {
   return OUTFITS.find((outfit) => outfit.id === id) || OUTFITS[0];
 }
 
@@ -125,8 +132,8 @@ function isUnlocked(outfitId) {
 
 function setMood(id, { speakLine = false } = {}) {
   const mood = moodById(id);
-  v15State.mood = mood.id;
-  saveV15State();
+  demoState.mood = mood.id;
+  saveDemoState();
   document.body.dataset.mood = mood.id;
   document.documentElement.style.setProperty("--mood-accent", mood.color);
   document.documentElement.style.setProperty("--mood-soft", `${mood.color}2b`);
@@ -145,9 +152,9 @@ function setOutfit(id, { notify = true } = {}) {
     if (notify) addMsg(`${outfit.name} 暂时不适合 ${avatar.name}，我先保留当前装扮。`, "avatar");
     return;
   }
-  if (!v15State.unlocked.includes(outfit.id)) v15State.unlocked.push(outfit.id);
-  v15State.outfit = outfit.id;
-  saveV15State();
+  if (!demoState.unlocked.includes(outfit.id)) demoState.unlocked.push(outfit.id);
+  demoState.outfit = outfit.id;
+  saveDemoState();
   updateOutfitBadge();
   renderOutfits();
   if (notify) {
@@ -159,7 +166,7 @@ function setOutfit(id, { notify = true } = {}) {
 function updateOutfitBadge() {
   const outfit = outfitById();
   $("#outfitBadge").innerHTML = `<strong>当前装扮：${outfit.name}</strong><small>${outfit.desc} · ${outfit.source}</small>`;
-  $("#starBalance").textContent = `星贝 ${v15State.stars}`;
+  $("#starBalance").textContent = `星贝 ${demoState.stars}`;
 }
 
 function renderMoodButtons() {
@@ -183,7 +190,7 @@ function renderOutfits() {
     const unlocked = isUnlocked(outfit.id);
     const card = document.createElement("button");
     card.type = "button";
-    card.className = "outfit-card" + (v15State.outfit === outfit.id ? " is-active" : "");
+    card.className = "outfit-card" + (demoState.outfit === outfit.id ? " is-active" : "");
     card.dataset.locked = "false";
     card.innerHTML = `<strong>${outfit.name}</strong><small>免费可用 · ${outfit.desc}</small>`;
     card.addEventListener("click", () => setOutfit(outfit.id));
@@ -193,12 +200,12 @@ function renderOutfits() {
 }
 
 function toggleQuiet(force) {
-  v15State.quiet = typeof force === "boolean" ? force : !v15State.quiet;
-  saveV15State();
-  document.body.classList.toggle("is-quiet", v15State.quiet);
-  $("#quietStatus").textContent = v15State.quiet ? "安静模式" : "普通模式";
-  $("#btnQuiet").classList.toggle("is-active", v15State.quiet);
-  $("#stageCaption").textContent = v15State.quiet
+  demoState.quiet = typeof force === "boolean" ? force : !demoState.quiet;
+  saveDemoState();
+  document.body.classList.toggle("is-quiet", demoState.quiet);
+  $("#quietStatus").textContent = demoState.quiet ? "安静模式" : "普通模式";
+  $("#btnQuiet").classList.toggle("is-active", demoState.quiet);
+  $("#stageCaption").textContent = demoState.quiet
     ? "安静陪伴 · 我先退回水滴里，需要时再轻轻唤醒。"
     : moodById().caption;
 }
@@ -209,26 +216,26 @@ function inferMoodAndFocus(text) {
   if (/完成|开心|高兴|成功|好消息/.test(text)) return { mood: "joy", focus: "正向事件" };
   if (/考试|作业|学习|复习/.test(text)) return { mood: "focus", focus: "学习和考试" };
   if (/睡|失眠|睡不着/.test(text)) return { mood: "calm", focus: "睡眠" };
-  return { mood: v15State.mood, focus: v15State.memory.focus || "日常陪伴" };
+  return { mood: demoState.mood, focus: demoState.memory.focus || "日常陪伴" };
 }
 
 function updateMemory(text, replyMood) {
   const inferred = inferMoodAndFocus(text);
-  v15State.memory.count += 1;
-  v15State.memory.focus = inferred.focus;
-  if (/不想说|安静|别问/.test(text)) v15State.memory.preference = "少追问，陪着就好";
-  saveV15State();
-  $("#memoryCard").innerHTML = `<strong>本地记忆：</strong>最近关注「${v15State.memory.focus}」，偏好「${v15State.memory.preference}」，已聊 ${v15State.memory.count} 次。`;
+  demoState.memory.count += 1;
+  demoState.memory.focus = inferred.focus;
+  if (/不想说|安静|别问/.test(text)) demoState.memory.preference = "少追问，陪着就好";
+  saveDemoState();
+  $("#memoryCard").innerHTML = `<strong>本地记忆：</strong>最近关注「${demoState.memory.focus}」，偏好「${demoState.memory.preference}」，已聊 ${demoState.memory.count} 次。`;
   if (replyMood) setMood(replyMood);
 }
 
 function initV15Panel() {
   renderMoodButtons();
-  setMood(v15State.mood);
-  toggleQuiet(v15State.quiet);
+  setMood(demoState.mood);
+  toggleQuiet(demoState.quiet);
   renderOutfits();
-  $("#memoryCard").innerHTML = v15State.memory.focus
-    ? `<strong>本地记忆：</strong>最近关注「${v15State.memory.focus}」，偏好「${v15State.memory.preference}」，已聊 ${v15State.memory.count} 次。`
+  $("#memoryCard").innerHTML = demoState.memory.focus
+    ? `<strong>本地记忆：</strong>最近关注「${demoState.memory.focus}」，偏好「${demoState.memory.preference}」，已聊 ${demoState.memory.count} 次。`
     : "<strong>本地记忆：</strong>还没有新的关注点。";
 }
 
@@ -508,8 +515,8 @@ async function switchAvatar(index) {
   $("#infoSrc").textContent = "模型：" + avatar.src;
   updateVoiceStatus(avatar);
   if (!supportsOutfit(outfitById(), avatar)) {
-    v15State.outfit = "base";
-    saveV15State();
+    demoState.outfit = "base";
+    saveDemoState();
   }
   renderOutfits();
 
@@ -554,7 +561,11 @@ function renderBar() {
 
 function initialAvatarIndex() {
   try {
-    const saved = localStorage.getItem(SITE_AVATAR_KEY);
+    let saved = localStorage.getItem(SITE_AVATAR_KEY);
+    if (!saved) {
+      saved = localStorage.getItem(LEGACY_SITE_AVATAR_KEY);
+      if (saved) localStorage.setItem(SITE_AVATAR_KEY, saved);
+    }
     const hit = AVATARS.findIndex((avatar) => avatar.id === saved);
     return hit >= 0 ? hit : 0;
   } catch (e) {
@@ -667,10 +678,10 @@ async function callAI(message, history) {
     avatar: { name: avatar.name, role: avatar.role },
     context: {
       mood: moodById().label,
-      moodId: v15State.mood,
+      moodId: demoState.mood,
       outfit: outfitById().name,
-      quiet: v15State.quiet,
-      memory: v15State.memory
+      quiet: demoState.quiet,
+      memory: demoState.memory
     }
   })
   });
@@ -768,7 +779,7 @@ $("#btnSpeak").addEventListener("click", () => {
   }
 });
 $("#btnMood").addEventListener("click", () => {
-  moodIndex = (MOODS.findIndex((mood) => mood.id === v15State.mood) + 1) % MOODS.length;
+  moodIndex = (MOODS.findIndex((mood) => mood.id === demoState.mood) + 1) % MOODS.length;
   setMood(MOODS[moodIndex].id, { speakLine: true });
 });
 $("#btnQuiet").addEventListener("click", () => toggleQuiet());
@@ -870,3 +881,4 @@ initV15Panel();
 detectAI();
 syncProfileChip();
 switchAvatar(initialAvatarIndex());
+

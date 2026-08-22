@@ -9,7 +9,8 @@
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   color: var(--morandi-ink);
   background: var(--morandi-bg);
   position: relative;
@@ -810,6 +811,7 @@
 .setting-options button[data-rate="0.7"]::before { content: "🐢"; font-size: 13px; }
 .setting-options button[data-rate="0.85"]::before { content: "🍵"; font-size: 13px; }
 .setting-options button[data-rate="1.0"]::before { content: "🚶"; font-size: 13px; }
+.setting-options button[data-rate="1.1"]::before { content: "✨"; font-size: 13px; }
 .setting-options button[data-style="empathy"]::before { content: "💙"; font-size: 13px; }
 .setting-options button[data-style="mindfulness"]::before { content: "🧘"; font-size: 13px; }
 .setting-options button[data-style="relax"]::before { content: "🌙"; font-size: 13px; }
@@ -874,10 +876,23 @@
 
 /* ========== 响应式：移动端优先 ========== */
 @media (max-width: 768px) {
-  .voice-header { padding: 14px 18px; gap: 8px; }
+  .voice-header { padding: 12px 14px; gap: 8px; grid-template-columns: auto 1fr auto auto; }
   .voice-back span { display: none; }
-  .voice-status { padding: 8px 14px; font-size: 12px; }
+  .voice-status { padding: 8px 10px; font-size: 12px; justify-self: start; }
   .voice-status .status-text { display: none; }
+  .voice-avatar-switch {
+    grid-column: 1 / -1;
+    order: 5;
+    max-width: 100%;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+  .voice-avatar-switch::-webkit-scrollbar { display: none; }
+  .voice-avatar-switch button { flex: 0 0 auto; min-height: 30px; padding: 0 10px; color: var(--morandi-ink-soft); background: rgba(255,255,255,.72); border-color: rgba(93,113,123,.14); }
+  .voice-api-entry { min-height: 38px; padding: 0 10px; color: var(--morandi-ink-soft); background: rgba(255,255,255,.72); border-color: rgba(93,113,123,.14); }
 
   .voice-conversation { padding: 20px 18px 12px; gap: 18px; }
   .voice-conversation::before,
@@ -908,10 +923,10 @@
 
   /* 麦克风适当缩小但仍保持可点击 */
   .voice-mic {
-    width: 76px;
-    height: 76px;
+    width: 68px;
+    height: 68px;
   }
-  .voice-mic .mic-icon svg { width: 26px; height: 26px; }
+  .voice-mic .mic-icon svg { width: 24px; height: 24px; }
   .voice-mic .mic-ring { inset: -8px; }
   .voice-pause { width: 44px; height: 44px; }
 
@@ -999,7 +1014,7 @@ body[data-motion-paused="true"] .mic-wave::after {
 @media (max-width: 820px) {
   .voice-body { flex-direction: column; }
   .vrm-stage {
-    flex: 0 0 30vh;
+    flex: 0 0 210px;
     margin: 8px 16px 0;
     border-radius: 18px;
   }
@@ -1092,10 +1107,18 @@ body[data-motion-paused="true"] .mic-wave::after {
 .ambient-label { display: none; }
 
 @media (max-width: 820px) {
-  .vrm-stage { margin: 4px 16px 0; }
-  .voice-console { margin: 0 14px 14px; border-radius: 22px; }
+  .vrm-stage { margin: 4px 16px 0; min-height: 210px; max-height: 230px; }
+  .voice-console { margin: 0 14px 10px; padding: 12px 14px 14px; gap: 10px; border-radius: 22px; }
   .voice-conversation { padding: 18px 16px 12px; }
   .voice-bubble { max-width: 92%; }
+  .voice-input-hint { font-size: 11px; }
+  .voice-controls { margin: 0 0 8px; }
+  .voice-mic .mic-label { display: none; }
+  .voice-aux { gap: 12px; }
+  .ambient-select button { width: 32px; height: 32px; }
+  .volume-control input[type="range"] { width: 64px; }
+  .vrm-nametag { top: 10px; left: 10px; max-width: calc(100% - 92px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .vrm-switch { right: 10px; bottom: 10px; padding: 7px 11px; }
 }
 
 /* V1.4 换装按钮（装扮系统雏形） */

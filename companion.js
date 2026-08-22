@@ -277,16 +277,6 @@
     }
   });
 
-  // V1.2 · 承接 Agent 集群交接：读取 agents.html 写入的结构化上下文
-  let handoff = null;
-  try { handoff = JSON.parse(sessionStorage.getItem('neuromate.agentContext') || 'null'); } catch (e) { handoff = null; }
-  if (handoff && handoff.avatar) {
-    const summary = handoff.strategy || '继续刚才的分析';
-    appendMessage('assistant', `我刚和 Agent 团队梳理过你的情况（${handoff.scenario || '情绪分析'}，策略：${summary}）。我们接着往下走，你现在想先聊哪一步？`, true);
-    adapterState.textContent = '已承接 Agent 集群结果';
-    sessionStorage.removeItem('neuromate.agentContext');
-  }
-
   /* ===== V1.3 · 换装 / 称呼跨页同步（数据键与 space 页对齐） =====
    * 换装数据源：neuromate-custom-space-v1.equipped（clothes / accessories）
    * 称呼：space 页暂无昵称字段，本页使用 neuromate-mate-nickname-v1，
@@ -294,12 +284,12 @@
    * 三通道同步：storage 事件 + 1.5s 轮询 + visibilitychange。 */
   const SPACE_KEY = 'neuromate-custom-space-v1';
   const NICK_KEY = 'neuromate-mate-nickname-v1';
-  const costumeSymbols = { star: '★', moon: '☾', sun: '☀', cloud: '☁' };
-  const accessorySymbols = { none: '', hat: '▲', glasses: '∞', flower: '✿ ✿ ✿' };
-  const accessoryPositions = { none: 'none', hat: 'head', glasses: 'eye', flower: 'neck' };
+  const costumeSymbols = { star: '★', moon: '☾', sun: '☀', cloud: '☁', campus: '✎', sweater: '♨' };
+  const accessorySymbols = { none: '', bow: '🎀', 'cat-ears': '🐱', 'star-wand': '🪄', 'round-glasses': '👓', hat: '▲', glasses: '∞', flower: '✿ ✿ ✿' };
+  const accessoryPositions = { none: 'none', bow: 'head', 'cat-ears': 'head', 'star-wand': 'hand', 'round-glasses': 'eye', hat: 'head', glasses: 'eye', flower: 'neck' };
   const lookNames = {
-    clothes: { star: '星星套装', moon: '月光套装', sun: '阳光套装', cloud: '云朵套装' },
-    accessories: { none: '无配饰', hat: '月影礼帽', glasses: '专注镜框', flower: '安睡花环' }
+    clothes: { star: '星星套装', moon: '月光套装', sun: '阳光套装', cloud: '云朵套装', campus: '校园形象', sweater: '治愈系毛衣' },
+    accessories: { none: '无配饰', bow: '蝴蝶结', 'cat-ears': '猫耳', 'star-wand': '星星手杖', 'round-glasses': '圆框眼镜', hat: '月影礼帽', glasses: '专注镜框', flower: '安睡花环' }
   };
 
   const mateNameDisplay = document.querySelector('#mateNameDisplay');
@@ -324,7 +314,7 @@
       button.textContent = item.name;
       button.title = `${item.role}｜${item.type}`;
       button.addEventListener('click', () => {
-        setAvatarMode(item.id, { message: `${item.name}已切换。${item.desc}` });
+        setAvatarMode(item.id, { message: `${item.name}已就绪。` });
         if (window.NeuroMateComfort) NeuroMateComfort.showToast(`已切换为 ${item.name}。`);
       });
       modeHost.appendChild(button);
@@ -347,7 +337,13 @@
       button.setAttribute('aria-pressed', String(active));
     });
     if (avatarRegistry) avatarRegistry.save(currentAvatarMode);
-    if (window.NeuroMateApiConfig && info.voicePreset) window.NeuroMateApiConfig.save({ voicePreset: info.voicePreset });
+    if (window.NeuroMateApiConfig) {
+      const voicePatch = {};
+      if (info.voicePreset) voicePatch.voicePreset = info.voicePreset;
+      if (info.voiceRate) voicePatch.rate = String(info.voiceRate);
+      if (info.voicePitch) voicePatch.pitch = String(info.voicePitch);
+      if (Object.keys(voicePatch).length) window.NeuroMateApiConfig.save(voicePatch);
+    }
     window.dispatchEvent(new CustomEvent('neuromate:avatar-change', { detail: info }));
     if (avatarPreviewImage) {
       avatarPreviewImage.hidden = info.render === 'video';
@@ -437,6 +433,16 @@
     updateCostumePanel();
   }
 
+  function applyAgentHandoff() {
+    let handoff = null;
+    try { handoff = JSON.parse(sessionStorage.getItem('neuromate.agentContext') || 'null'); } catch (error) { handoff = null; }
+    if (!handoff || !handoff.avatar) return;
+    const summary = handoff.strategy || '继续刚才的分析';
+    appendMessage('assistant', `我刚和 Agent 团队梳理过你的情况（${handoff.scenario || '情绪分析'}，策略：${summary}）。我们接着往下走，你现在想先聊哪一步？`, true);
+    adapterState.textContent = '已承接 Agent 集群结果';
+    sessionStorage.removeItem('neuromate.agentContext');
+  }
+
   document.querySelectorAll('.costume-options button').forEach((button) => button.addEventListener('click', () => {
     const category = button.parentElement.dataset.category;
     const item = button.dataset.item;
@@ -446,8 +452,17 @@
     snapshot.equipped[category] = next;
     writeSpace(snapshot);
     syncFromStorage();
-    if (window.NeuroMateCompanionRenderer) window.NeuroMateCompanionRenderer.syncOutfit();
+    if (window.NeuroMateCompanionRenderer) {
+      window.NeuroMateCompanionRenderer.refreshOutfitImage();
+      window.NeuroMateCompanionRenderer.applyAccessories();
+    }
     if (window.NeuroMateComfort) NeuroMateComfort.showToast(next === item ? '已换上，我的空间会同步更新。' : '已脱下，恢复默认装扮。');
+  }));
+
+  document.querySelectorAll('[data-scene]').forEach((button) => button.addEventListener('click', () => {
+    const scene = button.dataset.scene;
+    if (window.NeuroMateCompanionRenderer) window.NeuroMateCompanionRenderer.applyScene(scene);
+    if (window.NeuroMateComfort) NeuroMateComfort.showToast({ day: '已切换到白天场景。', night: '已切换到黑夜场景。', rain: '下雨了，注意别着凉。' }[scene] || '场景已切换。');
   }));
 
   const mateNameSave = document.querySelector('#mateNameSave');
@@ -473,4 +488,5 @@
   renderAvatarTabs();
   setAvatarMode(currentAvatarMode);
   syncFromStorage();
+  applyAgentHandoff();
 })();
