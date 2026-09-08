@@ -32,17 +32,17 @@
   <main>
     <section class="customize-intro reveal visible">
       <div>
-        <p class="eyebrow">AVATAR STUDIO</p>
+        <p class="eyebrow">装扮空间</p>
         <h1>打造专属的元知己。</h1>
       </div>
-      <p>换装、捏脸、送礼物，让你的数字伙伴独一无二。这里负责角色养成；倾诉与 LLM 对话留在数字人页面。</p>
+      <p>一打开就能看到当前伙伴。能换的装扮会直接预览，暂不支持的选项会明确提示。</p>
     </section>
 
     <section class="customize-shell" aria-label="元知己个性化工作台">
       <article class="mate-preview reveal visible" id="mateStage">
         <header class="mate-preview__header">
           <span class="level-badge"><i>★</i> Lv.<strong id="levelValue">12</strong></span>
-          <div><small>YOUR COMPANION</small><h2 id="spaceAvatarName">元知己</h2></div>
+          <div><small>当前伙伴</small><h2 id="spaceAvatarName">元知己</h2></div>
           <span class="affection-number">亲密度 <strong id="affectionValue">86</strong>/100</span>
         </header>
 
@@ -76,7 +76,7 @@
 
       <section class="customize-shop reveal visible" aria-labelledby="shopTitle">
         <header class="shop-heading">
-          <div><p class="eyebrow">CUSTOMIZE</p><h2 id="shopTitle">今天的元元，由你定义。</h2></div>
+          <div><p class="eyebrow">换装预览</p><h2 id="shopTitle">今天的元元，由你定义。</h2></div>
           <p id="lookLabel">星星套装 · 无配饰 · 清透神态</p>
         </header>
 
@@ -168,9 +168,9 @@
 
     <section class="gacha-section reveal" id="gachaSection">
       <div class="gacha-copy">
-        <p class="eyebrow">STAR DRAW · DAILY</p>
+        <p class="eyebrow">每日星轨</p>
         <h2>星轨抽卡</h2>
-        <p>每天签到送免费抽取，卡池只含装扮与小福袋，概率、保底与重复转化全部公示，不涉及任何心理功能。</p>
+        <p>每天签到送免费抽取，卡池只含装扮与小福袋，概率、保底与重复转化全部公示；星贝补抽仅作为原型演示。</p>
         <button class="odds-link" id="oddsOpen" type="button">概率与规则公示 →</button>
       </div>
       <div class="signin-panel">
@@ -182,7 +182,7 @@
         <button class="button button--light" id="signinButton" type="button">今日签到 · 领 1 次抽取</button>
       </div>
       <div class="draw-side">
-        <p class="draw-tickets">免费 <strong id="ticketValue">0</strong> 次 · 星贝抽取今日剩余 <strong id="drawLeftValue">5</strong>/5</p>
+        <p class="draw-tickets">免费 <strong id="ticketValue">0</strong> 次 · 原型补抽今日剩余 <strong id="drawLeftValue">5</strong>/5</p>
         <div class="pity-progress"><i><b id="pityFill"></b></i><small id="pityHint">再抽 80 次内必出 SSR</small></div>
         <button class="gacha-open" id="gachaOpen" type="button"><span>开始抽取</span><small>免费优先 · ✦ 300 补抽</small><i>→</i></button>
       </div>
@@ -204,7 +204,7 @@
 
   <dialog class="space-dialog" id="oddsDialog">
     <form method="dialog"><button class="dialog-close" type="submit" aria-label="关闭概率公示窗口">×</button></form>
-    <p class="eyebrow">ODDS DISCLOSURE</p>
+    <p class="eyebrow">规则公示</p>
     <h2>概率与规则公示</h2>
     <div class="odds-table">
       <p><span>SSR · 月光套装</span><strong>2%</strong></p>
@@ -216,14 +216,14 @@
       <li>无隐藏概率：公示概率即为真实概率，不随时间或账户变化。</li>
       <li>重复转化：重复装扮自动转为星贝（SSR→1,500 / SR→400 / R→100）。</li>
       <li>卡池只含装扮与福袋，不含任何心理功能；安全与陪伴能力永不进入卡池。</li>
-      <li>星贝抽取每日限 5 次（✦300/次）；免费抽取来自每日签到，无需付费。</li>
-      <li>未成年人不参与星贝抽取；正式版本将接入单日与单月充值上限。</li>
+      <li>原型补抽每日限 5 次（✦300/次）；免费抽取来自每日签到，无需付费。</li>
+      <li>正式版本的付费、补抽与未成年人限制，需要在学院服务器与合规方案确定后接入。</li>
     </ul>
   </dialog>
 
   <dialog class="space-dialog gacha-dialog" id="gachaDialog">
     <form method="dialog"><button class="dialog-close" type="submit" aria-label="关闭抽卡窗口">×</button></form>
-    <p class="eyebrow">STAR DRAW</p>
+    <p class="eyebrow">星轨抽取</p>
     <h2>星轨正在回应你。</h2>
     <div class="draw-stage" id="drawStage"><div class="draw-card"><span id="drawSymbol">?</span><strong id="drawName">等待抽取</strong><small id="drawRarity">概率已公示</small></div></div>
     <p id="drawMessage">卡池只含装扮与福袋，保底进度会在抽取后更新。</p>

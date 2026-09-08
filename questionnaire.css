@@ -59,7 +59,9 @@
 .crisis-support > span { color: var(--warm); font-size: 10px; }
 .crisis-support > strong { display: block; margin-top: 8px; font-family: var(--serif); font-size: 26px; font-weight: 500; }
 .crisis-support > p { margin: 10px 0 16px; color: var(--muted); font-size: 11px; line-height: 1.7; }
+.crisis-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .crisis-call { display: inline-flex; align-items: center; padding: 10px 22px; border-radius: 999px; color: #fff; background: var(--warm); font-size: 12px; text-decoration: none; }
+.crisis-actions .button { min-height: 39px; padding: 9px 18px; border-radius: 999px; font-size: 12px; }
 [hidden] { display: none !important; }
 @media (max-width: 850px) {
   .questionnaire-header { width: calc(100% - 32px); grid-template-columns: 1fr auto; }

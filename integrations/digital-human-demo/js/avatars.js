@@ -1,13 +1,12 @@
 /* ============================================================
  * 元知己 · 数字人形象注册表（第三阶段整合 Demo）
- * 7 个形象；默认以元安 Live2D 为主形象：
+ * 6 个形象；默认以元安 Live2D 为主形象：
  *   ① 元安（Hiyori 温柔学姐 · Live2D）
  *   ② 元晴（shizuku 元气少女 · Live2D）
- *   ③ 元熙（3D 数字人 · VRM）
- *   ④ 元澈（Natori 西装男 · Live2D）
- *   ⑤ 虹色Mao（官方魔术少女示例 · Live2D）
- *   ⑥ 元元熊猫（视频形象 · MP4）
- *   ⑦ 元初（静态数字人 · PNG 兜底）→ V1.3 基线形象
+ *   ③ 元澈（Natori 西装男 · Live2D）
+ *   ④ 虹色Mao（官方魔术少女示例 · Live2D）
+ *   ⑤ 元元熊猫（视频形象 · MP4）
+ *   ⑥ 元初（静态数字人 · PNG 兜底）→ V1.3 基线形象
  * ============================================================ */
 window.NEUROMATE_AVATARS = [
   {
@@ -46,29 +45,6 @@ window.NEUROMATE_AVATARS = [
       "model/live2d/shizuku/shizuku.model.json",
       "https://fastly.jsdelivr.net/gh/guansss/pixi-live2d-display/test/assets/shizuku/shizuku.model.json"
     ]
-  },
-  {
-    id: "yuanxi",
-    name: "元熙",
-    role: "3D 备用形象",
-    type: "vrm",
-    desc: "另一套 3D 人物形象，离线也能双击即用，适合做换装系统的模型位。",
-    src: "VRM（AvatarSample_A）",
-    color: "#8ba6ae",
-    voice: {
-      preferred: ["Xiaoxiao", "晓晓", "Huihui", "慧慧", "Hanhan", "涵涵"],
-      fallback: "female",
-      rate: 0.98,
-      pitch: 1.06
-    },
-    model: "model/vrm/AvatarSample_A.vrm",
-    vrmView: {
-      cameraY: 1.12,
-      targetY: 1.02,
-      cameraZ: 3.05,
-      leftArmZ: -1.18,
-      rightArmZ: 1.18
-    }
   },
   {
     id: "yuanche",

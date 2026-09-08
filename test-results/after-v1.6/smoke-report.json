@@ -1,0 +1,57 @@
+[
+  {
+    "name": "首页视频保留、取消人物封面，快捷按钮可用",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "登录页按钮可见，游客入口可进入我的空间",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "数字人默认元安、顺序正确、隐藏 API 入口",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "数字人雨天场景可切换并已截图",
+    "ok": true,
+    "detail": "companion-rain-desktop-1366.png"
+  },
+  {
+    "name": "我的空间默认元安、禁用不支持装扮，抽卡不报错",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "语音页隐藏 API 入口、说明本地演示，并显示实际音色",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "会员页删除元熙分支、补齐元瑶，套餐和星贝规则统一",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "成长中心使用当前月份并标注示例数据",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "全局主题可切换并跨页保持",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "离线本地接口可用",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "问卷高分热线入口文案正确",
+    "ok": true,
+    "detail": ""
+  }
+]

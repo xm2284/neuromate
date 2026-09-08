@@ -41,18 +41,36 @@
     isPaused: false,       // 对话暂停
     conversationContext: [] // 对话上下文
   };
+  state.autoSpeak = false;
 
   // ---------- 预设人声匹配 ----------
   const voicePreferences = {
-    'female-soft':   { langPref: ['zh-CN', 'zh-TW', 'zh'], preferred: /xiaoxiao|xiaoyi|xiaomo|晓晓|晓伊|小|female|女/i, genderHint: /female|女|ting|mei|xiao|hui|晓/i },
-    'female-warm':   { langPref: ['zh-CN', 'zh-TW', 'zh'], preferred: /xiaoxiao|xiaoyi|xiaomo|晓晓|晓伊|小|female|女/i, genderHint: /female|女|ting|mei|xiao|hui|晓/i },
-    'male-gentle':   { langPref: ['zh-CN', 'zh-TW', 'zh'], preferred: /yunxi|yunyang|xiaobei|云希|云扬|小北|male|男/i, genderHint: /male|男|yun|kang|wei|云/i }
+    'female-soft': {
+      langPref: ['zh-CN', 'zh-TW', 'zh'],
+      preferred: /xiaoxiao|xiaoyi|xiaomo|晓晓|晓伊|小|natural|female|女/i,
+      genderHint: /female|女|ting|mei|xiao|hui|yaoyao|晓|瑶/i
+    },
+    'female-warm': {
+      langPref: ['zh-CN', 'zh-TW', 'zh'],
+      preferred: /xiaoxiao|xiaoyi|xiaomo|xiaohan|晓晓|晓伊|晓墨|晓涵|natural|female|女/i,
+      genderHint: /female|女|ting|mei|xiao|hui|han|晓|涵/i
+    },
+    'male-gentle': {
+      langPref: ['zh-CN', 'zh-TW', 'zh'],
+      preferred: /yunxi|yunyang|xiaobei|kang|云希|云扬|小北|康|natural|male|男/i,
+      genderHint: /male|男|yun|kang|wei|云|康|伟/i
+    }
   };
 
   let availableVoices = [];
+  let voiceCurrentText = null;
+  let voiceRefreshBtn = null;
   function loadVoices() {
-    availableVoices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+    availableVoices = window.speechSynthesis
+      ? window.speechSynthesis.getVoices().filter((voice) => /^zh/i.test(voice.lang || '') || /Chinese|China|中文|普通话/i.test(`${voice.name} ${voice.voiceURI}`))
+      : [];
     selectVoice(state.voicePreset);
+    updateVoiceStatus();
   }
   if (window.speechSynthesis) {
     loadVoices();
@@ -60,14 +78,18 @@
   }
 
   function selectVoice(voiceType) {
-    if (!availableVoices.length) return;
+    if (!availableVoices.length) {
+      state.voiceURI = null;
+      updateVoiceStatus();
+      return;
+    }
     const pref = voicePreferences[voiceType] || voicePreferences['female-soft'];
-    // 优先匹配中文 + 性别暗示
     let voice = availableVoices.find(v => pref.langPref.some(l => v.lang.startsWith(l)) && pref.preferred.test(`${v.name} ${v.voiceURI}`));
     if (!voice) voice = availableVoices.find(v => pref.langPref.some(l => v.lang.startsWith(l)) && pref.genderHint.test(v.name));
     if (!voice) voice = availableVoices.find(v => pref.langPref.some(l => v.lang.startsWith(l)));
     if (!voice) voice = availableVoices[0];
     state.voiceURI = voice.voiceURI;
+    updateVoiceStatus();
   }
 
   // ---------- 温柔回应语料库 ----------
@@ -164,14 +186,14 @@
     const bank = responses[style] || responses.empathy;
     const text = (input || '').toLowerCase();
 
-    if (!input || text.length < 2) return pickRandom(bank.greeting);
+    let category = 'default';
+    if (!input || text.length < 2) category = 'greeting';
+    else if (/累|疲惫|没力气|撑不住|耗尽/.test(text)) category = 'tired';
+    else if (/焦虑|紧张|担心|害怕|不安|慌/.test(text)) category = 'anxious';
+    else if (/孤独|一个人|没人|寂寞|空虚/.test(text)) category = 'lonely';
+    else if (/睡|失眠|睡不着|梦|夜里/.test(text)) category = 'sleep';
 
-    if (/累|疲惫|没力气|撑不住|耗尽/.test(text)) return pickRandom(bank.tired);
-    if (/焦虑|紧张|担心|害怕|不安|慌/.test(text)) return pickRandom(bank.anxious);
-    if (/孤独|一个人|没人|寂寞|空虚/.test(text)) return pickRandom(bank.lonely);
-    if (/睡|失眠|睡不着|梦|夜里/.test(text)) return pickRandom(bank.sleep);
-
-    return pickRandom(bank.default);
+    return pickRandom(bank[category] || bank.default, `${style}-${category}`);
   }
 
   async function resolveResponse(input) {
@@ -204,8 +226,12 @@
     }
   }
 
-  function pickRandom(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
+  const recentResponseByGroup = {};
+  function pickRandom(arr, group = 'default') {
+    const options = arr.length > 1 ? arr.filter((line) => line !== recentResponseByGroup[group]) : arr;
+    const reply = options[Math.floor(Math.random() * options.length)];
+    recentResponseByGroup[group] = reply;
+    return reply;
   }
 
   // ---------- DOM 元素 ----------
@@ -219,9 +245,31 @@
   const volumeSlider = document.querySelector('#volumeSlider');
   const settingsBtn = document.querySelector('#voiceSettings');
   const settingsDialog = document.querySelector('#settingsDialog');
+  voiceCurrentText = document.querySelector('#voiceCurrentText');
+  voiceRefreshBtn = document.querySelector('#voiceRefresh');
   const toast = document.querySelector('#toast');
   const voiceAvatarSwitch = document.querySelector('#voiceAvatarSwitch');
   const statusText = document.querySelector('.status-text');
+  const stylePlaceholders = {
+    empathy: '也可以打字告诉我，先说最真实的一句……',
+    mindfulness: '写下此刻的身体感觉，我陪你慢慢放松……',
+    relax: '说一个想放下的念头，我们轻一点处理……'
+  };
+
+  function voicePresetLabel(preset) {
+    return {
+      'female-soft': '温柔女声',
+      'female-warm': '舒缓女声',
+      'male-gentle': '温和男声'
+    }[preset] || '跟随角色';
+  }
+
+  function updateVoiceStatus() {
+    if (!voiceCurrentText) return;
+    const voice = availableVoices.find(v => v.voiceURI === state.voiceURI);
+    const source = voice ? `${voice.name}（${voice.lang || '默认语言'}）` : '本机没有可枚举中文音色，播放时使用浏览器默认音色';
+    voiceCurrentText.textContent = `${activeSiteAvatar().name} · ${voicePresetLabel(state.voicePreset)} · ${source} · 语速 ${state.rate.toFixed(2)} / 音高 ${state.pitch.toFixed(2)}`;
+  }
 
   function renderVoiceAvatarSwitch() {
     if (!voiceAvatarSwitch || !avatarRegistry) return;
@@ -274,6 +322,7 @@
       });
     }
     if (options.toast) showToast(`语音模式已同步为${info.name}。`);
+    updateVoiceStatus();
   }
 
   let toastTimer;
@@ -393,11 +442,16 @@
     recognition.continuous = false;
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
+  } else if (micBtn) {
+    micBtn.classList.add('is-unavailable');
+    micBtn.setAttribute('aria-disabled', 'true');
+    micBtn.querySelector('.mic-label').textContent = '可打字';
   }
 
   function startListening() {
     if (!recognition) {
-      showToast('当前浏览器不支持语音识别，可以用文字输入。');
+      showToast('当前浏览器不支持语音识别，可以直接打字聊天。');
+      textInput.focus();
       return;
     }
     if (state.isSpeaking) stopSpeaking(); // 打断 AI
@@ -663,9 +717,17 @@
       state.voicePreset = btn.dataset.voice;
       selectVoice(btn.dataset.voice);
       if (window.NeuroMateApiConfig) window.NeuroMateApiConfig.save({ voicePreset: state.voicePreset });
+      updateVoiceStatus();
       showToast('人声已更新，下次回应时生效。');
     });
   });
+
+  if (voiceRefreshBtn) {
+    voiceRefreshBtn.addEventListener('click', () => {
+      loadVoices();
+      showToast(availableVoices.length ? '已重新读取本机中文音色。' : '本机暂时没有可枚举中文音色，会使用浏览器默认音色。');
+    });
+  }
 
   renderVoiceAvatarSwitch();
   applySiteAvatar();
@@ -681,6 +743,7 @@
       btn.setAttribute('aria-checked', 'true');
       state.rate = Number(btn.dataset.rate);
       if (window.NeuroMateApiConfig) window.NeuroMateApiConfig.save({ rate: String(state.rate) });
+      updateVoiceStatus();
     });
   });
 
@@ -701,6 +764,7 @@
       btn.classList.add('active');
       btn.setAttribute('aria-checked', 'true');
       state.style = btn.dataset.style;
+      textInput.placeholder = stylePlaceholders[state.style] || stylePlaceholders.empathy;
       const labels = { empathy: '共情倾听', mindfulness: '正念引导', relax: '放松冥想' };
       showToast(`已切换到${labels[state.style]}模式。`);
     });
@@ -714,20 +778,10 @@
   });
 
   // ---------- 初始问候 ----------
-  // 页面加载时立即显示静态问候气泡（不播放语音，因浏览器要求用户交互后才能播放音频）
-  let greeted = false;
+  // 页面加载时只显示文字问候；语音播报由用户发送消息后触发。
   const initialGreeting = getResponse('');
-  const greetingEl = addBubble('ai', initialGreeting);
-
-  function greetOnce() {
-    if (greeted) return;
-    greeted = true;
-    initAudio();
-    // 复用已有的问候气泡播放语音，避免重复添加
-    setTimeout(() => speak(initialGreeting, { reuseEl: greetingEl }), 600);
-  }
-
-  document.addEventListener('pointerdown', greetOnce, { once: true });
-  document.addEventListener('keydown', greetOnce, { once: true });
+  textInput.placeholder = stylePlaceholders[state.style] || stylePlaceholders.empathy;
+  addBubble('ai', initialGreeting);
+  updateVoiceStatus();
 
 })();

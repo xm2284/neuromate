@@ -19,6 +19,7 @@
   };
   const costumeSymbols = { star: '★', moon: '☾', sun: '☀', cloud: '☁', campus: '✎', sweater: '♨' };
   const accessorySymbols = { none: '', bow: '🎀', 'cat-ears': '🐱', 'star-wand': '🪄', 'round-glasses': '👓', hat: '▲', glasses: '∞', flower: '✿ ✿ ✿' };
+  const vrmAccessories = new Set(['none', 'bow', 'cat-ears', 'star-wand', 'round-glasses']);
   const expressionCopy = {
     smile: '今天想让我换成什么样子？',
     focus: '专注模式准备好了，我们慢慢来。',
@@ -74,6 +75,38 @@
     toastTimer = window.setTimeout(() => toast.classList.remove('show'), 2400);
   }
 
+  function activeAvatar() {
+    return avatarRegistry ? avatarRegistry.get(avatarRegistry.load()) : null;
+  }
+
+  function outfitSupport(info = activeAvatar()) {
+    return info?.outfitSupport || { clothes: false, accessories: false, appearance: false, reason: '当前形象暂不支持这类装扮。' };
+  }
+
+  function supportsItem(category, item, info = activeAvatar()) {
+    const support = outfitSupport(info);
+    if (category === 'accessories' && item === 'none') return true;
+    if (category === 'accessories' && info?.render === 'vrm') return vrmAccessories.has(item);
+    return Boolean(support[category]);
+  }
+
+  function normalizeEquippedForAvatar(info = activeAvatar()) {
+    let changed = false;
+    if (!supportsItem('clothes', state.equipped.clothes, info)) {
+      state.equipped.clothes = 'star';
+      changed = true;
+    }
+    if (!supportsItem('accessories', state.equipped.accessories, info)) {
+      state.equipped.accessories = 'none';
+      changed = true;
+    }
+    if (!supportsItem('appearance', state.equipped.appearance, info)) {
+      state.equipped.appearance = 'clear';
+      changed = true;
+    }
+    if (changed) saveState();
+  }
+
   function renderWallet(pulse) {
     const chip = document.querySelector('.space-wallet > span');
     document.querySelector('#starbellValue').textContent = wallet.format(ws.starbell);
@@ -89,21 +122,33 @@
   }
 
   function renderItems() {
+    const info = activeAvatar();
+    normalizeEquippedForAvatar(info);
+    const reason = outfitSupport(info).reason || '当前形象暂不支持这类装扮。';
     document.querySelectorAll('.shop-item').forEach((button) => {
       const category = button.dataset.category;
       const item = button.dataset.item;
-      const owned = true;
+      const owned = wallet.has(item) || button.dataset.owned === 'true';
       const active = state.equipped[category] === item;
+      const supported = supportsItem(category, item, info);
       const itemState = button.querySelector('.item-state');
       button.classList.toggle('active', active);
+      button.classList.toggle('is-disabled', !supported);
+      button.disabled = !supported;
+      button.title = supported ? (button.dataset.name || button.textContent.trim()) : `${info.name}暂不支持：${reason}`;
       button.setAttribute('aria-pressed', String(active));
-      if (active) itemState.textContent = '使用中';
+      if (!supported) itemState.textContent = '当前形象暂不支持';
+      else if (active) itemState.textContent = '使用中';
       else if (owned) itemState.textContent = '已拥有';
-      else itemState.textContent = `✦ ${wallet.format(Number(button.dataset.cost))}`;
+      else itemState.textContent = `✦ ${wallet.format(Number(button.dataset.cost || 0))}`;
     });
     document.querySelectorAll('[data-category="appearance"]').forEach((button) => {
       const active = state.equipped.appearance === button.dataset.item;
+      const supported = supportsItem('appearance', button.dataset.item, info);
       button.classList.toggle('active', active);
+      button.classList.toggle('is-disabled', !supported);
+      button.disabled = !supported;
+      button.title = supported ? (button.dataset.name || button.textContent.trim()) : `${info.name}暂不支持：${reason}`;
       button.setAttribute('aria-pressed', String(active));
     });
   }
@@ -191,6 +236,16 @@
   document.querySelectorAll('.shop-item, [data-category="appearance"]').forEach((button) => button.addEventListener('click', () => {
     const category = button.dataset.category;
     const item = button.dataset.item;
+    if (!supportsItem(category, item)) {
+      showToast(outfitSupport().reason || '当前形象暂不支持这类装扮。');
+      return;
+    }
+    const owned = wallet.has(item) || button.dataset.owned === 'true';
+    const cost = Number(button.dataset.cost || 0);
+    if (!owned && !wallet.spend(cost)) {
+      showToast('星贝不足，暂时不能解锁这件装扮。');
+      return;
+    }
     wallet.own(item);
     state.equipped[category] = item;
     saveState();
@@ -198,12 +253,8 @@
     renderItems();
     applyLook(true);
     burst(costumeSymbols[state.equipped.clothes] || '✦', '#edc56d', 10);
-    speak(`${button.dataset.name}已经换好了。`);
+    speak(owned ? `${button.dataset.name}已经换好了。` : `${button.dataset.name}已解锁并穿好了。`);
   }));
-
-  function activeAvatar() {
-    return avatarRegistry ? avatarRegistry.get(avatarRegistry.load()) : null;
-  }
 
   function avatarPreviewSrc(info) {
     if (!info) return 'assets/yuanchu-card.svg';
@@ -213,7 +264,6 @@
       return info.outfitImages[acc] || info.outfitImages[clothes] || info.outfitImages.default || info.preview || info.model;
     }
     if (info.id === 'yuanchu') return info.preview || 'assets/yuanchu-card.svg';
-    if (info.render === 'live2d' || info.render === 'vrm') return 'assets/digital-human.png';
     if (info.preview && !info.preview.includes('yuanchu-card.svg')) return info.preview;
     const color = encodeURIComponent(info.color || '#8fb6cc');
     const name = encodeURIComponent(info.name || '元知己');
@@ -225,8 +275,13 @@
   function syncCurrentAvatar() {
     const info = activeAvatar();
     if (!info) return;
+    normalizeEquippedForAvatar(info);
     if (spaceAvatarName) spaceAvatarName.textContent = info.name;
-    if (spaceAvatarMeta) spaceAvatarMeta.textContent = `${info.type} · ${info.role}`;
+    if (spaceAvatarMeta) {
+      const support = outfitSupport(info);
+      const supportText = support.clothes || support.accessories || support.appearance ? '可预览适配装扮' : '保留原始外观';
+      spaceAvatarMeta.textContent = `${info.type} · ${info.role} · ${supportText}`;
+    }
     if (avatarPortrait) avatarPortrait.classList.toggle('is-video-preview', info.render === 'video');
     if (avatarImage) {
       avatarImage.hidden = info.render === 'video';
@@ -266,6 +321,8 @@
       button.addEventListener('click', () => {
         avatarRegistry.save(item.id);
         syncCurrentAvatar();
+        renderItems();
+        applyLook(false);
         showToast(`${item.name}已同步。`);
       });
       spaceAvatarTabs.appendChild(button);
@@ -465,9 +522,11 @@
           resultMessage = `已拥有该装扮，自动转化为 ✦ ${wallet.format(prize.dup)} 星贝。`;
         } else {
           wallet.own(prize.item);
-          resultMessage = '新装扮已自动加入衣橱并穿戴。';
+          resultMessage = supportsItem(prize.kind, prize.item)
+            ? '新装扮已自动加入衣橱并穿戴。'
+            : `新装扮已加入衣橱；${activeAvatar()?.name || '当前形象'}暂不支持自动穿戴。`;
         }
-        state.equipped[prize.kind] = prize.item;
+        if (supportsItem(prize.kind, prize.item)) state.equipped[prize.kind] = prize.item;
       }
       ws.pity = prize.tier === 'SSR' ? 0 : ws.pity + 1;
       drawStage.className = `draw-stage is-revealed tier-${prize.tier.toLowerCase()}`;
@@ -475,9 +534,9 @@
       drawName.textContent = prize.name;
       drawRarity.textContent = prize.tier === 'SSR' ? 'SSR · 稀有' : `${prize.tier} · ${prize.tier === 'SR' ? '珍藏' : '常规'}`;
       drawMessage.textContent = resultMessage;
-      render();
       renderWallet();
       renderItems();
+      renderStoreCollection();
       applyLook(true);
       burst(prize.symbol, '#edc56d', 18);
       speak(prize.kind === 'starbell' || prize.kind === 'affection' ? `抽到了${prize.name}，我帮你收好了。` : `抽到了${prize.name}，现在就试试看。`);

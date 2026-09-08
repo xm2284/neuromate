@@ -18,12 +18,12 @@
 .space-wallet i { font-style: normal; }
 .profile-button { width: 40px; height: 40px; border: 0; border-radius: 50%; color: #fff; background: var(--ink); cursor: pointer; }
 
-.customize-intro { width: min(1240px, calc(100% - 56px)); margin: 0 auto; padding: 74px 0 42px; display: grid; grid-template-columns: 1.1fr .7fr; gap: 90px; align-items: end; }
-.customize-intro h1 { margin: 0; font-size: 54px; line-height: 1.16; }
+.customize-intro { width: min(1240px, calc(100% - 56px)); margin: 0 auto; padding: 42px 0 24px; display: grid; grid-template-columns: 1.1fr .7fr; gap: 72px; align-items: end; }
+.customize-intro h1 { margin: 0; font-size: 46px; line-height: 1.16; }
 .customize-intro > p { margin: 0; color: var(--muted); }
 .eyebrow { color: var(--space-accent); }
 
-.customize-shell { width: min(1240px, calc(100% - 56px)); margin: 0 auto; padding-bottom: 90px; display: grid; grid-template-columns: minmax(420px,.9fr) minmax(520px,1.1fr); gap: 54px; align-items: stretch; }
+.customize-shell { width: min(1240px, calc(100% - 56px)); margin: 0 auto; padding-bottom: 76px; display: grid; grid-template-columns: minmax(420px,.9fr) minmax(520px,1.1fr); gap: 54px; align-items: stretch; }
 .mate-preview { min-width: 0; border: 1px solid rgba(238,248,252,.18); border-radius: 8px; padding: 24px; color: #eef8fc; background: #102432; box-shadow: 0 30px 70px rgba(16,36,50,.16); overflow: hidden; }
 .mate-preview__header { position: relative; z-index: 3; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; }
 .mate-preview__header > div { text-align: center; }
@@ -34,7 +34,7 @@
 .level-badge i { color: #edc56d; font-style: normal; }
 .affection-number strong { color: #ef9a8a; }
 
-.avatar-showcase { height: 520px; margin: 18px -24px 0; position: relative; display: grid; place-items: start center; perspective: 900px; overflow: hidden; padding-top: 18px; box-sizing: border-box; }
+.avatar-showcase { height: 500px; margin: 18px -24px 0; position: relative; display: grid; place-items: start center; perspective: 900px; overflow: hidden; padding-top: 14px; box-sizing: border-box; }
 .stage-grid { position: absolute; inset: 0; opacity: .22; background-image: linear-gradient(rgba(238,248,252,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(238,248,252,.12) 1px, transparent 1px); background-size: 46px 46px; animation: grid-shift 18s linear infinite; }
 .stage-orbit { position: absolute; width: 390px; aspect-ratio: 1; border: 1px solid rgba(238,248,252,.18); border-radius: 50%; animation: orbit-spin 24s linear infinite; }
 .stage-orbit::before { content: ""; position: absolute; inset: 40px; border: 1px solid rgba(238,248,252,.1); border-radius: 50%; }
@@ -44,7 +44,7 @@
 .stage-orbit i:nth-child(3) { right: 4%; bottom: 31%; background: var(--space-violet); }
 .stage-particles { position: absolute; inset: 0; pointer-events: none; }
 .stage-particles i { position: absolute; left: var(--x); top: var(--y); width: var(--size); height: var(--size); border: 1px solid rgba(238,248,252,.48); transform: rotate(45deg); animation: particle-drift var(--duration) ease-in-out infinite alternate; animation-delay: var(--delay); }
-.avatar-portrait { --stage-color: #8c7daf; position: relative; z-index: 2; width: 286px; height: 330px; border: 1px solid rgba(255,255,255,.52); border-radius: 18px; overflow: hidden; background: #26354d; box-shadow: 0 30px 70px rgba(0,0,0,.3), 0 0 0 12px color-mix(in srgb, var(--stage-color) 16%, transparent); transform: rotateX(var(--tilt-y, 0deg)) rotateY(var(--tilt-x, 0deg)); transition: background 500ms ease, box-shadow 500ms ease, transform 220ms ease; animation: avatar-float 4.8s ease-in-out infinite; }
+.avatar-portrait { --stage-color: #8c7daf; position: relative; z-index: 2; width: 318px; height: 360px; border: 1px solid rgba(255,255,255,.52); border-radius: 18px; overflow: hidden; background: #26354d; box-shadow: 0 30px 70px rgba(0,0,0,.3), 0 0 0 12px color-mix(in srgb, var(--stage-color) 16%, transparent); transform: rotateX(var(--tilt-y, 0deg)) rotateY(var(--tilt-x, 0deg)); transition: background 500ms ease, box-shadow 500ms ease, transform 220ms ease; animation: avatar-float 4.8s ease-in-out infinite; }
 .avatar-portrait img,
 .avatar-portrait video { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; padding: 14px; box-sizing: border-box; transition: filter 500ms ease, transform 500ms ease; }
 .avatar-portrait video { background: rgba(255,255,255,.9); }
@@ -69,7 +69,7 @@
 .accessory-hat .accessory-mark { top: 4px; font-size: 52px; }
 .accessory-glasses .accessory-mark { top: 118px; color: #172532; font-size: 48px; }
 .accessory-flower .accessory-mark { top: 18px; color: #ef9a8a; letter-spacing: 4px; font-size: 28px; }
-.mate-reaction { position: absolute; z-index: 4; left: 50%; bottom: 72px; width: max-content; max-width: calc(100% - 60px); min-height: 36px; margin: 0; transform: translateX(-50%); border: 1px solid rgba(238,248,252,.2); border-radius: 999px; padding: 8px 15px; color: rgba(238,248,252,.84); background: rgba(7,24,34,.66); backdrop-filter: blur(10px); font-size: 11px; text-align: center; }
+.mate-reaction { position: absolute; z-index: 4; left: 50%; bottom: 74px; width: max-content; max-width: calc(100% - 60px); min-height: 36px; margin: 0; transform: translateX(-50%); border: 1px solid rgba(238,248,252,.2); border-radius: 999px; padding: 8px 15px; color: rgba(238,248,252,.84); background: rgba(7,24,34,.66); backdrop-filter: blur(10px); font-size: 11px; text-align: center; }
 .mate-reaction.is-speaking { animation: speech-pop 560ms ease; }
 .space-avatar-meta { position: absolute; z-index: 4; left: 50%; bottom: 56px; transform: translateX(-50%); width: min(420px, calc(100% - 48px)); margin: 0; color: rgba(238,248,252,.72); font-size: 10px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .space-avatar-tabs { position: absolute; z-index: 5; left: 50%; bottom: 14px; transform: translateX(-50%); width: min(520px, calc(100% - 34px)); display: flex; gap: 6px; justify-content: flex-start; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
@@ -104,6 +104,20 @@
 .shop-item { min-width: 0; min-height: 130px; border: 1px solid var(--line); border-radius: 8px; padding: 16px; position: relative; display: grid; grid-template-columns: 58px 1fr; gap: 14px; align-items: center; text-align: left; background: rgba(255,253,249,.82); cursor: pointer; transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease; }
 .shop-item:hover { transform: translateY(-4px); border-color: var(--space-accent); box-shadow: 0 18px 34px rgba(79,54,38,.1); }
 .shop-item.active { border-color: var(--space-accent); box-shadow: inset 0 0 0 1px var(--space-accent); }
+.shop-item:disabled,
+.shop-item.is-disabled,
+.appearance-options button:disabled,
+.expression-options button:disabled {
+  opacity: .52;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.shop-item:disabled:hover,
+.shop-item.is-disabled:hover {
+  transform: none;
+  border-color: var(--line);
+}
 .shop-item > i { position: absolute; right: 12px; top: 12px; width: 23px; height: 23px; border-radius: 50%; display: none; place-items: center; color: #fff; background: var(--success); font-style: normal; font-size: 11px; }
 .shop-item.active > i { display: grid; }
 .item-visual { width: 58px; height: 58px; border-radius: 8px; display: grid; place-items: center; font-size: 28px; }
@@ -220,16 +234,16 @@
   .space-wallet > span { min-width: 48px; padding: 0 7px; }
   .profile-button { display: none; }
   .customize-intro, .customize-shell, .gacha-section { width: calc(100% - 28px); }
-  .customize-intro { padding: 52px 0 30px; }
-  .customize-intro h1 { font-size: 40px; }
+  .customize-intro { padding: 26px 0 20px; }
+  .customize-intro h1 { font-size: 34px; }
   .customize-intro > p { font-size: 13px; }
   .customize-shell { gap: 42px; padding-bottom: 64px; }
   .mate-preview { padding: 18px; }
   .mate-preview__header { grid-template-columns: auto 1fr; }
   .affection-number { grid-column: 1 / -1; text-align: center; }
-  .avatar-showcase { height: 450px; margin-inline: -18px; }
+  .avatar-showcase { height: 430px; margin-inline: -18px; }
   .stage-orbit { width: 330px; }
-  .avatar-portrait { width: 238px; height: 286px; }
+  .avatar-portrait { width: 252px; height: 304px; }
   .preview-actions { grid-template-columns: 1fr; }
   .shop-heading { grid-template-columns: 1fr; }
   .shop-heading > p { text-align: left; }

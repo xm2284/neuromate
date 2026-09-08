@@ -30,6 +30,15 @@
   const answerList = document.querySelector('#answerList');
   const progressCount = document.querySelector('#progressCount');
   const progressFill = document.querySelector('#progressFill');
+  const toast = document.querySelector('#toast');
+  let toastTimer;
+
+  function showToast(message) {
+    window.clearTimeout(toastTimer);
+    toast.textContent = message;
+    toast.classList.add('show');
+    toastTimer = window.setTimeout(() => toast.classList.remove('show'), 2400);
+  }
 
   const paceCopy = {
     steady: ['每题作答后会稍作停留，给你一点确认时间。', '慢慢来，选最接近的一项就好。', 360],
@@ -126,6 +135,14 @@
     show('result');
   }
   document.querySelector('#restartAssessment').addEventListener('click', () => { show('intro'); currentIndex = 0; answers = []; });
+  document.querySelector('#copyHotline')?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText('12356');
+      showToast('已复制 12356。');
+    } catch (error) {
+      showToast('请手动记录号码：12356。');
+    }
+  });
   document.querySelector('#exitAssessment').addEventListener('click', () => {
     if (!questionView.hidden) { show('intro'); currentIndex = 0; answers = []; }
     else window.location.href = 'space.html';

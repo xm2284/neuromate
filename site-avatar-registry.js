@@ -13,7 +13,9 @@
       source: 'Hiyori Live2D',
       color: '#e8a0b4',
       model: 'integrations/digital-human-demo/model/live2d/hiyori/Hiyori.model3.json',
-      preview: 'assets/yuanchu-card.svg',
+      preview: 'assets/digital-human.png',
+      quality: 'high',
+      outfitSupport: { clothes: false, accessories: false, appearance: false, reason: '元安是 Live2D 主形象，当前展示完整模型，不硬套静态装扮。' },
       voicePreset: 'female-soft',
       voiceRate: 1.08,
       voicePitch: 1.12,
@@ -31,31 +33,12 @@
       color: '#7ec8a3',
       model: 'integrations/digital-human-demo/model/live2d/shizuku/shizuku.model.json',
       preview: 'assets/yuanchu-card.svg',
+      quality: 'high',
+      outfitSupport: { clothes: false, accessories: false, appearance: false, reason: '元晴是 Live2D 形象，当前先保留稳定展示。' },
       voicePreset: 'female-warm',
       voiceRate: 1.03,
       voicePitch: 1.16,
       live2dView: { h: 1.02, w: 0.94, y: 1.02 }
-    },
-    {
-      id: 'yuanxi',
-      name: '元熙',
-      short: '熙',
-      role: '3D 数字人',
-      type: 'VRM',
-      render: 'vrm',
-      desc: '3D 数字人分支，适合承接语音页、VRM 换装和小舟/爱丽丝皮肤。',
-      source: 'AvatarSample_A VRM',
-      color: '#8ba6ae',
-      model: 'models/AvatarSample_A.vrm',
-      preview: 'assets/yuanchu-card.svg',
-      voicePreset: 'female-soft',
-      voiceRate: 1.05,
-      voicePitch: 1.28,
-      vrmView: {
-        camera: [0, 1.08, 2.9],
-        lookAt: [0, 0.98, 0],
-        modelY: -0.02
-      }
     },
     {
       id: 'yuanche',
@@ -69,6 +52,8 @@
       color: '#7c8aa8',
       model: 'integrations/digital-human-demo/model/live2d/Natori/Natori.model3.json',
       preview: 'assets/yuanchu-card.svg',
+      quality: 'high',
+      outfitSupport: { clothes: false, accessories: false, appearance: false, reason: '元澈是 Live2D 学长形象，当前先保留模型本身。' },
       voicePreset: 'male-gentle',
       voiceRate: 0.92,
       voicePitch: 0.88,
@@ -86,6 +71,8 @@
       color: '#c9a06c',
       model: 'integrations/digital-human-demo/model/live2d/mao_zh-Hans/runtime/mao_pro.model3.json',
       preview: 'assets/yuanchu-card.svg',
+      quality: 'medium',
+      outfitSupport: { clothes: false, accessories: false, appearance: false, reason: '虹色 Mao 是示例 Live2D 角色，不混用项目装扮。' },
       voicePreset: 'female-warm',
       voiceRate: 1.0,
       voicePitch: 1.1,
@@ -103,6 +90,8 @@
       color: '#89a98b',
       model: 'integrations/digital-human-demo/assets/panda.mp4',
       preview: 'assets/yuanchu-card.svg',
+      quality: 'medium',
+      outfitSupport: { clothes: false, accessories: false, appearance: false, reason: '熊猫是视频形象，当前不支持换装覆盖。' },
       voicePreset: 'female-soft',
       voiceRate: 0.98,
       voicePitch: 1.04,
@@ -121,6 +110,8 @@
       color: '#e8a0b4',
       model: 'assets/girl/initial.jpg',
       preview: 'assets/girl/initial.jpg',
+      quality: 'high',
+      outfitSupport: { clothes: true, accessories: true, appearance: true, reason: '元瑶支持静态皮肤预览，换装会直接切换图片。' },
       voicePreset: 'female-soft',
       voiceRate: 1.1,
       voicePitch: 1.15,
@@ -151,6 +142,8 @@
       color: '#a8b8c4',
       model: 'assets/yuanchu-card.svg',
       preview: 'assets/yuanchu-card.svg',
+      quality: 'stable',
+      outfitSupport: { clothes: false, accessories: false, appearance: false, reason: '元初是兜底形象，用来保证任何设备都能显示。' },
       voicePreset: 'female-soft',
       voiceRate: 1.0,
       voicePitch: 1.0,
@@ -162,6 +155,7 @@
 
   window.NEUROMATE_AVATAR_KEY = 'neuromate-avatar-mode-v16';
   const LEGACY_AVATAR_KEYS = ['neuromate-avatar-mode-v15'];
+  const DEFAULT_RESET_KEY = 'neuromate-avatar-default-v168';
   window.NEUROMATE_DEFAULT_AVATAR_ID = 'yuanan';
   window.NeuroMateAvatarRegistry = {
     all: window.NEUROMATE_SITE_AVATARS,
@@ -172,6 +166,11 @@
     },
     load() {
       try {
+        if (!localStorage.getItem(DEFAULT_RESET_KEY)) {
+          localStorage.setItem(window.NEUROMATE_AVATAR_KEY, window.NEUROMATE_DEFAULT_AVATAR_ID);
+          localStorage.setItem(DEFAULT_RESET_KEY, 'done');
+          return window.NEUROMATE_DEFAULT_AVATAR_ID;
+        }
         let saved = localStorage.getItem(window.NEUROMATE_AVATAR_KEY);
         if (!saved) {
           saved = LEGACY_AVATAR_KEYS.map((key) => localStorage.getItem(key)).find(Boolean);

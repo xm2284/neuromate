@@ -21,12 +21,12 @@
 .mood-palette header { display: flex; justify-content: space-between; margin-bottom: 18px; font-family: var(--serif); }
 .mood-palette header small { color: #8c9499; }
 .mood-palette > div { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
-.mood-palette button { aspect-ratio: 1; width: 36px; margin: auto; border: 5px solid rgba(255,255,255,.9); border-radius: 50%; background: #a8c4c9; box-shadow: 0 3px 12px rgba(52,64,74,.15); cursor: pointer; transition: transform 180ms ease; }
+.mood-palette button { aspect-ratio: 1; width: 36px; margin: auto; border: 5px solid rgba(255,255,255,.9); border-radius: 50%; background: #a8c4c9; box-shadow: 0 3px 12px rgba(52,64,74,.15); cursor: pointer; transition: transform 180ms ease, box-shadow 180ms ease, outline-color 180ms ease; }
 .mood-palette button[data-palette="calm"] { background: linear-gradient(135deg, #a78bfa, #6d5bd0); }
 .mood-palette button[data-palette="joy"] { background: linear-gradient(135deg, #f9a8d4, #ec4899); }
 .mood-palette button[data-palette="warm"] { background: linear-gradient(135deg, #fdba74, #f97316); }
 .mood-palette button[data-palette="focus"] { background: linear-gradient(135deg, #6ee7b7, #10b981); }
-.mood-palette button:hover, .mood-palette button.active { transform: scale(1.18); outline: 1px solid #69777f; outline-offset: 3px; }
+.mood-palette button:hover, .mood-palette button.active { transform: scale(1.18); outline: 2px solid #34404a; outline-offset: 4px; box-shadow: 0 10px 24px rgba(52,64,74,.22); }
 
 /* V1.3 · 装扮与称呼面板（与我的空间共用 neuromate-custom-space-v1.equipped） */
 .costume-panel { padding: 18px; }
@@ -50,12 +50,12 @@
 .daily-line span { font-family: var(--serif); font-size: 32px; }
 .daily-line p { margin: 0; font-family: var(--serif); font-style: italic; font-size: 12px; }
 
-.avatar-stage { min-height: 790px; position: relative; display: grid; place-items: center; overflow: hidden; }
+.avatar-stage { min-height: 740px; position: relative; display: grid; place-items: center; overflow: hidden; }
 .stage-particles { position: absolute; inset: 0; pointer-events: none; }
 .stage-particles i { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #a8bcc3; animation: particle-float var(--duration) ease-in-out infinite; }
-.stage-title { position: absolute; z-index: 5; top: 20px; text-align: center; }
+.stage-title { position: absolute; z-index: 5; top: 20px; width: min(680px, calc(100% - 32px)); text-align: center; }
 .stage-title p { margin: 0 0 9px; color: #8c9499; font-size: 9px; }
-.stage-title h2 { min-height: 34px; margin: 0; font-size: 24px; }
+.stage-title h2 { min-height: 34px; margin: 0 auto; max-width: 100%; font-size: 24px; line-height: 1.32; overflow-wrap: anywhere; }
 .stage-title h2::after { content: ""; width: 1px; height: 24px; margin-left: 5px; display: inline-block; vertical-align: -3px; background: currentColor; animation: caret 800ms steps(1) infinite; }
 .avatar-mode-switch { margin-top: 12px; display: inline-flex; gap: 6px; padding: 6px; border: 1px solid rgba(52,64,74,.1); border-radius: 999px; background: rgba(255,255,255,.72); backdrop-filter: blur(10px); box-shadow: 0 10px 24px rgba(52,64,74,.07); }
 .avatar-mode-switch button, .avatar-mode-switch a { min-height: 28px; border: 0; border-radius: 999px; padding: 0 11px; display: inline-flex; align-items: center; color: #71808b; background: transparent; font-size: 10px; cursor: pointer; }
@@ -74,11 +74,11 @@
 .node--listen { left: 8%; top: 40%; }
 .node--understand { right: 7%; top: 34%; }
 .node--guide { right: 10%; bottom: 31%; }
-.human-avatar { position: relative; z-index: 3; width: 450px; height: 590px; border: 0; background: transparent; cursor: pointer; transition: transform 250ms ease; }
+.human-avatar { position: relative; z-index: 3; width: 430px; height: 560px; border: 0; background: transparent; cursor: pointer; transition: transform 250ms ease; }
 .human-avatar:hover { transform: translateY(-6px); }
 .human-avatar[hidden] { display: none; }
-.avatar-costume-display { position: absolute; inset: 14px 0 auto; width: 450px; height: 530px; }
-.companion-renderer { position: absolute; inset: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.78); border-radius: 32px; background: radial-gradient(circle at 50% 28%, rgba(255,255,255,.95), rgba(226,235,238,.72)); box-shadow: 0 34px 72px rgba(91,105,112,.22); animation: avatar-breathe 5s ease-in-out infinite; }
+.avatar-costume-display { position: absolute; inset: 12px 0 auto; width: 430px; height: 500px; }
+.companion-renderer { position: absolute; inset: 0; overflow: hidden; pointer-events: none; border: 1px solid rgba(255,255,255,.78); border-radius: 28px; background: radial-gradient(circle at 50% 28%, rgba(255,255,255,.95), rgba(226,235,238,.72)); box-shadow: 0 28px 58px rgba(91,105,112,.18); animation: avatar-breathe 5s ease-in-out infinite; }
 .companion-render-layer,
 .companion-render-video,
 .companion-render-static { position: absolute; z-index: 1; inset: 0; width: 100%; height: 100%; }
@@ -118,12 +118,12 @@
 .accessory-icon[data-position="none"] { display: none; }
 .avatar-glow { position: absolute; inset: 45px -40px 10px; border-radius: 50%; background: var(--avatar-glow, rgba(168,188,195,.42)); filter: blur(40px); animation: glow-breathe 5s ease-in-out infinite; }
 .human-avatar.greet { animation: greet 720ms ease; }
-.avatar-caption { position: absolute; z-index: 5; bottom: 138px; padding: 7px 11px; border: 1px solid rgba(52,64,74,.1); border-radius: 999px; display: flex; align-items: center; gap: 7px; background: rgba(255,255,255,.76); font-size: 9px; }
+.avatar-caption { position: absolute; z-index: 9; bottom: 120px; max-width: min(480px, calc(100% - 42px)); padding: 7px 11px; border: 1px solid rgba(52,64,74,.1); border-radius: 999px; display: flex; align-items: center; gap: 7px; background: rgba(255,255,255,.84); font-size: 9px; }
 .avatar-caption i { width: 6px; height: 6px; border-radius: 50%; background: #79a68b; }
-.stage-actions { position: absolute; z-index: 6; bottom: 42px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; width: min(760px, calc(100% - 28px)); }
+.stage-actions { position: absolute; z-index: 20; bottom: 28px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; width: min(620px, calc(100% - 28px)); pointer-events: auto; }
 .start-conversation,
-.stage-action-link { min-width: 138px; height: 52px; border: 1px solid rgba(52,64,74,.12); border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: 14px; color: #4f6069; background: rgba(255,255,255,.86); box-shadow: 0 14px 30px rgba(107,111,135,.14); cursor: pointer; }
-.start-conversation { border: 0; min-width: 180px; color: #fff; background: #8fa0bd; }
+.stage-action-link { min-width: 138px; height: 52px; border: 1px solid rgba(52,64,74,.12); border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; gap: 14px; color: #4f6069; background: rgba(255,255,255,.9); box-shadow: 0 14px 30px rgba(107,111,135,.14); cursor: pointer; position: relative; z-index: 21; }
+.start-conversation { border: 0; min-width: 180px; color: #fff; background: #8fa0bd; position: relative; z-index: 21; }
 .stage-action-link i,
 .start-conversation i { font-style: normal; }
 
@@ -161,9 +161,11 @@
 .chat-voice-link:hover { border-color: #ac9ac3; color: #4a5560; }
 .chat-drawer > header button { width: 38px; height: 38px; border: 1px solid rgba(52,64,74,.12); border-radius: 50%; background: transparent; cursor: pointer; }
 .chat-history { flex: 1; overflow: auto; padding: 28px 0; display: grid; align-content: start; gap: 12px; }
-.chat-history article { max-width: 88%; padding: 14px 16px; border: 1px solid rgba(52,64,74,.1); background: #fff; }
-.chat-history article.user-message { justify-self: end; background: #e8eef0; }
+.chat-history article { max-width: 88%; padding: 14px 16px; border: 1px solid rgba(52,64,74,.1); border-radius: 8px; background: #fff; }
+.chat-history article.assistant-message { border-top-left-radius: 2px; }
+.chat-history article.user-message { justify-self: end; border-color: rgba(95,143,179,.24); border-top-right-radius: 2px; color: #173246; background: #dcebf3; }
 .chat-history span { color: #8c9499; font-size: 8px; }
+.chat-history article.user-message span { color: #4e7ea6; }
 .chat-history p { margin: 7px 0 0; font-size: 13px; }
 .chat-history .thinking p::after { content: "..."; animation: caret 900ms steps(2) infinite; }
 .chat-suggestions { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -199,7 +201,7 @@
   .companion-shell { width: calc(100% - 32px); grid-template-columns: 1fr; }
   .mate-column { grid-template-columns: 1fr 1fr; }
   .daily-line { grid-column: 1 / -1; }
-  .avatar-stage { min-height: 760px; }
+  .avatar-stage { order: -1; min-height: 760px; }
   .state-column { grid-column: auto; grid-template-columns: 1fr; }
 }
 @media (max-width: 560px) {
@@ -207,18 +209,29 @@
   .companion-header .brand-copy small { display: none; }
   .mate-column { grid-template-columns: 1fr; }
   .daily-line { grid-column: auto; }
-  .avatar-stage { min-height: 680px; }
+  .avatar-stage { min-height: 720px; }
   .avatar-orbit--one { width: 430px; max-width: 120%; }
   .avatar-orbit--two { width: 320px; max-width: 88%; }
-  .human-avatar { width: 350px; height: 470px; transform: scale(.92); }
-  .avatar-costume-display { width: 350px; height: 430px; }
+  .human-avatar { width: min(340px, calc(100vw - 42px)); height: 445px; margin-top: 74px; transform: none; }
+  .stage-title h2 { font-size: 21px; }
+  .avatar-costume-display { width: min(340px, calc(100vw - 42px)); height: 392px; }
   .human-avatar:hover { transform: scale(.92) translateY(-5px); }
-  .stage-actions { bottom: 22px; }
+  .stage-actions { bottom: 18px; gap: 8px; }
   .start-conversation,
   .stage-action-link { min-width: 128px; height: 46px; font-size: 12px; }
   .node--listen { left: 0; }
   .node--understand { right: 0; }
   .chat-drawer { padding: 20px 16px; }
+}
+
+.costume-options button:disabled {
+  opacity: .42;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.costume-options button:disabled small {
+  color: inherit;
 }
 
 @media (max-width: 820px) {

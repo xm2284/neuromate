@@ -1,0 +1,86 @@
+[
+  {
+    "page": "home",
+    "viewport": "desktop-1366",
+    "ok": true,
+    "screenshot": "home-desktop-1366.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "companion",
+    "viewport": "desktop-1366",
+    "ok": true,
+    "screenshot": "companion-desktop-1366.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "space",
+    "viewport": "desktop-1366",
+    "ok": true,
+    "screenshot": "space-desktop-1366.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "voice-chat",
+    "viewport": "desktop-1366",
+    "ok": true,
+    "screenshot": "voice-chat-desktop-1366.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "questionnaire",
+    "viewport": "desktop-1366",
+    "ok": true,
+    "screenshot": "questionnaire-desktop-1366.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "membership",
+    "viewport": "desktop-1366",
+    "ok": true,
+    "screenshot": "membership-desktop-1366.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "home",
+    "viewport": "mobile-390",
+    "ok": true,
+    "screenshot": "home-mobile-390.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "companion",
+    "viewport": "mobile-390",
+    "ok": true,
+    "screenshot": "companion-mobile-390.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "space",
+    "viewport": "mobile-390",
+    "ok": true,
+    "screenshot": "space-mobile-390.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "voice-chat",
+    "viewport": "mobile-390",
+    "ok": true,
+    "screenshot": "voice-chat-mobile-390.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "questionnaire",
+    "viewport": "mobile-390",
+    "ok": true,
+    "screenshot": "questionnaire-mobile-390.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "membership",
+    "viewport": "mobile-390",
+    "ok": true,
+    "screenshot": "membership-mobile-390.png",
+    "consoleErrors": []
+  }
+]

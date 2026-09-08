@@ -29,7 +29,7 @@
 
   <main id="top">
     <section class="home-hero" aria-labelledby="heroTitle">
-      <video class="home-hero__video" autoplay loop muted playsinline aria-hidden="true">
+      <video class="home-hero__video" id="heroVideo" loop muted playsinline preload="none" aria-hidden="true">
         <source src="assets/home-hero.mp4" type="video/mp4">
       </video>
       <div class="home-hero__shade" aria-hidden="true"></div>
@@ -41,6 +41,7 @@
         <div class="hero-actions">
           <a class="hero-primary" href="login.html">立即体验</a>
           <a class="hero-secondary" href="#companion">认识元知己 <span>↓</span></a>
+          <button class="hero-video-control" id="heroVideoControl" type="button" aria-pressed="false">播放背景</button>
         </div>
       </div>
     </section>
@@ -113,14 +114,14 @@
     <section class="home-band growth-preview reveal">
       <div class="band-heading">
         <div><p class="eyebrow">GROWTH RECORD</p><h2>把情绪、睡眠、专注和陪伴放在一张图里。</h2></div>
-        <p>评委可以直接看到趋势、节律、记录热力与徽章进度，而不是只看静态功能说明。</p>
+        <p>把趋势、节律、记录热力与徽章进度放在一起，帮助你看见最近的状态变化。</p>
       </div>
       <div class="growth-preview-grid">
         <article class="preview-calendar">
-          <header><div><span>7 月记录热力</span><small>每天一次轻量记录</small></div><strong>23 / 31</strong></header>
+          <header><div><span id="homeHeatmapTitle">本月记录热力</span><small>示例数据 · 每天一次轻量记录</small></div><strong id="homeHeatmapSummary">-- / --</strong></header>
           <div class="heatmap-week" aria-hidden="true"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
           <div class="heatmap-chart" id="homeHeatmap" aria-label="七月状态记录热力图"></div>
-          <p class="chart-detail" id="heatmapDetail">7 月 27 日 · 能量 58 · 有一点紧绷</p>
+          <p class="chart-detail" id="heatmapDetail">本月示例记录会随当前日期更新</p>
           <footer><span>低能量</span><i></i><i></i><i></i><i></i><span>有余量</span></footer>
         </article>
         <article class="preview-rhythm">

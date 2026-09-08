@@ -37,10 +37,10 @@
   const avatarItemMap = {
     'avatar-yuanan': 'yuanan',
     'avatar-yuanqing': 'yuanqing',
-    'avatar-yuanxi': 'yuanxi',
     'avatar-yuanche': 'yuanche',
     'avatar-mao': 'mao',
     'avatar-panda': 'panda',
+    'avatar-yuanyao': 'yuanyao',
     'avatar-yuanchu': 'yuanchu'
   };
 

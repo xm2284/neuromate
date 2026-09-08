@@ -35,43 +35,41 @@ let currentScene = 'day';
 let sceneLights = null; // { hemi, key, fill } 当前 VRM 场景灯光
 let rainFx = null;
 let rainAudio = null;
+let rainSoundUnlocked = false;
 
 function setRainSound(on) {
-  if (on) {
+  if (on && rainSoundUnlocked) {
     if (!rainAudio) {
       rainAudio = new Audio('assets/rain.wav');
       rainAudio.loop = true;
-      rainAudio.volume = 0.08;
+      rainAudio.volume = 0.035;
     }
     rainAudio.play().catch(() => { /* 等待首次用户交互 */ });
   } else if (rainAudio) {
     rainAudio.pause();
   }
 }
-document.addEventListener('pointerdown', () => {
-  if (rainAudio && rainAudio.paused && document.body.classList.contains('scene-rain')) {
-    rainAudio.play().catch(() => { /* 忽略 */ });
-  }
-});
 
 /* 3D 雨丝：LineSegments 细长竖直线条，微斜风、速度有快有慢，加色混合更通透 */
 function setRain(on) {
   if (on && !rainFx && vrmScene) {
-    const N = 34, LEN = 0.06;
+    const N = 14, LEN = 0.035;
     const pos = new Float32Array(N * 6);
     const drops = [];
     for (let i = 0; i < N; i++) {
+      const lane = i % 4;
+      const sideOffset = lane < 2 ? -1.25 : 1.25;
       drops.push({
-        x: Math.random() * 4.4 - 2.2,
+        x: sideOffset + Math.random() * 1.25 - 0.62,
         y: Math.random() * 4.2 - 1,
         z: Math.random() * 0.9 - 1.45,
-        v: 0.009 + Math.random() * 0.012,
+        v: 0.006 + Math.random() * 0.008,
       });
     }
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
     const lines = new THREE.LineSegments(geo, new THREE.LineBasicMaterial({
-      color: 0xd6e2ec, transparent: true, opacity: 0.08,
+      color: 0xd6e2ec, transparent: true, opacity: 0.045,
       depthWrite: false,
     }));
     vrmScene.add(lines);
@@ -93,7 +91,7 @@ function updateRain() {
     d.x += 0.0006; // 微风斜落
     if (d.y < -1.1) {
       d.y = 2.7 + Math.random() * 1.2;
-      d.x = Math.random() * 4.4 - 2.2;
+      d.x = (i % 4 < 2 ? -1.25 : 1.25) + Math.random() * 1.25 - 0.62;
       d.z = Math.random() * 0.9 - 1.45;
     }
     const o = i * 6;
@@ -115,7 +113,7 @@ function applyScene(key) {
     sceneLights.hemi.intensity = s.ambient;
   }
   setRain(!!s.rain);
-  setRainSound(!!s.rain);
+  setRainSound(false);
   document.querySelectorAll('[data-scene]').forEach((button) => {
     const active = button.dataset.scene === key;
     button.classList.toggle('active', active);

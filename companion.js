@@ -56,6 +56,12 @@
   });
 
   const paletteNames = { calm: '平静', joy: '愉悦', warm: '温暖', focus: '专注' };
+  const palettePlaceholders = {
+    calm: '慢慢说，不用组织得很完整……',
+    joy: '把今天让你轻松一点的事告诉我吧。',
+    warm: '我在，先说最需要被接住的那一句。',
+    focus: '我们可以先拆一个最小步骤。'
+  };
   document.querySelectorAll('[data-palette]').forEach((button) => button.addEventListener('click', () => {
     document.querySelector('[data-palette].active').classList.remove('active');
     button.classList.add('active');
@@ -63,6 +69,8 @@
     // 心情用独立 data-mood 属性，避免覆盖主题的 body[data-palette="morandi"]
     document.body.dataset.mood = palette;
     document.querySelector('#paletteLabel').textContent = paletteNames[palette];
+    const moodInput = document.querySelector('#companionInput');
+    if (moodInput) moodInput.placeholder = palettePlaceholders[palette] || palettePlaceholders.calm;
     try {
       localStorage.setItem('neuromate-companion-render-state', JSON.stringify({ mood: palette }));
     } catch (error) { /* ignore */ }
@@ -134,10 +142,59 @@
   document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeChat(); });
 
   const mockReplies = {
-    '我在担心考试': '担心说明这件事对你很重要。先告诉我，最害怕发生的具体场景是什么？',
-    '今天有点累': '那我们先不追求效率。今晚删掉一件不必要的任务，给身体留一点余量。',
-    '我想先安静一会儿': '好。我会留在这里，不追问。你准备好时再继续。'
+    '我在担心考试': ['担心说明这件事对你很重要。先告诉我，最害怕发生的具体场景是什么？'],
+    '今天有点累': ['那我们先不追求效率。今晚删掉一件不必要的任务，给身体留一点余量。'],
+    '我想先安静一会儿': ['好。我会留在这里，不追问。你准备好时再继续。']
   };
+  const localReplyBuckets = {
+    exam: [
+      '先把考试这件事拆小：你最不确定的是知识点、时间安排，还是考试现场的状态？',
+      '我们不和整场考试对抗。先选一页最熟的内容，做十分钟，让身体重新得到一点掌控感。',
+      '担心不等于没准备好。你可以先说一个最怕失分的地方，我陪你把它变成可行动的小步骤。'
+    ],
+    tired: [
+      '听起来你已经撑了一段时间。现在先把目标降到很小：喝水、坐稳、只完成一个最轻的动作。',
+      '累的时候，大脑会把任务看得更重。今晚可以保留一件必须做的事，其余先放到明天。',
+      '你不是不努力，是需要恢复。我们先让身体慢下来，再决定下一步。'
+    ],
+    sleep: [
+      '睡不着时别急着逼自己入睡。先把注意力放到呼气上，慢慢数三轮就好。',
+      '夜里想很多很常见。你可以把脑子里最吵的一句话写下来，我们只看这一句。',
+      '现在不用证明自己可以立刻睡好。先把屏幕亮度降一点，让身体收到休息信号。'
+    ],
+    lonely: [
+      '这种一个人扛着的感觉确实会很重。此刻我在这里，先陪你把最难开口的部分说出来。',
+      '你说出来的时候，已经不是完全独自面对了。我们慢一点，不急着解释。'
+    ],
+    action: [
+      '可以。现在只定一个十分钟动作：打开资料、圈三个关键词、停下休息。',
+      '下一步不用漂亮，只要足够小。你愿意先从最容易开始的那一项说起吗？',
+      '我们把目标改成“开始两分钟”。完成开始，本身就是进展。'
+    ],
+    default: [
+      '我听见了。我们可以从这句话里最沉的那个词开始，不必一次讲完。',
+      '这件事听起来对你很重要。你愿意先告诉我，它最影响你的哪个时刻吗？',
+      '先不用急着解决。我们把感受、事实和下一步分开放，会更容易呼吸。',
+      '谢谢你愿意说。你可以继续按自己的节奏来，我会跟着你。'
+    ]
+  };
+  const recentLocalReplies = [];
+  function pickLocalReply(message) {
+    if (mockReplies[message]) return mockReplies[message][0];
+    const text = message.toLowerCase();
+    let bucket = 'default';
+    if (/考试|复习|挂科|分数|题|ddl|作业|答辩/.test(text)) bucket = 'exam';
+    else if (/累|疲惫|困|撑不住|没力气|烦/.test(text)) bucket = 'tired';
+    else if (/睡|失眠|熬夜|梦|夜里/.test(text)) bucket = 'sleep';
+    else if (/孤独|一个人|没人|寂寞|空/.test(text)) bucket = 'lonely';
+    else if (/怎么办|计划|下一步|行动|开始|做什么/.test(text)) bucket = 'action';
+    const choices = localReplyBuckets[bucket] || localReplyBuckets.default;
+    const available = choices.filter((line) => !recentLocalReplies.includes(line));
+    const reply = (available.length ? available : choices)[Math.floor(Math.random() * (available.length ? available : choices).length)];
+    recentLocalReplies.push(reply);
+    if (recentLocalReplies.length > 4) recentLocalReplies.shift();
+    return reply;
+  }
 
   /* ===== LLM 适配器：三种模式 =====
    * 1. WebSocket 模式：设置 window.NEUROMATE_VTUBER_WS（如 'ws://127.0.0.1:12393/client-ws'）
@@ -215,7 +272,7 @@
       }
       if (!this.endpoint) {
         await new Promise((resolve) => window.setTimeout(resolve, reducedMotion ? 0 : 650));
-        return mockReplies[message] || '我听见了。我们可以从这句话里最沉的那个词开始，不必一次讲完。';
+        return pickLocalReply(message);
       }
       const response = await fetch(this.endpoint, {
         method: 'POST',
@@ -249,18 +306,18 @@
     if (!clean) return;
     appendMessage('user', clean, false);
     const waiting = appendMessage('assistant', '正在理解', true);
-    adapterState.textContent = CompanionLLM.configured ? (CompanionLLM.wsEndpoint ? '正在连接 Open-LLM-VTuber 数字人服务' : '正在连接 LLM 服务') : '演示回应 · LLM 接口待接入';
+    adapterState.textContent = CompanionLLM.configured ? (CompanionLLM.wsEndpoint ? '正在连接数字人服务' : '正在连接模型服务') : '本地演示回应中';
     try {
       const reply = await CompanionLLM.reply(clean, { mood: document.querySelector('#paletteLabel').textContent });
       waiting.classList.remove('thinking');
       waiting.querySelector('p').textContent = reply;
       document.querySelector('#typewriterText').textContent = reply;
       animateActiveAvatar(reply);
-      adapterState.textContent = CompanionLLM.configured ? (CompanionLLM.wsEndpoint ? 'Open-LLM-VTuber 数字人已连接' : 'LLM 服务已连接') : '演示回应 · LLM 接口待接入';
+      adapterState.textContent = CompanionLLM.configured ? (CompanionLLM.wsEndpoint ? '数字人服务已连接' : '模型服务已连接') : '本地演示回应中';
     } catch (error) {
       waiting.classList.remove('thinking');
       waiting.querySelector('p').textContent = '连接暂时中断了，但你刚才说的话不会因此失去意义。';
-      adapterState.textContent = 'LLM 连接失败 · 已降级到本地提示';
+      adapterState.textContent = '服务暂时没连上，已切回本地提示';
     }
   }
   document.querySelectorAll('.chat-suggestions button').forEach((button) => button.addEventListener('click', () => send(button.textContent)));
@@ -287,6 +344,7 @@
   const costumeSymbols = { star: '★', moon: '☾', sun: '☀', cloud: '☁', campus: '✎', sweater: '♨' };
   const accessorySymbols = { none: '', bow: '🎀', 'cat-ears': '🐱', 'star-wand': '🪄', 'round-glasses': '👓', hat: '▲', glasses: '∞', flower: '✿ ✿ ✿' };
   const accessoryPositions = { none: 'none', bow: 'head', 'cat-ears': 'head', 'star-wand': 'hand', 'round-glasses': 'eye', hat: 'head', glasses: 'eye', flower: 'neck' };
+  const vrmAccessories = new Set(['none', 'bow', 'cat-ears', 'star-wand', 'round-glasses']);
   const lookNames = {
     clothes: { star: '星星套装', moon: '月光套装', sun: '阳光套装', cloud: '云朵套装', campus: '校园形象', sweater: '治愈系毛衣' },
     accessories: { none: '无配饰', bow: '蝴蝶结', 'cat-ears': '猫耳', 'star-wand': '星星手杖', 'round-glasses': '圆框眼镜', hat: '月影礼帽', glasses: '专注镜框', flower: '安睡花环' }
@@ -319,6 +377,17 @@
       });
       modeHost.appendChild(button);
     });
+  }
+
+  function outfitSupport(info = currentAvatar()) {
+    return info.outfitSupport || { clothes: false, accessories: false, appearance: false, reason: '当前形象暂不支持这类装扮。' };
+  }
+
+  function supportsItem(category, item, info = currentAvatar()) {
+    const support = outfitSupport(info);
+    if (category === 'accessories' && item === 'none') return true;
+    if (category === 'accessories' && info.render === 'vrm') return vrmAccessories.has(item);
+    return Boolean(support[category]);
   }
 
   function setAvatarMode(mode, options = {}) {
@@ -367,6 +436,7 @@
     applyCostume(loadSpaceSnapshot());
     document.querySelector('#typewriterText').textContent = options.message || `${info.name}在线。${info.role}`;
     if (firstMessageText) firstMessageText.textContent = `${info.name}在这里。${info.desc}`;
+    updateCostumePanel();
   }
 
   function loadSpaceSnapshot() {
@@ -401,8 +471,10 @@
     }
     const plain = clothes === 'star' && accessory === 'none';
     const info = currentAvatar();
-    avatarStatusText.textContent = `${info.name} · ${info.type} · ${plain ? '可以开始' : `${lookNames.clothes[clothes]}${accessory === 'none' ? '' : ' + ' + lookNames.accessories[accessory]}`}`;
-    if (lookLabel) lookLabel.textContent = `${lookNames.clothes[clothes]} · ${lookNames.accessories[accessory]}`;
+    const support = outfitSupport(info);
+    const outfitText = plain ? '可以开始' : `${lookNames.clothes[clothes]}${accessory === 'none' ? '' : ' + ' + lookNames.accessories[accessory]}`;
+    avatarStatusText.textContent = support.clothes || support.accessories ? `${info.name} · ${info.type} · ${outfitText}` : `${info.name} · ${info.type} · 稳定展示`;
+    if (lookLabel) lookLabel.textContent = support.clothes || support.accessories ? `${lookNames.clothes[clothes]} · ${lookNames.accessories[accessory]}` : '当前形象先保留原始外观';
   }
   function applyName(snapshot) {
     const info = currentAvatar();
@@ -417,12 +489,17 @@
   function updateCostumePanel() {
     const snapshot = loadSpaceSnapshot();
     const equip = snapshot.equipped || {};
+    const info = currentAvatar();
+    const reason = outfitSupport(info).reason || '当前形象暂不支持这类装扮。';
     document.querySelectorAll('.costume-options button').forEach((button) => {
       const category = button.parentElement.dataset.category;
       const item = button.dataset.item;
       const active = equip[category] === item;
+      const supported = supportsItem(category, item, info);
       button.classList.toggle('active', active);
-      button.classList.remove('is-locked');
+      button.classList.toggle('is-locked', !supported);
+      button.disabled = !supported;
+      button.title = supported ? button.textContent.trim() : `${info.name}暂不支持：${reason}`;
       button.setAttribute('aria-pressed', String(active));
     });
   }
@@ -446,6 +523,10 @@
   document.querySelectorAll('.costume-options button').forEach((button) => button.addEventListener('click', () => {
     const category = button.parentElement.dataset.category;
     const item = button.dataset.item;
+    if (!supportsItem(category, item)) {
+      if (window.NeuroMateComfort) NeuroMateComfort.showToast(outfitSupport().reason || '当前形象暂不支持这类装扮。');
+      return;
+    }
     const snapshot = loadSpaceSnapshot();
     const current = (snapshot.equipped || {})[category];
     const next = current === item ? (category === 'clothes' ? 'star' : 'none') : item; // 再点已穿戴项 = 脱下
@@ -456,7 +537,7 @@
       window.NeuroMateCompanionRenderer.refreshOutfitImage();
       window.NeuroMateCompanionRenderer.applyAccessories();
     }
-    if (window.NeuroMateComfort) NeuroMateComfort.showToast(next === item ? '已换上，我的空间会同步更新。' : '已脱下，恢复默认装扮。');
+    if (window.NeuroMateComfort) NeuroMateComfort.showToast(next === item ? '已换上，预览会同步更新。' : '已脱下，恢复默认装扮。');
   }));
 
   document.querySelectorAll('[data-scene]').forEach((button) => button.addEventListener('click', () => {

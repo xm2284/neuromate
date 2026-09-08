@@ -29900,9 +29900,7 @@ void main() {
 
   // voice-avatar.js
   var MODELS = [
-    { url: "./models/VRM1_Constraint_Twist_Sample.vrm", label: "\u5143\u5143" },
-    { url: "./models/AvatarSample_B.vrm", label: "\u5C0F\u821F", shopId: "avatar-xiaozhou", cost: 800 },
-    { url: "./models/AvatarSample_A.vrm", label: "\u7231\u4E3D\u4E1D", shopId: "avatar-alice", cost: 800 }
+    { url: "./models/VRM1_Constraint_Twist_Sample.vrm", label: "\u5143\u5143" }
   ];
   var wallet = window.NeurWallet || null;
   function isUnlocked(m) {
@@ -29920,6 +29918,7 @@ void main() {
   var stage = document.getElementById("vrmStage");
   var loadingEl = document.getElementById("vrmLoading");
   var switchBtn = document.getElementById("vrmSwitch");
+  if (switchBtn && MODELS.length < 2) switchBtn.hidden = true;
   if (!canvas || !stage) {
   } else {
     init().catch((err) => {

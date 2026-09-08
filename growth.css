@@ -45,6 +45,7 @@
 .mood-calendar { padding: 26px; }
 .mood-calendar header { display: flex; justify-content: space-between; align-items: center; }
 .mood-calendar header button { width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; background: transparent; cursor: pointer; }
+.mood-calendar header button:disabled { opacity: .35; cursor: not-allowed; }
 .mood-calendar h3 { margin: 0; font-family: var(--serif); font-size: 23px; }
 .calendar-week, .calendar-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 7px; }
 .calendar-week { margin: 25px 0 8px; color: var(--muted); text-align: center; font-size: 9px; }

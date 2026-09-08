@@ -14,6 +14,32 @@
     toastTimer = window.setTimeout(() => toast.classList.remove('show'), 2400);
   }
 
+  const heroVideo = document.querySelector('#heroVideo');
+  const heroVideoControl = document.querySelector('#heroVideoControl');
+  function syncHeroVideoControl() {
+    if (!heroVideo || !heroVideoControl) return;
+    const playing = !heroVideo.paused && !heroVideo.ended;
+    heroVideoControl.textContent = playing ? '暂停背景' : '播放背景';
+    heroVideoControl.setAttribute('aria-pressed', String(playing));
+  }
+  if (heroVideo && heroVideoControl) {
+    heroVideoControl.addEventListener('click', async () => {
+      if (heroVideo.paused) {
+        try {
+          await heroVideo.play();
+        } catch (error) {
+          showToast('浏览器暂时没有允许播放背景视频。');
+        }
+      } else {
+        heroVideo.pause();
+      }
+      syncHeroVideoControl();
+    });
+    heroVideo.addEventListener('play', syncHeroVideoControl);
+    heroVideo.addEventListener('pause', syncHeroVideoControl);
+    syncHeroVideoControl();
+  }
+
   document.querySelectorAll('.reveal').forEach((element) => {
     if (reducedMotion) {
       element.classList.add('visible');
@@ -183,13 +209,26 @@
   const heatmap = document.querySelector('#homeHeatmap');
   if (heatmap) {
     const detail = document.querySelector('#heatmapDetail');
-    const firstDay = 2;
-    const energyValues = [63, 57, 70, 0, 52, 61, 74, 48, 66, 72, 0, 54, 59, 46, 42, 39, 44, 51, 60, 64, 0, 67, 72, 0, 55, 62, 58, 69, 73, 65, 60];
-    for (let slot = 0; slot < 35; slot += 1) {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const monthText = `${month + 1} 月`;
+    const days = new Date(year, month + 1, 0).getDate();
+    const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
+    const activeDay = Math.min(now.getDate(), days);
+    const energyValues = Array.from({ length: days }, (_, index) => {
+      const day = index + 1;
+      if ((day + month) % 9 === 0) return 0;
+      return Math.round(53 + Math.sin((day + month) * .9) * 12 + Math.cos(day * .43) * 6);
+    });
+    const recorded = energyValues.filter(Boolean).length;
+    document.querySelector('#homeHeatmapTitle').textContent = `${monthText}记录热力`;
+    document.querySelector('#homeHeatmapSummary').textContent = `${recorded} / ${days}`;
+    for (let slot = 0; slot < firstDay + days; slot += 1) {
       const cell = document.createElement('button');
       cell.type = 'button';
       const day = slot - firstDay + 1;
-      if (day < 1 || day > 31) {
+      if (day < 1 || day > days) {
         cell.className = 'empty';
         cell.disabled = true;
       } else {
@@ -197,12 +236,15 @@
         const level = energy === 0 ? 0 : Math.min(4, Math.max(1, Math.ceil((energy - 30) / 12)));
         cell.className = level ? `level-${level}` : '';
         cell.textContent = day;
-        cell.setAttribute('aria-label', energy ? `7 月 ${day} 日，能量 ${energy}` : `7 月 ${day} 日，未记录`);
-        if (day === 27) cell.classList.add('active');
+        cell.setAttribute('aria-label', energy ? `${monthText} ${day} 日，示例能量 ${energy}` : `${monthText} ${day} 日，未记录`);
+        if (day === activeDay) {
+          cell.classList.add('active');
+          detail.textContent = energy ? `${monthText} ${day} 日 · 示例能量 ${energy} · ${energy >= 65 ? '状态较有余量' : energy >= 50 ? '有一点紧绷' : '更需要休息'}` : `${monthText} ${day} 日 · 当天没有记录`;
+        }
         cell.addEventListener('click', () => {
           heatmap.querySelector('.active')?.classList.remove('active');
           cell.classList.add('active');
-          detail.textContent = energy ? `7 月 ${day} 日 · 能量 ${energy} · ${energy >= 65 ? '状态较有余量' : energy >= 50 ? '有一点紧绷' : '更需要休息'}` : `7 月 ${day} 日 · 当天没有记录`;
+          detail.textContent = energy ? `${monthText} ${day} 日 · 示例能量 ${energy} · ${energy >= 65 ? '状态较有余量' : energy >= 50 ? '有一点紧绷' : '更需要休息'}` : `${monthText} ${day} 日 · 当天没有记录`;
         });
       }
       heatmap.appendChild(cell);

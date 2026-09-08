@@ -4,7 +4,7 @@
   if (reducedMotion) document.body.dataset.reducedMotion = 'true';
 
   document.querySelectorAll('[data-count]').forEach((element) => {
-    const target = Number(element.dataset.count);
+    const target = Math.max(0, Number(element.dataset.count) || 0);
     const start = performance.now();
     function tick(now) {
       const progress = reducedMotion ? 1 : Math.min(1, (now - start) / 1100);
@@ -146,16 +146,21 @@
     ['阶段任务让压力有所增加', '11 月中旬低能量天数增多；向同伴求助后，连续紧绷的时段缩短。'],
     ['年末回看带来了确定感', '12 月虽然任务较多，但记录更连续，也更容易发现适合自己的恢复方式。']
   ];
-  let displayMonth = 6;
+  const today = new Date();
+  let displayYear = today.getFullYear();
+  let displayMonth = today.getMonth();
   function renderCalendar() {
     calendarGrid.replaceChildren();
-    const year = 2026;
+    const year = displayYear;
     const days = new Date(year, displayMonth + 1, 0).getDate();
     const first = (new Date(year, displayMonth, 1).getDay() + 6) % 7;
     monthTitle.textContent = `${year} 年 ${displayMonth + 1} 月`;
-    [calendarInsightTitle.textContent, calendarInsightText.textContent] = monthInsights[displayMonth];
-    monthPrev.disabled = displayMonth === 0;
-    monthNext.disabled = displayMonth === 11;
+    const monthName = `${displayMonth + 1} 月`;
+    const insight = monthInsights[displayMonth] || ['最近状态有波动', '示例记录会跟随当前月份显示，正式版本只展示授权保存的数据。'];
+    calendarInsightTitle.textContent = insight[0];
+    calendarInsightText.textContent = `${insight[1]}（${monthName}示例）`;
+    monthPrev.disabled = false;
+    monthNext.disabled = year > today.getFullYear() || (year === today.getFullYear() && displayMonth >= today.getMonth());
     for (let index = 0; index < first; index += 1) {
       const empty = document.createElement('button'); empty.className = 'empty'; empty.disabled = true; calendarGrid.appendChild(empty);
     }
@@ -164,15 +169,31 @@
       const level = (Math.abs(Math.sin((day + displayMonth * 3) * 2.17)) * 5) | 0;
       button.className = level ? `level-${Math.min(4,level)}` : 'blank';
       button.textContent = String(day);
-      button.title = level ? `${displayMonth + 1} 月 ${day} 日：已记录` : `${displayMonth + 1} 月 ${day} 日：未记录`;
+      button.title = level ? `${displayMonth + 1} 月 ${day} 日：示例已记录` : `${displayMonth + 1} 月 ${day} 日：未记录`;
       button.addEventListener('click', () => {
-        showToast(level ? `${displayMonth + 1} 月 ${day} 日留下了记录，继续照顾自己。` : '这一天没有记录，留白也算数。');
+        showToast(level ? `${displayMonth + 1} 月 ${day} 日有一条示例记录。` : '这一天没有记录，留白也算数。');
       });
       calendarGrid.appendChild(button);
     }
   }
-  monthPrev.addEventListener('click', () => { displayMonth = Math.max(0, displayMonth - 1); renderCalendar(); });
-  monthNext.addEventListener('click', () => { displayMonth = Math.min(11, displayMonth + 1); renderCalendar(); });
+  monthPrev.addEventListener('click', () => {
+    displayMonth -= 1;
+    if (displayMonth < 0) {
+      displayMonth = 11;
+      displayYear -= 1;
+    }
+    renderCalendar();
+  });
+  monthNext.addEventListener('click', () => {
+    const atCurrentMonth = displayYear === today.getFullYear() && displayMonth >= today.getMonth();
+    if (atCurrentMonth) return;
+    displayMonth += 1;
+    if (displayMonth > 11) {
+      displayMonth = 0;
+      displayYear += 1;
+    }
+    renderCalendar();
+  });
   renderCalendar();
 
   const fortunes = [

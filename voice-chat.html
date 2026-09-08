@@ -22,7 +22,7 @@
 <body class="voice-page bg-matte page-fade">
 
   <!-- 顶部：极简，仅返回与状态 -->
-  <div class="voice-top-hint" role="note" aria-label="隐私提示">所有对话仅保存在本地，不会上传</div>
+  <div class="voice-top-hint" role="note" aria-label="演示状态">当前为本地演示，未连接学校服务器</div>
   <header class="voice-header">
     <a class="voice-back" href="companion.html" aria-label="返回数字人页面">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
@@ -33,7 +33,6 @@
       <span class="status-text">元元在这里，随时倾听</span>
     </div>
     <div class="voice-avatar-switch" id="voiceAvatarSwitch" aria-label="选择语音形象"></div>
-    <a class="voice-api-entry" href="api-config.html">API配置</a>
     <button class="voice-settings" id="voiceSettings" type="button" aria-label="语音设置">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
     </button>
@@ -139,7 +138,7 @@
   <!-- 设置面板 -->
   <dialog class="voice-dialog" id="settingsDialog">
     <form method="dialog"><button class="dialog-close" type="submit" aria-label="关闭设置">×</button></form>
-    <p class="eyebrow">VOICE SETTINGS</p>
+    <p class="eyebrow">语音设置</p>
     <h2>声音与对话</h2>
 
     <div class="setting-group">
@@ -148,6 +147,11 @@
         <button class="active" type="button" role="radio" aria-checked="true" data-voice="female-soft"><span class="setting-icon">♀️</span>温柔女声</button>
         <button type="button" role="radio" aria-checked="false" data-voice="female-warm"><span class="setting-icon">♀️</span>舒缓女声</button>
         <button type="button" role="radio" aria-checked="false" data-voice="male-gentle"><span class="setting-icon">♂️</span>温和男声</button>
+      </div>
+      <div class="voice-current-card" aria-live="polite">
+        <span>当前实际音色</span>
+        <strong id="voiceCurrentText">正在读取本机音色</strong>
+        <button type="button" id="voiceRefresh">刷新音色</button>
       </div>
     </div>
 
@@ -170,13 +174,7 @@
       </div>
     </div>
 
-    <div class="setting-group api-setting">
-      <span class="setting-label">模型接口</span>
-      <p class="setting-note">如果已经在 API 配置页填写 HTTP 接口，语音页会优先请求真实服务；失败时自动回到本地演示。</p>
-      <a class="api-config-link" href="api-config.html">打开 API 配置与连通测试 →</a>
-    </div>
-
-    <p class="setting-note">AI 语音使用浏览器原生语音合成，不会录制或上传你的声音。对话内容仅留在本地。</p>
+    <p class="setting-note">当前页面使用浏览器语音能力和本地演示回应。接入学校服务器后，会在正式入口说明数据发送范围。</p>
   </dialog>
 
   <!-- 音频元素（环境音用 Web Audio API 生成，无需外部文件） -->
@@ -187,7 +185,6 @@
   <script src="api-config.js"></script>
   <script src="voice-chat.js"></script>
   <script src="wallet.js" defer></script>
-  <script src="vrm-models.js" defer></script>
   <script src="voice-avatar.bundle.js" defer></script>
 </body>
 </html>

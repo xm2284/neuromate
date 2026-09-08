@@ -13,6 +13,7 @@
     home:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a2 2 0 01-2 2h-3v-7H8v7H5a2 2 0 01-2-2v-9z" opacity=".7"/></svg>',
     theme:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" opacity=".8"/></svg>',
     themeOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" opacity=".8"/></svg>',
+    data:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="7" ry="3"/><path d="M5 5v6c0 1.7 3.1 3 7 3s7-1.3 7-3V5"/><path d="M5 11v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg>',
     close:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>'
   };
 
@@ -38,11 +39,16 @@
   homeBtn.innerHTML = ICONS.home + '<span>返回</span>';
   homeBtn.setAttribute('aria-label', '返回首页');
 
+  const dataBtn = createEl('button', 'comfort-btn');
+  dataBtn.type = 'button';
+  dataBtn.innerHTML = ICONS.data + '<span>数据</span>';
+  dataBtn.setAttribute('aria-label', '打开数据管理');
+
   const themeBtn = createEl('button', 'comfort-btn');
   themeBtn.type = 'button';
   themeBtn.setAttribute('aria-label', '切换主题（海洋暖光 / 莫兰迪疗愈 / 深海）');
 
-  bar.append(themeBtn, breatheBtn, homeBtn);
+  bar.append(themeBtn, breatheBtn, dataBtn, homeBtn);
 
   // 隐藏后的呼出按钮
   const fab = createEl('button', 'comfort-fab');
@@ -62,6 +68,20 @@
 
   document.body.append(overlay, bar, fab);
 
+  const dataDialog = createEl('dialog', 'data-dialog');
+  dataDialog.innerHTML =
+    '<form method="dialog"><button class="dialog-close data-dialog-close" type="submit" aria-label="关闭数据管理">' + ICONS.close + '</button></form>' +
+    '<p class="eyebrow">DATA CONTROL</p>' +
+    '<h2>数据管理</h2>' +
+    '<p>当前是离线演示数据，可以在本机导出、清空或反馈异常。正式部署后再接入服务器账户与审批记录。</p>' +
+    '<div class="data-actions">' +
+      '<button type="button" data-data-action="export"><strong>导出演示数据</strong><small>保存当前浏览器里的本地记录</small></button>' +
+      '<button type="button" data-data-action="clear"><strong>清空本地数据</strong><small>重置星贝、装扮、问卷与登录状态</small></button>' +
+      '<button type="button" data-data-action="report"><strong>反馈异常</strong><small>记录为待接入的人工处理入口</small></button>' +
+      '<button type="button" data-data-action="leave"><strong>退出陪伴</strong><small>回到首页，并保留安全求助入口</small></button>' +
+    '</div>';
+  document.body.appendChild(dataDialog);
+
   // ---------- 登录信息同步 ----------
   function readLoginInitial() {
     try {
@@ -72,12 +92,36 @@
       return 'Z';
     }
   }
+  function readLoginProfile() {
+    try {
+      const raw = localStorage.getItem('neuromate-login-user') || localStorage.getItem('neuromate-user-profile') || '';
+      return raw ? JSON.parse(raw) : null;
+    } catch (error) {
+      return null;
+    }
+  }
   function syncProfileButtons() {
+    const profile = readLoginProfile();
+    const name = profile?.name || profile?.nickname || profile?.account || '未登录';
+    const loggedIn = Boolean(profile);
     document.querySelectorAll('.profile-button').forEach((button) => {
       button.textContent = readLoginInitial();
+      button.title = loggedIn ? `当前用户：${name}，点击切换登录` : '未登录，点击登录';
+      button.setAttribute('aria-label', button.title);
       if (!button.dataset.profileBound) {
         button.dataset.profileBound = 'true';
         button.addEventListener('click', () => { window.location.href = 'login.html'; });
+      }
+    });
+    document.querySelectorAll('.journey-link').forEach((link) => {
+      if (loggedIn) {
+        link.href = 'space.html';
+        link.innerHTML = `${name}的空间 <span>↗</span>`;
+        link.setAttribute('aria-label', `进入${name}的空间`);
+      } else {
+        link.href = 'login.html';
+        link.innerHTML = '开始旅程 <span>↗</span>';
+        link.setAttribute('aria-label', '开始旅程');
       }
     });
   }
@@ -205,6 +249,71 @@
     showThemeCard(next);
   });
 
+  function localSnapshot() {
+    const keys = [
+      'neuromate-login-user',
+      'neuromate-user-profile',
+      'neuromate-custom-space-v1',
+      'neuromate-wallet-v1',
+      'neuromate-membership-v1',
+      'neuromate-reports-v1',
+      'neuromate-avatar-mode-v16',
+      'neuromate-mate-nickname-v1',
+      'neuromate-api-config-v16',
+      'neuromate-api-config-v15',
+      'neuromate-palette'
+    ];
+    return keys.reduce((data, key) => {
+      try {
+        const value = localStorage.getItem(key);
+        if (value !== null) data[key] = value;
+      } catch (error) { /* ignore */ }
+      return data;
+    }, {
+      exportedAt: new Date().toISOString(),
+      note: '元知己离线演示数据，仅来自当前浏览器。'
+    });
+  }
+
+  function downloadSnapshot() {
+    const blob = new Blob([JSON.stringify(localSnapshot(), null, 2)], { type: 'application/json;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = createEl('a');
+    link.href = url;
+    link.download = 'neuromate-local-demo-data.json';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 300);
+    showToast('本地演示数据已导出。');
+  }
+
+  function clearLocalDemoData() {
+    if (!window.confirm('确认清空当前浏览器里的元知己演示数据吗？')) return;
+    Array.from({ length: localStorage.length }, (_, index) => localStorage.key(index))
+      .filter((key) => key && key.startsWith('neuromate-'))
+      .forEach((key) => {
+      try { localStorage.removeItem(key); } catch (error) { /* ignore */ }
+    });
+    showToast('本地演示数据已清空，页面将刷新。');
+    window.setTimeout(() => window.location.reload(), 650);
+  }
+
+  dataBtn.addEventListener('click', () => dataDialog.showModal());
+  dataDialog.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-data-action]');
+    if (!button) return;
+    const action = button.dataset.dataAction;
+    if (action === 'export') downloadSnapshot();
+    if (action === 'clear') clearLocalDemoData();
+    if (action === 'report') showToast('异常反馈入口已保留，正式版会接入工单和人工处理。');
+    if (action === 'leave') {
+      dataDialog.close();
+      showToast('已退出当前陪伴页面。');
+      window.setTimeout(() => { window.location.href = 'index.html'; }, 500);
+    }
+  });
+
   // ---------- 返回首页 ----------
   homeBtn.addEventListener('click', () => {
     const isHome = window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/');
@@ -214,6 +323,29 @@
       window.location.href = 'index.html';
     }
   });
+
+  const GUIDE_KEY = 'neuromate-guide-seen-v168';
+  function maybeShowGuide() {
+    let seen = false;
+    try { seen = localStorage.getItem(GUIDE_KEY) === 'true'; } catch (error) { /* ignore */ }
+    if (seen) return;
+    const guide = createEl('div', 'onboarding-card');
+    guide.innerHTML =
+      '<button class="onboarding-close" type="button" aria-label="关闭新手提示">✕</button>' +
+      '<p class="eyebrow">FIRST STEP</p>' +
+      '<h3>先从一个入口开始。</h3>' +
+      '<div><a href="companion.html">数字人陪伴</a><a href="questionnaire.html">状态问卷</a><a href="space.html">换装空间</a></div>';
+    document.body.appendChild(guide);
+    requestAnimationFrame(() => guide.classList.add('is-open'));
+    const closeGuide = () => {
+      guide.classList.remove('is-open');
+      try { localStorage.setItem(GUIDE_KEY, 'true'); } catch (error) { /* ignore */ }
+      window.setTimeout(() => guide.remove(), 220);
+    };
+    guide.querySelector('.onboarding-close').addEventListener('click', closeGuide);
+    window.setTimeout(closeGuide, 9000);
+  }
+  window.setTimeout(maybeShowGuide, 900);
 
   // ---------- 浮控条折叠 / 展开（V1.3：滚动方向感知） ----------
   const HIDE_THRESHOLD = 120;

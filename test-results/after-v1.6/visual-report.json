@@ -1,0 +1,191 @@
+[
+  {
+    "page": "home",
+    "viewport": "desktop-1366",
+    "ok": true,
+    "screenshot": "home-desktop-1366.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "login",
+    "viewport": "desktop-1366",
+    "ok": true,
+    "screenshot": "login-desktop-1366.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "companion",
+    "viewport": "desktop-1366",
+    "ok": true,
+    "screenshot": "companion-desktop-1366.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "space",
+    "viewport": "desktop-1366",
+    "ok": true,
+    "screenshot": "space-desktop-1366.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "growth",
+    "viewport": "desktop-1366",
+    "ok": true,
+    "screenshot": "growth-desktop-1366.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "voice-chat",
+    "viewport": "desktop-1366",
+    "ok": true,
+    "screenshot": "voice-chat-desktop-1366.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "voice-chat-settings",
+    "viewport": "desktop-1366",
+    "ok": true,
+    "screenshot": "voice-chat-settings-desktop-1366.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "questionnaire",
+    "viewport": "desktop-1366",
+    "ok": true,
+    "screenshot": "questionnaire-desktop-1366.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "membership",
+    "viewport": "desktop-1366",
+    "ok": true,
+    "screenshot": "membership-desktop-1366.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "home",
+    "viewport": "mobile-390",
+    "ok": true,
+    "screenshot": "home-mobile-390.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "login",
+    "viewport": "mobile-390",
+    "ok": true,
+    "screenshot": "login-mobile-390.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "companion",
+    "viewport": "mobile-390",
+    "ok": true,
+    "screenshot": "companion-mobile-390.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "space",
+    "viewport": "mobile-390",
+    "ok": true,
+    "screenshot": "space-mobile-390.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "growth",
+    "viewport": "mobile-390",
+    "ok": true,
+    "screenshot": "growth-mobile-390.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "voice-chat",
+    "viewport": "mobile-390",
+    "ok": true,
+    "screenshot": "voice-chat-mobile-390.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "voice-chat-settings",
+    "viewport": "mobile-390",
+    "ok": true,
+    "screenshot": "voice-chat-settings-mobile-390.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "questionnaire",
+    "viewport": "mobile-390",
+    "ok": true,
+    "screenshot": "questionnaire-mobile-390.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "membership",
+    "viewport": "mobile-390",
+    "ok": true,
+    "screenshot": "membership-mobile-390.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "home",
+    "viewport": "mobile-430",
+    "ok": true,
+    "screenshot": "home-mobile-430.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "login",
+    "viewport": "mobile-430",
+    "ok": true,
+    "screenshot": "login-mobile-430.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "companion",
+    "viewport": "mobile-430",
+    "ok": true,
+    "screenshot": "companion-mobile-430.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "space",
+    "viewport": "mobile-430",
+    "ok": true,
+    "screenshot": "space-mobile-430.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "growth",
+    "viewport": "mobile-430",
+    "ok": true,
+    "screenshot": "growth-mobile-430.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "voice-chat",
+    "viewport": "mobile-430",
+    "ok": true,
+    "screenshot": "voice-chat-mobile-430.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "voice-chat-settings",
+    "viewport": "mobile-430",
+    "ok": true,
+    "screenshot": "voice-chat-settings-mobile-430.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "questionnaire",
+    "viewport": "mobile-430",
+    "ok": true,
+    "screenshot": "questionnaire-mobile-430.png",
+    "consoleErrors": []
+  },
+  {
+    "page": "membership",
+    "viewport": "mobile-430",
+    "ok": true,
+    "screenshot": "membership-mobile-430.png",
+    "consoleErrors": []
+  }
+]

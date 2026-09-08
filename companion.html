@@ -19,9 +19,9 @@
   <main class="companion-shell">
     <aside class="mate-column">
       <section class="mate-profile">
-        <p class="eyebrow">ABOUT YOUR MATE</p>
+        <p class="eyebrow">当前伙伴</p>
         <h1 id="mateNameDisplay">元元</h1>
-        <p id="mateLookDisplay">校园情绪陪伴数字人。先倾听，再调用工具或 Agent。</p>
+        <p id="mateLookDisplay">校园情绪陪伴数字人。先倾听，再陪你把眼前的事放轻一点。</p>
         <div class="mate-stats"><span><strong data-count="42">0</strong><small>陪伴天数</small></span><span><strong data-count="128">0</strong><small>互动次数</small></span><span><strong data-count="7">0</strong><small>连续记录</small></span><span><strong>32m</strong><small>今日时长</small></span></div>
         <div class="mate-tags"><span>温暖</span><span>专注</span><span>耐心</span><span>稳定</span></div>
       </section>
@@ -102,13 +102,12 @@
       <div class="stage-actions" aria-label="数字人操作入口">
         <button class="start-conversation" id="chatOpen" type="button"><span>开始聊天</span><i>→</i></button>
         <a class="stage-action-link" href="voice-chat.html">语音模式<i>→</i></a>
-        <a class="stage-action-link" href="api-config.html">API配置<i>→</i></a>
         <a class="stage-action-link" href="integrations/digital-human-demo/index.html" target="_blank" rel="noopener">大屏预览<i>↗</i></a>
       </div>
     </section>
 
     <aside class="state-column">
-      <section class="state-detail"><header><span>STATUS DETAIL</span><strong>低刺激</strong></header><div class="state-ring"><span><strong>稳定</strong><small>陪伴状态</small></span></div></section>
+      <section class="state-detail"><header><span>状态细节</span><strong>低刺激</strong></header><div class="state-ring"><span><strong>稳定</strong><small>陪伴状态</small></span></div></section>
       <section class="capability-status"><header>能力状态</header><p><span>情绪识别</span><i><b style="width:95%"></b></i><small>95%</small></p><p><span>共情回应</span><i><b style="width:92%"></b></i><small>92%</small></p><p><span>专注引导</span><i><b style="width:88%"></b></i><small>88%</small></p><p><span>风险转介</span><i><b style="width:100%"></b></i><small>就绪</small></p></section>
       <section class="today-timeline"><header>今日时间线</header><ol><li class="done"><time>08:00</time><span>晨间问候</span></li><li class="done"><time>12:30</time><span>午间放松</span></li><li class="active"><time>18:00</time><span>状态记录</span></li><li><time>21:30</time><span>睡前复盘</span></li></ol></section>
     </aside>
@@ -119,7 +118,7 @@
     <div class="chat-history" id="chatHistory" aria-live="polite"><article class="assistant-message"><span id="firstMsgName">元元</span><p>我在这里。今天最占据你注意力的是什么？</p></article></div>
     <div class="chat-suggestions"><button type="button">我在担心考试</button><button type="button">今天有点累</button><button type="button">我想先安静一会儿</button></div>
     <form id="companionForm"><label class="sr-only" for="companionInput">输入想说的话</label><textarea id="companionInput" rows="2" placeholder="慢慢说，不用组织得很完整……"></textarea><button type="submit">发送</button></form>
-    <p class="adapter-state" id="adapterState">演示回应 · LLM 接口待接入 · <a href="api-config.html">配置 API</a></p>
+    <p class="adapter-state" id="adapterState">当前为本地演示回应，接入学校服务器后可切换真实服务。</p>
   </section>
   <div class="drawer-shade" id="drawerShade"></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>

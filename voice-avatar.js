@@ -13,8 +13,6 @@ import { VRMLoaderPlugin, VRMUtils } from '@pixiv/three-vrm';
 /* 可切换的形象：当前阶段先全部免费开放，方便演示语音页换装流程。 */
 const MODELS = [
   { url: './models/VRM1_Constraint_Twist_Sample.vrm', label: '元元' },
-  { url: './models/AvatarSample_B.vrm', label: '小舟', shopId: 'avatar-xiaozhou', cost: 800 },
-  { url: './models/AvatarSample_A.vrm', label: '爱丽丝', shopId: 'avatar-alice', cost: 800 },
 ];
 
 /* 星贝共享钱包（wallet.js）：判断形象是否已购买 */
@@ -33,6 +31,7 @@ const canvas = document.getElementById('vrmCanvas');
 const stage = document.getElementById('vrmStage');
 const loadingEl = document.getElementById('vrmLoading'); // 可能为 null（已取消加载占位）
 const switchBtn = document.getElementById('vrmSwitch');
+if (switchBtn && MODELS.length < 2) switchBtn.hidden = true;
 
 if (!canvas || !stage) {
   // 页面没有舞台元素：什么都不做

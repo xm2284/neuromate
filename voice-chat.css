@@ -4,6 +4,29 @@
  * 专为情绪脆弱人群优化：更大间距、更柔和光晕、更温柔反馈
  */
 
+:root {
+  --morandi-bg: #f4f2ee;
+  --morandi-bg-soft: #faf9f6;
+  --morandi-bg-warm: #f5ebe2;
+  --morandi-paper-solid: #fffdf9;
+  --morandi-ink: #172532;
+  --morandi-ink-soft: #5d717b;
+  --morandi-muted: #8b989f;
+  --morandi-fog: rgba(93, 113, 123, .18);
+  --morandi-blue: #8ba8b3;
+  --morandi-blue-soft: #d9e7eb;
+  --morandi-blue-deep: #527d88;
+  --morandi-pink: #c99494;
+  --morandi-pink-soft: #f0dddd;
+  --morandi-green: #9ab59b;
+  --morandi-green-soft: #e3eee2;
+  --morandi-green-deep: #5e8067;
+  --radius-sm: 8px;
+  --radius-full: 999px;
+  --dur-gentle: 220ms;
+  --ease-soft: cubic-bezier(.2, .8, .2, 1);
+}
+
 .voice-page {
   min-height: 100vh;
   min-height: 100dvh;
@@ -36,7 +59,7 @@
   flex-shrink: 0;
   padding: 20px 28px;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto minmax(180px, 1fr) auto auto;
   align-items: center;
   gap: 16px;
 }
@@ -98,11 +121,11 @@
 }
 .voice-avatar-switch button {
   min-height: 28px;
-  border: 1px solid rgba(255,255,255,.36);
+  border: 1px solid rgba(93,113,123,.16);
   border-radius: 999px;
   padding: 0 9px;
-  color: rgba(255,255,255,.76);
-  background: rgba(255,255,255,.08);
+  color: var(--morandi-ink-soft);
+  background: rgba(255,255,255,.66);
   font-size: 11px;
   cursor: pointer;
 }
@@ -117,21 +140,8 @@
 }
 .voice-avatar-switch button.active {
   color: var(--morandi-ink);
-  background: rgba(255,255,255,.92);
+  background: rgba(255,255,255,.96);
 }
-.voice-api-entry {
-  min-height: 40px;
-  padding: 0 14px;
-  border: 1px solid rgba(255,255,255,.34);
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  color: rgba(255,255,255,.82);
-  background: rgba(255,255,255,.08);
-  font-size: 12px;
-}
-.voice-api-entry:hover { background: rgba(255,255,255,.16); }
-
 /* ========== 主区域 ========== */
 .voice-main {
   position: relative;
@@ -369,12 +379,6 @@
   cursor: pointer;
 }
 
-/* 快捷按钮图标 */
-.voice-quick button[data-quick="tired"]::before { content: "☁️"; font-size: 14px; }
-.voice-quick button[data-quick="anxious"]::before { content: "🌊"; font-size: 14px; }
-.voice-quick button[data-quick="lonely"]::before { content: "🌙"; font-size: 14px; }
-.voice-quick button[data-quick="sleep"]::before { content: "⭐"; font-size: 14px; }
-
 .voice-quick button:hover {
   background: var(--morandi-bg-warm);
   border-color: var(--morandi-blue);
@@ -435,6 +439,7 @@
   position: relative;
 }
 .voice-text-form input {
+  min-width: 0;
   min-height: 48px;
   border: 1px solid var(--morandi-fog);
   border-radius: var(--radius-full);
@@ -534,6 +539,18 @@
   box-shadow:
     0 14px 44px rgba(201,148,148,.38),
     0 0 0 1px rgba(255,255,255,.15) inset;
+}
+.voice-mic.is-unavailable {
+  background: linear-gradient(145deg, #b9c4c9, #8d9ba3);
+  box-shadow:
+    0 8px 22px rgba(93,113,123,.2),
+    0 0 0 1px rgba(255,255,255,.2) inset;
+}
+.voice-mic.is-unavailable:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 10px 26px rgba(93,113,123,.22),
+    0 0 0 1px rgba(255,255,255,.2) inset;
 }
 
 /* 麦克风外圈呼吸光环 */
@@ -803,18 +820,10 @@
   cursor: pointer;
   overflow: hidden;
 }
+.setting-icon { display: none; }
 
 /* 设置选项图标 */
-.setting-options button[data-voice="female-soft"]::before { content: "🌸"; font-size: 13px; }
-.setting-options button[data-voice="female-warm"]::before { content: "🍃"; font-size: 13px; }
-.setting-options button[data-voice="male-gentle"]::before { content: "🌿"; font-size: 13px; }
-.setting-options button[data-rate="0.7"]::before { content: "🐢"; font-size: 13px; }
-.setting-options button[data-rate="0.85"]::before { content: "🍵"; font-size: 13px; }
-.setting-options button[data-rate="1.0"]::before { content: "🚶"; font-size: 13px; }
-.setting-options button[data-rate="1.1"]::before { content: "✨"; font-size: 13px; }
-.setting-options button[data-style="empathy"]::before { content: "💙"; font-size: 13px; }
-.setting-options button[data-style="mindfulness"]::before { content: "🧘"; font-size: 13px; }
-.setting-options button[data-style="relax"]::before { content: "🌙"; font-size: 13px; }
+.setting-options button::before { content: none; }
 
 .setting-options button:hover { border-color: var(--morandi-blue); color: var(--morandi-ink); }
 
@@ -838,6 +847,45 @@
   height: 16px;
   background: var(--morandi-blue-deep);
   border-radius: 0 2px 2px 0;
+}
+
+.voice-current-card {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 7px 10px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid rgba(93,113,123,.14);
+  border-radius: var(--radius-sm);
+  background: rgba(246,248,248,.72);
+}
+.voice-current-card span {
+  color: var(--morandi-muted);
+  font-size: 11px;
+}
+.voice-current-card strong {
+  min-width: 0;
+  color: var(--morandi-ink);
+  font-size: 12px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+.voice-current-card button {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  min-height: 32px;
+  border: 1px solid var(--morandi-fog);
+  border-radius: var(--radius-full);
+  padding: 0 12px;
+  background: var(--morandi-paper-solid);
+  color: var(--morandi-blue-deep);
+  font-size: 12px;
+  cursor: pointer;
+}
+.voice-current-card button:hover {
+  border-color: var(--morandi-blue);
+  background: var(--morandi-blue-soft);
 }
 
 .setting-note {
@@ -892,8 +940,6 @@
   }
   .voice-avatar-switch::-webkit-scrollbar { display: none; }
   .voice-avatar-switch button { flex: 0 0 auto; min-height: 30px; padding: 0 10px; color: var(--morandi-ink-soft); background: rgba(255,255,255,.72); border-color: rgba(93,113,123,.14); }
-  .voice-api-entry { min-height: 38px; padding: 0 10px; color: var(--morandi-ink-soft); background: rgba(255,255,255,.72); border-color: rgba(93,113,123,.14); }
-
   .voice-conversation { padding: 20px 18px 12px; gap: 18px; }
   .voice-conversation::before,
   .voice-conversation::after { height: 36px; }
@@ -919,7 +965,7 @@
     font-size: 12px;
   }
 
-  .voice-console { padding: 14px 18px 18px; gap: 14px; }
+  .voice-console { padding: 14px 18px calc(18px + env(safe-area-inset-bottom)); gap: 14px; }
 
   /* 麦克风适当缩小但仍保持可点击 */
   .voice-mic {
@@ -1108,7 +1154,7 @@ body[data-motion-paused="true"] .mic-wave::after {
 
 @media (max-width: 820px) {
   .vrm-stage { margin: 4px 16px 0; min-height: 210px; max-height: 230px; }
-  .voice-console { margin: 0 14px 10px; padding: 12px 14px 14px; gap: 10px; border-radius: 22px; }
+  .voice-console { margin: 0 14px 10px; padding: 12px 14px calc(14px + env(safe-area-inset-bottom)); gap: 10px; border-radius: 22px; }
   .voice-conversation { padding: 18px 16px 12px; }
   .voice-bubble { max-width: 92%; }
   .voice-input-hint { font-size: 11px; }

@@ -36,7 +36,7 @@ const DEFAULT_STATE = {
   mood: "calm",
   outfit: "base",
   stars: 1200,
-  unlocked: ["base", "star-bow", "room-aura", "xiaozhou", "alice", "quiet-drop", "panda-leaf", "status-lip"],
+  unlocked: ["base", "star-bow", "room-aura", "quiet-drop", "panda-leaf", "status-lip"],
   quiet: false,
   memory: {
     focus: "",
@@ -55,8 +55,6 @@ const OUTFITS = [
   { id: "base", name: "基础陪伴装", price: 0, avatars: "all", source: "默认装扮", desc: "所有形象可用" },
   { id: "star-bow", name: "星星发夹", price: 0, avatars: ["yuanan", "yuanqing", "yuanchu"], source: "轻量配饰", desc: "轻量配饰" },
   { id: "room-aura", name: "心情光环", price: 0, avatars: "all", source: "状态联动", desc: "随状态变色" },
-  { id: "xiaozhou", name: "小舟皮肤", price: 0, avatars: ["yuanxi"], source: "元熙专属", desc: "3D 皮肤位" },
-  { id: "alice", name: "爱丽丝皮肤", price: 0, avatars: ["yuanxi"], source: "元熙专属", desc: "3D 皮肤位" },
   { id: "quiet-drop", name: "心湖水滴", price: 0, avatars: "all", source: "安静陪伴", desc: "低刺激模式" },
   { id: "panda-leaf", name: "熊猫竹叶", price: 0, avatars: ["panda"], source: "视频形象配饰", desc: "视频形象配饰" },
   { id: "status-lip", name: "状态口型", price: 0, avatars: "all", source: "状态口型", desc: "情绪表现层" }
